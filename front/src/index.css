@@ -1,3 +1,26 @@
-.nav-active {
-    background-color: lightblue;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap');
+
+
+/* Default CSS  */
+body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: 0;
+    font-size: 15px;
+    color: #222;
+    line-height: 1.5em;
+    font-weight: 300;
 }
+
+/* font-weight : normal 400 */
+/* font-weight : bold 600 */
+
+
+
+/* Reset CSS */
+a { text-decoration: none; color: black;}
+button { cursor: pointer; outline: none; }
+h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: 500; line-height: 1.3em; }
+input, textarea, select { outline: none; }
+button, input, textarea, select { font-family: 'Montserrat', sans-serif; }
+ul { margin: 0; padding: 0; list-style: none; }

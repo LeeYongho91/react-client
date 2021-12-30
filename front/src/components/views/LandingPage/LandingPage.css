@@ -32,3 +32,14 @@
     font-weight: bold;
 } 
 
+@media (max-width: 768px) {
+    .section_1_divide_text span:nth-child(2) {
+        float: left;
+        color: red;
+        font-weight: bold;
+    } 
+    .main {
+        margin: 0;
+        width: 500px;
+    }
+}

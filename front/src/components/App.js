@@ -1,13 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import NavBar from "./views/NavBar/NavBar";
 import React, { Suspense } from 'react';
-import { Icon } from 'antd';
 import Footer from "./views/Footer/Footer";
 import LandingPage from "./views/LandingPage/LandingPage.js";
 // import Auth from "../hoc/auth";
-import { Layout } from 'antd';
-const { Content } = Layout;
-
 
 
 function App() {
@@ -17,9 +12,6 @@ function App() {
 
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
-      <Layout>
-    <NavBar />
-    <Content style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Routes>
         <Route path="/" element={<LandingPage />} />
           {/* <Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -29,9 +21,9 @@ function App() {
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/history" component={Auth(HistoryPage, true)} /> */}
         </Routes>
-      </Content>
+
       <Footer />
-      </Layout>
+  
     </Suspense>
       )
 }
