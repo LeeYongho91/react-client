@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import Footer from "./views/Footer/Footer";
 import LandingPage from "./views/LandingPage/LandingPage.js";
 // import Auth from "../hoc/auth";
+import './utils/fontawesome';
 
 
 function App() {
