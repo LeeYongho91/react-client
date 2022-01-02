@@ -24,3 +24,9 @@ h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: 500; line-height: 1.3em; }
 input, textarea, select { outline: none; }
 button, input, textarea, select { font-family: 'Montserrat', sans-serif; }
 ul { margin: 0; padding: 0; list-style: none; }
+
+/* ------------------------Common CSS------------------- */
+.inner {
+    width: 1300px;
+    margin: auto;
+}

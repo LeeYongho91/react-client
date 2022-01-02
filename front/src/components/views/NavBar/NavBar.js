@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 import '../NavBar/Sections/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 
 
 function NavBar() {
@@ -32,8 +29,8 @@ function NavBar() {
           <li><a href="#none">Contact</a></li>
         </ul>
         <div className="submenu">
-          <a href=""><FontAwesomeIcon icon="shopping-cart"/ > (2)</a>
-          <a href=""><FontAwesomeIcon icon={["far", "user"]}/> LOGIN</a>
+          <a href="/cart"><FontAwesomeIcon icon="shopping-cart"/ > (2)</a>
+          <a href="/login"><FontAwesomeIcon icon={["far", "user"]}/> LOGIN</a>
         </div>
         <div className="sidebar" onClick={hiddenSectionClick}>
           <span></span>
@@ -42,7 +39,7 @@ function NavBar() {
         </div>
       </nav>
       <div className={`nav-close ${isActive ? "active" : ""}`}>
-        <a href="javascript:void(0)" onClick={sideMenuClick}><FontAwesomeIcon icon="times"/></a>
+        <span onClick={sideMenuClick}><FontAwesomeIcon icon="times"/></span>
       </div>
       <div className={`sidemenu ${isActive ? "active" : ""}`} onClick={sideMenuClick}>
           <span>MENU</span>
@@ -55,7 +52,7 @@ function NavBar() {
 
         <div className={`hidden-section ${hdnActive ? "active" : ""}`}>
           <div className="close">
-           <a href='javascript:void()'><FontAwesomeIcon icon="times"onClick={hiddenSectionClick}/></a>
+           <span onClick={hiddenSectionClick}><FontAwesomeIcon icon="times"/></span>
           </div>
           <h3>Welcome</h3>
           <p>
@@ -65,39 +62,35 @@ function NavBar() {
               <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
-              <div class="item">
+              <div className="item">
                 <img src="http://placehold.it/150x150" alt="" />
               </div>
           </div>
           <h3>WE ARE AWESOME FOLOW US</h3>
           <div className="sns">
-            <a href=""><FontAwesomeIcon icon={['fab', 'facebook-f']} /></a>
-            <a href=""><FontAwesomeIcon icon={['fab', 'twitter']} /></a>
-            <a href=""><FontAwesomeIcon icon={['fab', 'instagram']} /></a>
+            <span><FontAwesomeIcon icon={['fab', 'facebook-f']} /></span>
+            <span><FontAwesomeIcon icon={['fab', 'twitter']} /></span>
+            <span><FontAwesomeIcon icon={['fab', 'instagram']} /></span>
           </div>
         </div>
-
-
-
-
     </header>
   )
 }

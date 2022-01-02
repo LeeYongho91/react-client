@@ -28,38 +28,45 @@ function App() {
     </Suspense>
       )
 }
+function count(dist,arr) {
+  let cnt = 1;
+  let ep = arr[0];
 
-function solution(arr) {
-  let answer = 'YES';
-  let n = arr.length;
-  let ch = Array.from({length:n}, ()=>0);
+  for (let i = 1; i < arr.length; i++) {
+    if(arr[i] - ep >= dist) {
+      cnt++;
+      ep = arr[i];
+    }
+  }
+  
+  return cnt;
 
-  function DFS(L) {
-      if(L === n+1) {
-    
-        let sum = 0;
-          for (let i = 0; i < n; i++) {
-            if(ch[i] === 1) {
-                sum+=arr[i]
-            }
-          }
-          
-      }
-      else {
-      ch[L] = 1;  
-      DFS(L+1);
-      ch[L] = 0;
-      DFS(L+1);
-      }
+}
 
+function solution(t, arr) {
+  let answer = 0;
+  arr.sort((a,b) => a-b);
+  let lt = 1;
+  let rt = arr[arr.length-1];
+
+  while(lt<=rt) {
+    let mid = parseInt((lt+rt)/2);
+
+    if(count(mid,arr) >= t) {
+      answer = mid;
+      lt = mid + 1;
+    }
+    else {
+      rt = mid - 1;
+    }
   }
 
-  DFS(1);
 
+  
   return answer;
 
 }
-console.log(solution([,1,3,5,6,7,10]));
+console.log(solution(3, [1,2,8,4,9]));
 // console.log(solution(3))
 
 
