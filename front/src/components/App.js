@@ -28,46 +28,34 @@ function App() {
     </Suspense>
       )
 }
-function count(dist,arr) {
-  let cnt = 1;
-  let ep = arr[0];
 
-  for (let i = 1; i < arr.length; i++) {
-    if(arr[i] - ep >= dist) {
-      cnt++;
-      ep = arr[i];
-    }
-  }
+
+function solution(t) {
+  let answer = [];
+  let tmp = Array.from({length:t+1}, ()=>0);
   
-  return cnt;
-
-}
-
-function solution(t, arr) {
-  let answer = 0;
-  arr.sort((a,b) => a-b);
-  let lt = 1;
-  let rt = arr[arr.length-1];
-
-  while(lt<=rt) {
-    let mid = parseInt((lt+rt)/2);
-
-    if(count(mid,arr) >= t) {
-      answer = mid;
-      lt = mid + 1;
-    }
+  function DFS(L) {
+    if(L === t+1) {
+      let v = '';
+      for (let i = 1; i <=t; i++) {
+        if(tmp[i] === 1) {
+            v += i+ ' ';
+        }
+      }
+      if(v.length>0) answer.push(v.trim());
+    } 
     else {
-      rt = mid - 1;
+      tmp[L] = 1;
+      DFS(L+1);
+      tmp[L] = 0;
+      DFS(L+1);
     }
   }
-
-
-  
+  DFS(1);
   return answer;
-
 }
-console.log(solution(3, [1,2,8,4,9]));
-// console.log(solution(3))
+console.log(solution(3));
+
 
 
 

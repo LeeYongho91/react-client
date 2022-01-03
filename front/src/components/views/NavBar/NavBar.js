@@ -29,7 +29,40 @@ function NavBar() {
           <li><a href="#none">Contact</a></li>
         </ul>
         <div className="submenu">
-          <a href="/cart"><FontAwesomeIcon icon="shopping-cart"/ > (2)</a>
+          <a href="/cart" className='shopping-cart'><FontAwesomeIcon icon="shopping-cart"/ >(2)</a>
+          <div className="dropdown-cart">
+              <div className="cart-list">
+                <div class="cart-item">
+                <div className="cart-img">
+                    <img src="assets/product_1.png" alt="" />
+                  </div>
+                  <div className="cart-content">
+                    <h5>titletitletitle</h5>
+                    <h6>1 x 13000</h6>
+                  </div>
+                  <span><FontAwesomeIcon icon="times"/></span>
+                </div>
+                <div class="cart-item">
+                <div className="cart-img">
+                    <img src="assets/product_2.png" alt="" />
+                  </div>
+                  <div className="cart-content">
+                    <h5>title</h5>
+                    <h6>1 x 13000</h6>
+                  </div>
+                  <span><FontAwesomeIcon icon="times"/></span>
+                </div>
+              </div>
+              <div className="cart-total">
+                <span>TOTAL: </span>
+                <span>$270,000</span>
+              </div>
+              <div class="cart-btns">
+              <a href=''>VIEW CART</a>
+              <a href=''>CHECKOUT</a>
+              </div>
+            
+          </div>
           <a href="/login"><FontAwesomeIcon icon={["far", "user"]}/> LOGIN</a>
         </div>
         <div className="sidebar" onClick={hiddenSectionClick}>
