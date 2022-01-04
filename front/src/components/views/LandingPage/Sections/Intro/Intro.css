@@ -1,4 +1,3 @@
-/* ---------------------intro--------------------- */
 .intro {
     padding: 150px 0;
 }
@@ -35,10 +34,10 @@
     font-size: 13px;
 }
 .item img {
-    transition: 0.3s;
+    transition: 0.5s;
 }
 .item img:hover {
-    transform: scale(1.05);
+    transform: scale(1.2);
 }
 .right-item {
     display: flex;
@@ -55,3 +54,5 @@
  .right-item .item:first-child {
     margin-bottom: 50px;
 } 
+
+/* -----------------------------intro--------------------------------- */

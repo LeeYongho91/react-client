@@ -30,31 +30,25 @@ function App() {
 }
 
 
-function solution(t) {
-  let answer = [];
-  let tmp = Array.from({length:t+1}, ()=>0);
+function solution(m,arr) {
+  let answer = Number.MIN_SAFE_INTEGER;
+  let n = arr.length;
   
-  function DFS(L) {
-    if(L === t+1) {
-      let v = '';
-      for (let i = 1; i <=t; i++) {
-        if(tmp[i] === 1) {
-            v += i+ ' ';
-        }
-      }
-      if(v.length>0) answer.push(v.trim());
-    } 
+  function DFS(L,sum1,sum2) {
+    if(sum2 > m) return;
+    if(L === n) {
+        answer = Math.max(answer, sum1);
+    }
     else {
-      tmp[L] = 1;
-      DFS(L+1);
-      tmp[L] = 0;
-      DFS(L+1);
+      DFS(L+1,sum1+arr[L][0],sum2+arr[L][1]);
+      DFS(L+1,sum1,sum2);
     }
   }
-  DFS(1);
+
+  DFS(0,0,0);
   return answer;
 }
-console.log(solution(3));
+console.log(solution(20,[[10,5],[25,12],[15,8],[6,3],[7,4]]));
 
 
 

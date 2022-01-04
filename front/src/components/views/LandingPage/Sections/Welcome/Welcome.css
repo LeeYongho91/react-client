@@ -1,0 +1,13 @@
+.welcome {
+    text-align: center;
+    padding: 50px 0;
+}
+.welcome h5 {
+    font-weight: 600;
+    font-size: 16px;
+}
+.welcome p {
+    font-size: 30px;
+    line-height: 1.5em;
+    color: rgb(133, 133, 133);
+}
