@@ -41,37 +41,57 @@ function Slick() {
 
     return (
         <section className='slick'>
-            <div class="inner">
+            <div className="inner">
             <div className='slick-content'>
         <h4> FEATURED ITEMS</h4>
         <Slider {...settings} className='cards'>
           <div className='card'>
-            <div class="card-image">
+            <div className="card-image">
             <img src="assets/product_1.png" alt="product_1" />
             </div>
             <h2>fdsfsfds</h2>
-            <span>1111</span>
+            <div className='card-price'>
+               <div className="card-price-child">
+                    <div>ADD TO CART</div>
+                    <div>1,000</div>
+               </div>
+            </div>
           </div>
           <div className='card'>
-            <div class="card-image">
+            <div className="card-image">
             <img src="assets/product_2.png" alt="product_2" />
             </div>
             <h2>fdsfsfds</h2>
-            <span>1111</span>
+            <div className='card-price'>
+               <div className="card-price-child">
+                    <div>ADD TO CART</div>
+                    <div>1,000</div>
+               </div>
+            </div>
           </div>
           <div className='card'>
-            <div class="card-image">
+            <div className="card-image">
             <img src="assets/product_3.png" alt="product_3" />
             </div>
             <h2>fdsfsfds</h2>
-            <span>1111</span>
+            <div className='card-price'>
+               <div className="card-price-child">
+                    <div>ADD TO CART</div>
+                    <div>1,000</div>
+               </div>
+            </div>
           </div>
           <div className='card'>
-            <div class="card-image">
+            <div className="card-image">
             <img src="assets/product_4.png" alt="product_4" />
             </div>
             <h2>fdsfsfds</h2>
-            <span>1111</span>
+            <div className='card-price'>
+               <div className="card-price-child">
+                    <div>ADD TO CART</div>
+                    <div>1,000</div>
+               </div>
+            </div>
           </div>
          
         </Slider>

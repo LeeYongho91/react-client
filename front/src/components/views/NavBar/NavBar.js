@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../NavBar/Sections/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,19 @@ function NavBar() {
 
   const hiddenSectionClick = () => {
     setHdnActive(!hdnActive);
+  } 
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const updateScroll = () => {
+    console.log(window.scrollY)
+
+      setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   }
+  useEffect(()=>{
+      window.addEventListener('scroll', updateScroll);
+  });
+ 
+
 
 
   return (

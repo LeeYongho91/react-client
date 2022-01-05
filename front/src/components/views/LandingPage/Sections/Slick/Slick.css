@@ -3,7 +3,26 @@
 }
 .card-image {
     width: 420px;
-} 
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 20px;
+}       
+.card-image:after {
+    content: 'QUICK LOOK';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -38px;
+    width: 100px;
+    height: 20px;
+    background-color: #000;
+    color: #fff;
+    padding: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: 0.5s;
+}
 .card-image img {
     width: 100%;
 } 
@@ -13,16 +32,49 @@
 }
 .card {
     text-align: center; 
-    cursor: pointer;
 }
 .card h2 {
     margin: 10px 0; 
 }
-.card span {
-    border: 1px solid #000;
-    display: inline-block;
-    width: 100px;
+.card:hover .card-price-child {
+    left: 0;
 }
+.card:hover .card-image:after {
+    bottom: 0;
+}
+
+.card-price {
+    width: 150px;
+    height: 25px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+.card-price-child {
+    width: 300px;
+    display: flex;
+    position: absolute;
+    left: -100%;
+    transition: 0.5s;
+}
+.card-price-child div {
+    width: 150px;
+    height: 25px;
+    box-sizing: border-box;  
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(133, 133, 133);
+}
+.card-price-child div:first-child {
+    cursor: pointer;
+}
+.card-price-child div:first-child:hover {
+    color: #000;
+}
+
+
+
+
 
 
 @media (max-width:768px) {

@@ -31,26 +31,30 @@ function App() {
 
 
 function solution(m,arr) {
-  let answer = Number.MIN_SAFE_INTEGER;
+  let answer = [];
   let n = arr.length;
-  
-  function DFS(L,sum1,sum2) {
-    if(sum2 > m) return;
-    if(L === n) {
-        answer = Math.max(answer, sum1);
+  let ch = Array.from({length:n}, ()=>0);
+  let tmp = Array.from({length:m}, ()=>0);
+    
+  function DFS(L) {
+    if(L === m) {
+      answer.push(tmp.slice());
     }
     else {
-      DFS(L+1,sum1+arr[L][0],sum2+arr[L][1]);
-      DFS(L+1,sum1,sum2);
+      for (let i = 0; i < n; i++) {
+        if(ch[i] === 0) {
+          ch[i] = 1;
+          tmp[L] = arr[i];
+          DFS(L+1);
+          ch[i] = 0;
+        }
+      }
     }
   }
-
-  DFS(0,0,0);
+  DFS(0); 
   return answer;
 }
-console.log(solution(20,[[10,5],[25,12],[15,8],[6,3],[7,4]]));
-
-
+console.log(solution(2,[3,6,9]));
 
 
 
