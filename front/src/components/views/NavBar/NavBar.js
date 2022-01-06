@@ -18,7 +18,13 @@ function NavBar() {
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const updateScroll = () => {
-    console.log(window.scrollY)
+    // console.log(window.scrollY)
+
+    if(window.scrollY > 0) {
+      if(isActive) {
+        setActive(!isActive);
+      }
+    }
 
       setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   }
@@ -31,8 +37,8 @@ function NavBar() {
 
   return (
     <header>
-      <div className="title">DEPOT</div>
-      <nav className={`${isActive ? "active" : ""}`}>
+      <div className={`title ${scrollPosition < 200 ? "" : "active"}`}>DEPOT</div>
+      <nav className={`${isActive ? "active" : ""} ${scrollPosition < 200 ? "" : "scroll-active"}`}>
         <ul className="gnb">
           <li><a href="#none">Home</a></li>
           <li><a href="#none">Shop</a></li>
@@ -44,7 +50,7 @@ function NavBar() {
           <a href="/cart" className='shopping-cart'><FontAwesomeIcon icon="shopping-cart"/ >(2)</a>
           <div className="dropdown-cart">
               <div className="cart-list">
-                <div class="cart-item">
+                <div className="cart-item">
                 <div className="cart-img">
                     <img src="assets/product_1.png" alt="" />
                   </div>
@@ -54,7 +60,7 @@ function NavBar() {
                   </div>
                   <span><FontAwesomeIcon icon="times"/></span>
                 </div>
-                <div class="cart-item">
+                <div className="cart-item">
                 <div className="cart-img">
                     <img src="assets/product_2.png" alt="" />
                   </div>
@@ -69,7 +75,7 @@ function NavBar() {
                 <span>TOTAL: </span>
                 <span>$270,000</span>
               </div>
-              <div class="cart-btns">
+              <div className="cart-btns">
               <a href=''>VIEW CART</a>
               <a href=''>CHECKOUT</a>
               </div>

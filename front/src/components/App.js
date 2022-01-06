@@ -30,31 +30,47 @@ function App() {
 }
 
 
-function solution(m,arr) {
-  let answer = [];
-  let n = arr.length;
-  let ch = Array.from({length:n}, ()=>0);
-  let tmp = Array.from({length:m}, ()=>0);
-    
-  function DFS(L) {
-    if(L === m) {
-      answer.push(tmp.slice());
+function solution(n,f) {
+  let answer = 0;
+  let flag = 0;
+  let dy = Array.from(Array(11), ()=>Array(11).fill(0));
+  let ch = Array.from({length:n+1}, ()=>0);
+  let tmp = Array.from({length:n}, ()=>0); 
+  let c = Array.from({length:n}, ()=>0); 
+ 
+  function memo(n,r) {
+    if(dy[n][r]>0) return dy[n][r];
+    if(n === r || r === 0) return 1;
+    else return dy[n][r] = memo(n-1,r-1) + memo(n-1,r);
+  }
+
+  function DFS(L,sum) {
+    if(flag) return;
+    if(L === n && sum === f) {
+      answer = tmp.slice();
+      flag = 1;
     }
     else {
-      for (let i = 0; i < n; i++) {
+      for (let i = 1; i <= n; i++) {
         if(ch[i] === 0) {
           ch[i] = 1;
-          tmp[L] = arr[i];
-          DFS(L+1);
+          tmp[L] = i;
+          DFS(L+1, sum+(c[L]*tmp[L]));
           ch[i] = 0;
         }
       }
     }
   }
-  DFS(0); 
+
+  for (let i = 0; i < n; i++) {
+    c[i] = memo(n-1,i);
+  }
+  
+  DFS(0,0);
+
   return answer;
 }
-console.log(solution(2,[3,6,9]));
+console.log(solution(4,16));
 
 
 
