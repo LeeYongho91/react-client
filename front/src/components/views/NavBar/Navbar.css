@@ -1,5 +1,4 @@
 header {
-  /* position: fixed; */
   width: 100%;
   transition: 0.5s;
   z-index: 1000;
@@ -119,11 +118,9 @@ nav {
   border: 1px solid rgb(119, 119, 119);
   box-sizing: border-box;
 }
-
 .dropdown-cart a:last-child {
   background-color: rgb(99, 96, 96);
 }
-
 .sidebar {
   width: 20px;
   height: 10px;
@@ -211,9 +208,9 @@ nav {
 }
 
 @media (max-width:768px) {
-  
+
   header {
-    padding: 0 20px;
+    padding: 0 40px;
     box-sizing: border-box;
   }
   nav {
@@ -231,16 +228,12 @@ nav {
   }
   nav.active {
     right: 0;
-    opacity: 1;
     background-color: #000;
-    transition: 0.3s;
+    opacity: 1;
   }
-  /* .scroll-active {
-    display: none;
-  } */
   .nav-close {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: -20px;
     z-index: 10000;
@@ -262,9 +255,6 @@ nav {
   }
   .title.active {
     display: block;
-  }
-  nav.scroll-active {
-    opacity: 0;
   }
   .gnb {
     flex-direction: column;
@@ -291,7 +281,7 @@ nav {
   .sidemenu {
     position: absolute;
     top: 40px;
-    right: 20px;
+    right: 40px;
     display: block;
     cursor: pointer;
   }

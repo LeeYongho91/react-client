@@ -11,3 +11,11 @@
     line-height: 1.5em;
     color: rgb(133, 133, 133);
 }
+
+@media (max-width:768px) {
+    .welcome {
+        padding: 50px 40px;
+        box-sizing: border-box;
+    }
+
+}

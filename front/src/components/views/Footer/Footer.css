@@ -1,0 +1,31 @@
+footer {
+    border-top: 1px solid rgb(231, 230, 230);
+    padding: 12px 0px;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+}
+.left-content span {
+    margin-right: 10px;
+}
+.right-content span {
+    margin-left: 10px;
+}
+
+@media (max-width:768px) {
+    footer {
+        padding: 12px 20px;
+    }
+    .footer-content {
+        flex-direction: column;
+    }
+    .left-content {
+        margin-bottom: 10px;
+    }
+    .right-content span {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+}

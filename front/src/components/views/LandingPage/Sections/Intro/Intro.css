@@ -7,7 +7,7 @@
 .left-item {
     margin-right: 50px;
 }
-.item {
+.intro-content .item {
     position: relative;
     cursor: pointer;
     overflow: hidden;
@@ -20,23 +20,23 @@
 .left-item img {
     height: 100%;
 }
-.item .desc {
+.intro-content .item .desc {
     position: absolute;
     color: #000;
     top: 30px;
     left: 30px;
 }
-.item .desc h3 {
+.intro-content .item .desc h3 {
     margin-bottom: 10px;
 }
-.item .desc span {
+.intro-content .item .desc span {
     color: rgb(133, 133, 133);
     font-size: 13px;
 }
-.item img {
+.intro-content .item img {
     transition: 0.5s;
 }
-.item img:hover {
+.intro-content .item img:hover {
     transform: scale(1.2);
 }
 .right-item {
@@ -55,3 +55,27 @@
     margin-bottom: 50px;
 } 
 
+@media (max-width:768px) {
+    .intro {
+        padding: 50px 20px;
+        box-sizing: border-box;
+    }
+    .intro-content {
+        flex-direction: column;
+    }
+    .left-item {
+        width: 100%;
+        margin-bottom: 50px;
+    }
+    .left-item .item {
+        width: 100%;
+        height: 375px;
+    }
+    .right-item .item {
+        width: 100%
+    }
+    .left-item img,
+    .right-item img {
+        width: 100%;
+    }
+}

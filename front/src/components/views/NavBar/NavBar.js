@@ -1,11 +1,13 @@
-import React, { useState,useEffect } from 'react';
-import '../NavBar/Sections/Navbar.css';
+import React, { useState,useEffect,useMemo } from 'react';
+import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { Link } from "react-router-dom";
+import { throttle } from 'lodash';
 
 function NavBar() {
   const [isActive, setActive] = useState(false);
   const [hdnActive, setHdnActive] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(false);
 
 
   const sideMenuClick = () => {
@@ -16,38 +18,40 @@ function NavBar() {
     setHdnActive(!hdnActive);
   } 
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const updateScroll = () => {
-    // console.log(window.scrollY)
 
-    if(window.scrollY > 0) {
-      if(isActive) {
-        setActive(!isActive);
-      }
-    }
 
-      setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-  }
-  useEffect(()=>{
-      window.addEventListener('scroll', updateScroll);
-  });
+    const updateScroll = useMemo(
+      () =>
+        throttle(() => {
+          const browserWidth = (window.innerWidth > 0) ? window.innerWidth : window.screen.width;
+          const scrollCheck = window.scrollY >= 200;
+          if(browserWidth > 768 && scrollCheck !== scrollPosition) setScrollPosition(scrollCheck);
+          else if(browserWidth < 768) setScrollPosition(false);
+        }, 100),
+      [scrollPosition]
+    );
+
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll);
+    return () => {
+      window.removeEventListener('scroll', updateScroll);
+    };
+  }, [updateScroll]);
  
-
-
 
   return (
     <header>
-      <div className={`title ${scrollPosition < 200 ? "" : "active"}`}>DEPOT</div>
-      <nav className={`${isActive ? "active" : ""} ${scrollPosition < 200 ? "" : "scroll-active"}`}>
+      <div className={`title ${scrollPosition ? "active" : ""}`}>DEPOT</div>
+      <nav className={`${isActive ? "active" : ""} ${scrollPosition ? "scroll-active" : ""}`}>
         <ul className="gnb">
-          <li><a href="#none">Home</a></li>
-          <li><a href="#none">Shop</a></li>
-          <li><a href="#none">Blog</a></li>
-          <li><a href="#none">Cart</a></li>
-          <li><a href="#none">Contact</a></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="">Shop</Link></li>
+          <li><Link to="">Blog</Link></li>
+          <li><Link to="">Cart</Link></li>
+          <li><Link to="">Contact</Link></li>
         </ul>
         <div className="submenu">
-          <a href="/cart" className='shopping-cart'><FontAwesomeIcon icon="shopping-cart"/ >(2)</a>
+          <Link to="/cart" className='shopping-cart'><FontAwesomeIcon icon="shopping-cart"/ >(2)</Link>
           <div className="dropdown-cart">
               <div className="cart-list">
                 <div className="cart-item">
@@ -76,12 +80,12 @@ function NavBar() {
                 <span>$270,000</span>
               </div>
               <div className="cart-btns">
-              <a href=''>VIEW CART</a>
-              <a href=''>CHECKOUT</a>
+              <Link to="">VIEW CART</Link>
+              <Link to="">CHECKOUT</Link>
               </div>
             
           </div>
-          <a href="/login"><FontAwesomeIcon icon={["far", "user"]}/> LOGIN</a>
+          <Link to="/login"><FontAwesomeIcon icon={["far", "user"]}/> LOGIN</Link>
         </div>
         <div className="sidebar" onClick={hiddenSectionClick}>
           <span></span>
