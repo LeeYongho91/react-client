@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import React, { Suspense } from 'react';
-import Footer from "./views/Footer/Footer";
-import LandingPage from "./views/LandingPage/LandingPage.js";
+import LandingPage from "./views/LandingPage/LandingPage";
+import Container from './views/Container/Container';
+import LoginPage from './views/LoginPage/LoginPage';
 // import Auth from "../hoc/auth";
 import './utils/fontawesome';
 
@@ -12,20 +13,24 @@ function App() {
       // false  logged in user can't go inside
 
   return (
+    <>
     <Suspense fallback={(<div>Loading...</div>)}>
+      <Container>
         <Routes>
         <Route path="/" element={<LandingPage />} />
-          {/* <Route exact path="/login" component={Auth(LoginPage, false)} />
+        <Route path="/login" element={<LoginPage />} />
+
+           {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
+          {/*
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
           <Route exact path="/product/:productId" component={Auth(DetailProductPage, null)} />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/history" component={Auth(HistoryPage, true)} /> */}
         </Routes>
-
-      <Footer />
-  
+        </Container>
     </Suspense>
+    </>
       )
 }
 

@@ -1,0 +1,22 @@
+.container {
+    position: relative;
+}
+.gototop {
+    position: fixed;
+    bottom: 70px;
+    right: 50px;
+    border: 1px solid #000;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+    background-color: #000;
+    color: #fff;
+    line-height: 40px;
+    display: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in;
+  }
+.gototop.active {
+      display: block;
+}
