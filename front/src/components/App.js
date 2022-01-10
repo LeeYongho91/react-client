@@ -4,9 +4,9 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import Container from './views/Container/Container';
 import LoginPage from './views/LoginPage/LoginPage';
 // import Auth from "../hoc/auth";
-import './utils/fontawesome';
+import './utils/fontawesome'
 
-
+ 
 function App() {
       // null   Anyone Can go inside
       // true   only logged in user can go inside
