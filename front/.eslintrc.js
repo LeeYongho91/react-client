@@ -33,6 +33,11 @@ module.exports = {
     'no-underscore-dangle': 0,
     'jsx-a11y/label-has-associated-control': 0,
     'func-names': 0,
+    'no-plusplus': 0,
+    'no-return-assign': 0,
+    'react/jsx-props-no-spreading': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
   },
   // settings: {
   //   'import/resolver': {
