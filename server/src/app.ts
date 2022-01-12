@@ -9,7 +9,7 @@ import morgan from 'morgan';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import Routes from '@/interfaces/route/routes.interface';
-import DB from '@databases/index';
+import connect from '@databases/index';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@/utils/logger';
 import passport from 'passport';
@@ -23,7 +23,7 @@ class App {
 
   constructor(routes: Routes[]) {
     this.app = express();
-    this.port = process.env.PORT || 3000;
+    this.port = process.env.PORT || 5000;
     this.env = process.env.NODE_ENV || 'development';
 
     this.connectToDatabase();
@@ -46,8 +46,8 @@ class App {
     return this.app;
   }
 
-  private connectToDatabase() {
-    DB.sequelize.sync({ force: false });
+  private async connectToDatabase() {
+    await connect();
   }
 
   private initializeMiddlewares() {

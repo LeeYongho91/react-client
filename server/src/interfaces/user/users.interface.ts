@@ -1,8 +1,12 @@
-export interface User {
-  seq: number;
-  uuid: string;
+export interface UserInput {
+  name: string;
   email: string;
-  nickname: string;
   password: string;
-  login_type: string;
+  lastname: string;
+  role: number;
+  cart: Array<object>;
+  history: Array<object>;
+  image: string;
+  token: string;
+  tokenExp: string;
 }

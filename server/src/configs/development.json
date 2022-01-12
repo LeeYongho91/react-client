@@ -1,15 +1,5 @@
 {
     "env": "development",
-    "dbConfig": {
-        "host": "localhost",
-        "user": "root",
-        "port" : 3306,
-        "password": "1q2w3e!!",
-        "database": "vue-project",
-        "pool": {
-            "min": 0,
-            "max": 5
-        }
-    },
-    "secretKey": "secretKey"
+    "mongoURI":"mongodb+srv://test:1234qwer@cluster0.zpvzz.mongodb.net/react-project?retryWrites=true&w=majority",
+    "saltWorkFactor": 10
 }
