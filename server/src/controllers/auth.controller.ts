@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
+import { CreateUserDto, LoginUserDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import { UserInput } from '@/interfaces/user/users.interface';
 import { RequestWithUser } from '@/interfaces/auth/auth.interface';
 import AuthService from '@services/auth.service';
 import passport from 'passport';
-import { createToken } from '@utils/jwt';
 import { LoginType, LOGINTYPE } from '@utils/login_type';
 
 class AuthController {
@@ -35,26 +34,16 @@ class AuthController {
    * @param res
    * @param next
    */
-  public logIn = (req: Request, res: Response, next: NextFunction) => {
+  public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // 아까 local로 등록한 인증과정 실행
-      passport.authenticate('local', (passportError, user, info) => {
-        // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
-        if (passportError || !user) {
-          res.status(400).json({ message: info.reason });
-          return;
-        }
-        // user데이터를 통해 로그인 진행
-        req.login(user, { session: false }, (loginError) => {
-          if (loginError) {
-            res.send(loginError);
-            return;
-          }
-          const token = createToken(user);
-
-          res.status(200).json({ user: { uuid: user.uuid, nickname: user.nickname, email: user.email }, token, message: 'login' });
-        });
-      })(req, res);
+      const loginData: LoginUserDto = req.body;
+      console.log(loginData);
+      const User = await this.authService.login(loginData);
+      res.cookie('w_authExp', User.tokenExp);
+      res.cookie('w_auth', User.token).status(200).json({
+        loginSuccess: true,
+        userId: User._id,
+      });
     } catch (error) {
       console.error(error);
       next(error);

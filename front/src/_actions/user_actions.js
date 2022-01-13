@@ -1,6 +1,6 @@
 import axios from 'axios';
 import types from './types';
-import USER_SERVER from '../components/Config';
+import { AUTH_SERVER } from '../components/Config';
 
 // export function registerUser(dataToSubmit) {
 //   const request = axios
@@ -15,7 +15,7 @@ import USER_SERVER from '../components/Config';
 
 function loginUser(dataToSubmit) {
   const request = axios
-    .post(`${USER_SERVER}/login`, dataToSubmit)
+    .post(`${AUTH_SERVER}/login`, dataToSubmit)
     .then(response => response.data);
 
   return {

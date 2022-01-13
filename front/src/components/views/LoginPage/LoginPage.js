@@ -31,7 +31,7 @@ function LoginPage(props) {
     password: Yup.string()
       .required('Password is required')
       .min(6, 'Password must be at least 6 characters')
-      .max(40, 'Password must not exceed 40 characters'),
+      .max(12, 'Password must not exceed 12 characters'),
   });
 
   const {
@@ -62,11 +62,10 @@ function LoginPage(props) {
         setFormErrorMessage('Check out your Account or Password again');
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       setFormErrorMessage('Check out your Account or Password again');
       console.log(formErrorMessage);
     }
-    console.log(JSON.stringify(data, null, 2));
   };
 
   return (
@@ -96,7 +95,7 @@ function LoginPage(props) {
             helperText={errors.email?.message}
             // onChange={handleChange}
             placeholder="Enter your email"
-            value={initialEmail}
+            defaultValue={initialEmail}
           />
           <TextField
             required

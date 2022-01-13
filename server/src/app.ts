@@ -13,13 +13,13 @@ import connect from '@databases/index';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@/utils/logger';
 import passport from 'passport';
-import passportConfig from '@/passports/index';
+// import passportConfig from '@/passports/index';
 
 class App {
   public app: express.Application;
   public port: string | number;
   public env: string;
-  public passportConfig: passportConfig = new passportConfig();
+  // public passportConfig: passportConfig = new passportConfig();
 
   constructor(routes: Routes[]) {
     this.app = express();
@@ -65,10 +65,10 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
+    // this.app.use(passport.initialize());
+    // this.app.use(passport.session());
 
-    this.passportConfig.passportConfig();
+    // this.passportConfig.passportConfig();
   }
 
   private initializeRoutes(routes: Routes[]) {

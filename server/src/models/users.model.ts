@@ -3,11 +3,14 @@ import bcrypt from 'bcrypt';
 import config from 'config';
 import { UserInput } from '@/interfaces/user/users.interface';
 import jwt from 'jsonwebtoken';
+import moment from 'moment';
+import { User } from '@/interfaces/auth/sns_users.interface';
 
 export interface UserDocument extends UserInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<Boolean>;
+  generateToken(): Promise<UserDocument>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -24,10 +27,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       minglength: 5,
-    },
-    lastname: {
-      type: String,
-      maxlength: 50,
     },
     role: {
       type: Number,
@@ -76,20 +75,16 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
   return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
 };
 
-userSchema.methods.generateToken = async function (): any {
+userSchema.methods.generateToken = async function (): Promise<object> {
   const user = this as UserDocument;
   console.log('user', user);
   console.log('userSchema', userSchema);
   const token = jwt.sign(user._id.toHexString(), 'secret');
   const oneHour = moment().add(1, 'hour').valueOf();
-
   user.tokenExp = oneHour;
   user.token = token;
-  try {
-    const userData = await user.save();
-  } catch (error) {
-    
-  }
+  await user.save();
+  return { tokenExp: user.tokenExp, token: user.token };
 };
 
 const User = mongoose.model<UserDocument>('User', userSchema);

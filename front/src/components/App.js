@@ -4,6 +4,9 @@ import React, { Suspense } from 'react';
 import LandingPage from './views/LandingPage/LandingPage';
 import Container from './views/Container/Container';
 import LoginPage from './views/LoginPage/LoginPage';
+import Register from './views/Register/Register';
+import Auth from '../hoc/auth';
+
 // import Auth from "../hoc/auth";
 import './utils/fontawesome';
 
@@ -12,13 +15,16 @@ function App() {
   // true   only logged in user can go inside
   // false  logged in user can't go inside
 
+  const AuthLandingPage = Auth(LandingPage, null);
+
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Container>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<AuthLandingPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<Register />} />
 
             {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
             {/*

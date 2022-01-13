@@ -7,7 +7,7 @@ import authMiddleware from '@/middlewares/auth.middleware';
 import passport from 'passport';
 
 class AuthRoute implements Route {
-  public path = '/';
+  public path = '/api/auth/';
   public router = Router();
   public authController = new AuthController();
 

@@ -1,11 +1,10 @@
 import bcrypt from 'bcrypt';
-import { CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
+import { CreateUserDto, LoginUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import HttpException from '@exceptions/HttpException';
 import { UserInput } from '@/interfaces/user/users.interface';
 import { isEmpty } from '@utils/util';
 import { uuid1 } from '@utils/uuid';
 import { LoginType, LOGINTYPE } from '@utils/login_type';
-import { createToken, createCookie } from '@utils/jwt';
 import User from '@/models/users.model';
 
 class AuthService {
@@ -36,19 +35,18 @@ class AuthService {
    * @param userData
    * @returns
    */
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  public async login(loginData: LoginUserDto) {
+    if (isEmpty(loginData)) throw new HttpException(400, "You're not userData");
 
-    const findUser: UserInput = await this.User.findOne({ where: { email: userData.email } });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    const user = await this.User.findOne({ email: loginData.email });
+    if (!user) throw new HttpException(409, `You're email ${loginData.email} not found`);
 
-    const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
+    const isPasswordMatching = await user.comparePassword(loginData.password);
     if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
 
-    const tokenData = createToken(findUser);
-    const cookie = createCookie(tokenData);
+    const tokenData = await user.generateToken();
 
-    return { cookie, findUser };
+    return { _id: user._id, tokenExp: tokenData.tokenExp, token: tokenData.token };
   }
 
   // /**

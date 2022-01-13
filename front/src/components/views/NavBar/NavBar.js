@@ -8,6 +8,7 @@ function NavBar() {
   const [isActive, setActive] = useState(false);
   const [hdnActive, setHdnActive] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(false);
+  const [isScroll, setScroll] = useState(false);
 
   const sideMenuClick = () => {
     setActive(!isActive);
@@ -23,7 +24,7 @@ function NavBar() {
         const browserWidth =
           window.innerWidth > 0 ? window.innerWidth : window.screen.width;
         const scrollCheck = window.scrollY >= 200;
-        if (browserWidth > 768 && scrollCheck !== scrollPosition)
+        if (isScroll && browserWidth > 768 && scrollCheck !== scrollPosition)
           setScrollPosition(scrollCheck);
         else if (browserWidth < 768) setScrollPosition(false);
       }, 100),
@@ -31,6 +32,7 @@ function NavBar() {
   );
 
   useEffect(() => {
+    setScroll(scrollCheck('/register'))
     window.addEventListener('scroll', updateScroll);
     return () => {
       window.removeEventListener('scroll', updateScroll);

@@ -8,5 +8,5 @@ export interface UserInput {
   history: Array<object>;
   image: string;
   token: string;
-  tokenExp: string;
+  tokenExp: number;
 }

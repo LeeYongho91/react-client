@@ -3,7 +3,7 @@ import config from 'config';
 import { logger } from '@utils/logger';
 
 async function connect() {
-  const dbUri = config.get<string>('dbUri');
+  const dbUri = config.get<string>('mongoURI');
 
   try {
     await mongoose.connect(dbUri);
