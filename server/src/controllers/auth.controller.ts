@@ -11,22 +11,21 @@ class AuthController {
   public cookieOptions = { maxAge: 1000 * 60 * 15 };
   public redirectUrl = `http://localhost:${process.env.CLIENT_PORT}`;
 
-  // /**
-  //  *
-  //  * @param req
-  //  * @param res
-  //  * @param next
-  //  */
-  // public signUp = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const userData: CreateUserDto = req.body;
-  //     const signUpUserData: User = await this.authService.signup(userData);
-
-  //     res.status(201).json({ data: signUpUserData, message: 'signup' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public signUp = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data: CreateUserDto = req.body;
+      const result = await this.authService.signup(data);
+      res.status(201).json({ success: result });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   /**
    *

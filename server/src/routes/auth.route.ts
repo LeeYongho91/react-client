@@ -7,7 +7,7 @@ import authMiddleware from '@/middlewares/auth.middleware';
 import passport from 'passport';
 
 class AuthRoute implements Route {
-  public path = '/api/auth/';
+  public path = '/api/auth';
   public router = Router();
   public authController = new AuthController();
 
@@ -17,10 +17,13 @@ class AuthRoute implements Route {
 
   private initializeRoutes() {
     // 회원가입
-    // this.router.post(`${this.path}signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
+    this.router.post(`${this.path}/signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
 
     // 일반 로그인
-    this.router.post(`${this.path}login`, validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
+    this.router.post(`${this.path}/login`, validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
+
+    // auth
+    this.router.get(`${this.path}`,  this.authController.logIn);
 
     // 구글 로그인
     // this.router.get(`${this.path}auth/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));

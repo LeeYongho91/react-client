@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -10,13 +10,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch } from 'react-redux';
-import userActions from '../../../_actions/user_actions';
+import { loginUser } from '../../../_actions/user_actions';
 
-function LoginPage(props) {
+function LoginPage() {
   const dispatch = useDispatch();
   const rememberMeChecked = !!localStorage.getItem('rememberMe');
   const [rememberMe, setRememberMe] = useState(rememberMeChecked);
   const [formErrorMessage, setFormErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
@@ -49,7 +50,7 @@ function LoginPage(props) {
         email: data.email,
         password: data.password,
       };
-      const res = await dispatch(userActions.loginUser(dataToSubmit));
+      const res = await dispatch(loginUser(dataToSubmit));
       if (res.payload.loginSuccess) {
         window.localStorage.setItem('userId', res.payload.userId);
         if (rememberMe === true) {
@@ -57,7 +58,7 @@ function LoginPage(props) {
         } else {
           localStorage.removeItem('rememberMe');
         }
-        props.history.push('/');
+        navigate('/');
       } else {
         setFormErrorMessage('Check out your Account or Password again');
       }
@@ -119,6 +120,7 @@ function LoginPage(props) {
             helperText={errors.password?.message}
             // onChange={handleChange}
             placeholder="Enter your password"
+            type="password"
           />
           <button className="signin-btn" onClick={handleSubmit(onSubmit)}>
             Sign In

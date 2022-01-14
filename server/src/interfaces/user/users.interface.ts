@@ -9,4 +9,5 @@ export interface UserInput {
   image: string;
   token: string;
   tokenExp: number;
+  userType: string;
 }

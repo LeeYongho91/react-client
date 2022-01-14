@@ -1,5 +1,19 @@
-import passport from 'passport';
+import User from '@/models/users.model';
 
-const authMiddleware = passport.authenticate('jwt', { session: false });
+const auth = (req, res, next) => {
+  const token = req.cookies.w_auth;
+  User.findByToken(token, (err, user) => {
+    if (err) throw err;
+    if (!user)
+      return res.json({
+        isAuth: false,
+        error: true,
+      });
 
-export default authMiddleware;
+    req.token = token;
+    req.user = user;
+    next();
+  });
+};
+
+export default auth;

@@ -4,13 +4,17 @@ import config from 'config';
 import { UserInput } from '@/interfaces/user/users.interface';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
-import { User } from '@/interfaces/auth/sns_users.interface';
 
 export interface UserDocument extends UserInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<Boolean>;
   generateToken(): Promise<UserDocument>;
+  findByToken(token, cb): Promise<UserDocument>;
+}
+
+export interface UserModel extends mongoose.Model<UserDocument> {
+  findByToken: (token, cb) => Promise<UserDocument>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -47,6 +51,10 @@ const userSchema = new mongoose.Schema(
     tokenExp: {
       type: Number,
     },
+    userType: {
+      type: String,
+      default: 'normal',
+    },
   },
   {
     timestamps: true,
@@ -72,13 +80,14 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
   const user = this as UserDocument;
 
-  return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
+  return bcrypt.compare(candidatePassword, user.password).catch((e) => {
+    console.log(e);
+    return false;
+  });
 };
 
 userSchema.methods.generateToken = async function (): Promise<object> {
   const user = this as UserDocument;
-  console.log('user', user);
-  console.log('userSchema', userSchema);
   const token = jwt.sign(user._id.toHexString(), 'secret');
   const oneHour = moment().add(1, 'hour').valueOf();
   user.tokenExp = oneHour;
@@ -87,6 +96,16 @@ userSchema.methods.generateToken = async function (): Promise<object> {
   return { tokenExp: user.tokenExp, token: user.token };
 };
 
-const User = mongoose.model<UserDocument>('User', userSchema);
+userSchema.statics.findByToken = function (token, cb) {
+  const user = this as UserModel;
+  jwt.verify(token, 'secret', function (err, decode) {
+    user.findOne({ _id: decode, token: token }, function (err, user) {
+      if (err) return cb(err);
+      cb(null, user);
+    });
+  });
+};
+
+const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
 
 export default User;

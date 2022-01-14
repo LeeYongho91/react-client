@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import LandingPage from './views/LandingPage/LandingPage';
 import Container from './views/Container/Container';
 import LoginPage from './views/LoginPage/LoginPage';
-import Register from './views/Register/Register';
+import RegisterPage from './views/Register/Register';
 import Auth from '../hoc/auth';
 
 // import Auth from "../hoc/auth";
@@ -16,6 +16,8 @@ function App() {
   // false  logged in user can't go inside
 
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthLoginPage = Auth(LoginPage, false);
+  const AuthRegister = Auth(RegisterPage, false);
 
   return (
     <>
@@ -23,8 +25,8 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<AuthLandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<Register />} />
+            <Route path="/login" element={<AuthLoginPage />} />
+            <Route path="/signup" element={<AuthRegister />} />
 
             {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
             {/*

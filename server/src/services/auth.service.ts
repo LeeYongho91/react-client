@@ -10,25 +10,23 @@ import User from '@/models/users.model';
 class AuthService {
   public User = User;
 
-  // /**
-  //  *
-  //  * @param userData
-  //  * @returns
-  //  */
-  // public async signup(userData: CreateUserDto): Promise<User> {
-  //   if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  /**
+   *
+   * @param userData
+   * @returns
+   */
+  public async signup(data: CreateUserDto) {
+    if (isEmpty(data)) throw new HttpException(400, "You're not userData");
 
-  //   const findUser: User = await this.users.findOne({ where: { email: userData.email } });
-  //   if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    const findUser: UserInput = await this.User.findOne({ email: data.email });
+    if (findUser) throw new HttpException(409, `You're email ${data.email} already exists`);
 
-  //   const hashedPassword = await bcrypt.hash(userData.password, 10);
-  //   const uuid: string = uuid1();
-  //   const login_type: LOGINTYPE = LoginType.NORMAL;
+    const user = new this.User(data);
+    const result = await user.save();
+    if (!result) return false;
 
-  //   const createUserData: User = await this.users.create({ ...userData, uuid, password: hashedPassword, login_type });
-
-  //   return createUserData;
-  // }
+    return true;
+  }
 
   /**
    *

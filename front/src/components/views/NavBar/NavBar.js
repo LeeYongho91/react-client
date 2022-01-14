@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { throttle } from 'lodash';
 
 function NavBar() {
@@ -9,6 +9,7 @@ function NavBar() {
   const [hdnActive, setHdnActive] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(false);
   const [isScroll, setScroll] = useState(false);
+  const pathName = useLocation().pathname;
 
   const sideMenuClick = () => {
     setActive(!isActive);
@@ -16,6 +17,18 @@ function NavBar() {
 
   const hiddenSectionClick = () => {
     setHdnActive(!hdnActive);
+  };
+
+  const scrollActiveCheck = url => {
+    let bool = '';
+    if (url === '/') {
+      bool = true;
+    } else if (url === '/register') {
+      bool = false;
+    } else if (url === '/login') {
+      bool = false;
+    }
+    return bool;
   };
 
   const updateScroll = useMemo(
@@ -28,16 +41,16 @@ function NavBar() {
           setScrollPosition(scrollCheck);
         else if (browserWidth < 768) setScrollPosition(false);
       }, 100),
-    [scrollPosition],
+    [scrollPosition, isScroll],
   );
 
   useEffect(() => {
-    setScroll(scrollCheck('/register'))
+    setScroll(scrollActiveCheck(pathName));
     window.addEventListener('scroll', updateScroll);
     return () => {
       window.removeEventListener('scroll', updateScroll);
     };
-  }, [updateScroll]);
+  }, [updateScroll, pathName]);
 
   return (
     <header>
