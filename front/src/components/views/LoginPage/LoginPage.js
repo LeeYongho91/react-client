@@ -63,7 +63,7 @@ function LoginPage() {
         setFormErrorMessage('Check out your Account or Password again');
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.data.message);
       setFormErrorMessage('Check out your Account or Password again');
       console.log(formErrorMessage);
     }

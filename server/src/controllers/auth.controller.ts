@@ -33,18 +33,47 @@ class AuthController {
    * @param res
    * @param next
    */
-  public logIn = async (req: Request, res: Response, next: NextFunction) => {
+  public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const loginData: LoginUserDto = req.body;
-      console.log(loginData);
       const User = await this.authService.login(loginData);
-      res.cookie('w_authExp', User.tokenExp);
-      res.cookie('w_auth', User.token).status(200).json({
+      res.cookie('w_authExp', User['tokenExp']);
+      res.cookie('w_auth', User['token']).status(200).json({
         loginSuccess: true,
-        userId: User._id,
+        userId: User['_id'],
       });
     } catch (error) {
       console.error(error);
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public auth = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const authData = this.authService.auth(req.user);
+      res.status(200).json(authData);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public logout = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = this.authService.logout(req.user['_id']);
+      res.status(200).json({ success: result });
+    } catch (error) {
       next(error);
     }
   };

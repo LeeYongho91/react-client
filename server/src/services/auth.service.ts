@@ -15,7 +15,7 @@ class AuthService {
    * @param userData
    * @returns
    */
-  public async signup(data: CreateUserDto) {
+  public async signup(data: CreateUserDto): Promise<boolean> {
     if (isEmpty(data)) throw new HttpException(400, "You're not userData");
 
     const findUser: UserInput = await this.User.findOne({ email: data.email });
@@ -33,7 +33,7 @@ class AuthService {
    * @param userData
    * @returns
    */
-  public async login(loginData: LoginUserDto) {
+  public async login(loginData: LoginUserDto): Promise<object> {
     if (isEmpty(loginData)) throw new HttpException(400, "You're not userData");
 
     const user = await this.User.findOne({ email: loginData.email });
@@ -47,19 +47,38 @@ class AuthService {
     return { _id: user._id, tokenExp: tokenData.tokenExp, token: tokenData.token };
   }
 
-  // /**
-  //  *
-  //  * @param userData
-  //  * @returns
-  //  */
-  // public async logout(userData: User): Promise<User> {
-  //   if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  /**
+   *
+   */
 
-  //   const findUser: User = await this.users.findOne({ where: { email: userData.email } });
-  //   if (!findUser) throw new HttpException(409, "You're not user");
+  public auth(user): object {
+    return {
+      _id: user._id,
+      isAdmin: user.role === 0 ? false : true,
+      isAuth: true,
+      email: user.email,
+      name: user.name,
+      lastname: user.lastname,
+      role: user.role,
+      image: user.image,
+      cart: user.cart,
+      history: user.history,
+      userType: user.userType,
+    };
+  }
 
-  //   return findUser;
-  // }
+  /**
+   *
+   * @param userId
+   */
+
+  public async logout(userId): Promise<boolean> {
+    const result = await this.User.findOneAndUpdate({ _id: userId }, { token: '', tokenExp: '' });
+    console.log(result);
+    if (!result) throw new HttpException(409, "You're userId not found");
+
+    return true;
+  }
 
   // /**
   //  *

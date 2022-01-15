@@ -20,10 +20,13 @@ class AuthRoute implements Route {
     this.router.post(`${this.path}/signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
 
     // 일반 로그인
-    this.router.post(`${this.path}/login`, validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
+    this.router.post(`${this.path}/login`, validationMiddleware(LoginUserDto, 'body'), this.authController.login);
 
     // auth
-    this.router.get(`${this.path}`,  this.authController.logIn);
+    this.router.get(`${this.path}`, authMiddleware, this.authController.auth);
+
+    // 로그아웃
+    this.router.get(`${this.path}/logout`, authMiddleware, this.authController.logout);
 
     // 구글 로그인
     // this.router.get(`${this.path}auth/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));

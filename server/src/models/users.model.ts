@@ -88,7 +88,9 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
 
 userSchema.methods.generateToken = async function (): Promise<object> {
   const user = this as UserDocument;
-  const token = jwt.sign(user._id.toHexString(), 'secret');
+  const token = jwt.sign({ _id: user._id.toHexString() }, 'secret', {
+    expiresIn: 30 * 1,
+  });
   const oneHour = moment().add(1, 'hour').valueOf();
   user.tokenExp = oneHour;
   user.token = token;

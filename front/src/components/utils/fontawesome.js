@@ -3,6 +3,8 @@ import {
   faTimes,
   faShoppingCart,
   faAngleUp,
+  faSignOutAlt,
+  faList,
 } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -19,4 +21,6 @@ library.add(
   faTwitter,
   faInstagram,
   faAngleUp,
+  faSignOutAlt,
+  faList,
 );
