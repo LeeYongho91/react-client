@@ -65,5 +65,8 @@
 .right-login-content button:nth-of-type(3) {
     background-color: #DB4437;
 }
+.signin-btn:disabled {
+    cursor: not-allowed;
+}
 
 

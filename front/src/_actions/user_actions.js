@@ -24,12 +24,12 @@ export function loginUser(dataToSubmit) {
   };
 }
 
-export function auth() {
-  const request = axios.get(`${AUTH_SERVER}`).then(response => response.data);
+export async function auth() {
+  const response = await axios.get(`${AUTH_SERVER}`);
 
   return {
     type: types.AUTH_USER,
-    payload: request,
+    payload: response.data,
   };
 }
 

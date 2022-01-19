@@ -38,7 +38,7 @@ function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
@@ -74,57 +74,59 @@ function LoginPage() {
       <div className="login-content">
         <div className="left-login-content">
           <h2>Login Into Your Account</h2>
-          <TextField
-            required
-            id="email"
-            name="email"
-            label="Email"
-            className="login-email"
-            size="small"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AccountCircle />
-                </InputAdornment>
-              ),
-            }}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            {...register('email')}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-            // onChange={handleChange}
-            placeholder="Enter your email"
-            defaultValue={initialEmail}
-          />
-          <TextField
-            required
-            id="password"
-            name="password"
-            label="Password"
-            className="login-password"
-            size="small"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AccountCircle />
-                </InputAdornment>
-              ),
-            }}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            {...register('password')}
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            // onChange={handleChange}
-            placeholder="Enter your password"
-            type="password"
-          />
-          <button className="signin-btn" onClick={handleSubmit(onSubmit)}>
-            Sign In
-          </button>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              required
+              id="email"
+              name="email"
+              label="Email"
+              className="login-email"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              {...register('email')}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              // onChange={handleChange}
+              placeholder="Enter your email"
+              defaultValue={initialEmail}
+            />
+            <TextField
+              required
+              id="password"
+              name="password"
+              label="Password"
+              className="login-password"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              {...register('password')}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              // onChange={handleChange}
+              placeholder="Enter your password"
+              type="password"
+            />
+            <button className="signin-btn" type="submit" disabled={!isValid}>
+              Sign In
+            </button>
+          </form>
           <FormControlLabel
             control={
               <Checkbox

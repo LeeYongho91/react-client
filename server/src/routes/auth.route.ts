@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
-import { LoginUserDto, CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
+import { LoginUserDto, CreateUserDto } from '@dtos/auth.dto';
 import Route from '@/interfaces/route/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 import authMiddleware from '@/middlewares/auth.middleware';
@@ -29,8 +29,8 @@ class AuthRoute implements Route {
     this.router.get(`${this.path}/logout`, authMiddleware, this.authController.logout);
 
     // 구글 로그인
-    // this.router.get(`${this.path}auth/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));
-    // this.router.get(`${this.path}auth/google/callback`, passport.authenticate('google', { failureRedirect: '/login' }), this.authController.googleLogin);
+    this.router.get(`${this.path}auth/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));
+    this.router.get(`${this.path}auth/google/callback`, passport.authenticate('google', { failureRedirect: '/login' }), this.authController.googleLogin);
 
     // // 카카오 로그인
     // this.router.get(`${this.path}auth/kakao`, passport.authenticate('kakao'));

@@ -10,24 +10,23 @@ export default function (SpecificComponent, option, adminRoute = null) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
+    useEffect(async () => {
       // To know my current status, send Auth request
-      dispatch(auth()).then(response => {
-        // Not Loggined in Status
-        if (!response.payload.isAuth) {
-          if (option) {
-            navigate('/login');
-          }
-          // Loggined in Status
-        } else if (adminRoute && !response.payload.isAdmin) {
-          // supposed to be Admin page, but not admin person wants to go inside
-          navigate('/');
+      const { payload } = await dispatch(auth());
+      // Not Loggined in Status
+      if (!payload.isAuth) {
+        if (option) {
+          navigate('/login');
         }
-        // Logged in Status, but Try to go into log in page
-        else if (option === false) {
-          navigate('/');
-        }
-      });
+        // Loggined in Status
+      } else if (adminRoute && !payload.isAdmin) {
+        // supposed to be Admin page, but not admin person wants to go inside
+        navigate('/');
+      }
+      // Logged in Status, but Try to go into log in page
+      else if (option === false) {
+        navigate('/');
+      }
     }, []);
 
     return <SpecificComponent {...props} user={user} />;

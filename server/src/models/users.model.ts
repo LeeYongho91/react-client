@@ -10,11 +10,11 @@ export interface UserDocument extends UserInput, mongoose.Document {
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<Boolean>;
   generateToken(): Promise<UserDocument>;
-  findByToken(token, cb): Promise<UserDocument>;
+  findByToken(token): Promise<UserDocument>;
 }
 
 export interface UserModel extends mongoose.Model<UserDocument> {
-  findByToken: (token, cb) => Promise<UserDocument>;
+  findByToken: (token) => Promise<UserDocument>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -88,8 +88,9 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
 
 userSchema.methods.generateToken = async function (): Promise<object> {
   const user = this as UserDocument;
-  const token = jwt.sign({ _id: user._id.toHexString() }, 'secret', {
-    expiresIn: 30 * 1,
+  const secretKey = config.get<string>('secretKey');
+  const token = jwt.sign({ _id: user._id.toHexString() }, secretKey, {
+    expiresIn: 30 * 30,
   });
   const oneHour = moment().add(1, 'hour').valueOf();
   user.tokenExp = oneHour;
@@ -98,14 +99,14 @@ userSchema.methods.generateToken = async function (): Promise<object> {
   return { tokenExp: user.tokenExp, token: user.token };
 };
 
-userSchema.statics.findByToken = function (token, cb) {
+userSchema.statics.findByToken = async function (token) {
   const user = this as UserModel;
-  jwt.verify(token, 'secret', function (err, decode) {
-    user.findOne({ _id: decode, token: token }, function (err, user) {
-      if (err) return cb(err);
-      cb(null, user);
-    });
-  });
+  const secretKey = config.get<string>('secretKey');
+
+  const decode = await Promise.resolve(jwt.verify(token, secretKey));
+  const userData = await user.findOne({ _id: decode, token: token });
+
+  return userData;
 };
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);

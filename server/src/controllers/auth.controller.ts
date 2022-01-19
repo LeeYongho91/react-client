@@ -72,57 +72,40 @@ class AuthController {
   public logout = (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = this.authService.logout(req.user['_id']);
-      res.status(200).json({ success: result });
+      res.clearCookie('w_authExp');
+      res.clearCookie('w_auth').status(200).json({ success: result });
     } catch (error) {
       next(error);
     }
   };
 
-  // /**
-  //  *
-  //  * @param req
-  //  * @param res
-  //  * @param next
-  //  */
-  // public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-  //   try {
-  //     const userData: User = req.body;
-  //     const logOutUserData: User = await this.authService.logout(userData);
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public googleLogin = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userJson = req.user['_json'];
+      const email = userJson.email;
+      const nickname = userJson.name;
 
-  //     res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-  //     res.status(200).json({ data: logOutUserData, message: 'logout' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+      // const createUser: CreateUserDto = { email, nickname, password: '' };
+      // const loginType: LOGINTYPE = LoginType.GOOGLE;
 
-  // /**
-  //  *
-  //  * @param req
-  //  * @param res
-  //  * @param next
-  //  */
-  // public googleLogin = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const userJson = req.user['_json'];
-  //     const email = userJson.email;
-  //     const nickname = userJson.name;
+      // const user: User = await this.authService.SnsLogin(createUser, loginType);
 
-  //     const createUser: CreateUserDto = { email, nickname, password: '' };
-  //     const loginType: LOGINTYPE = LoginType.GOOGLE;
+      // const token = createToken(user);
 
-  //     const user: User = await this.authService.SnsLogin(createUser, loginType);
-
-  //     const token = createToken(user);
-
-  //     const data = { token, user, loginType };
-  //     // Set cookie
-  //     res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
-  //     res.redirect(this.redirectUrl);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+      // const data = { token, user, loginType };
+      // Set cookie
+      // res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
+      // res.redirect(this.redirectUrl);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   // /**
   //  *
