@@ -18,6 +18,7 @@ function LoginPage() {
   const [rememberMe, setRememberMe] = useState(rememberMeChecked);
   const [formErrorMessage, setFormErrorMessage] = useState('');
   const navigate = useNavigate();
+  // const location = location.href;
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
@@ -66,6 +67,15 @@ function LoginPage() {
       console.log(error.response.data.message);
       setFormErrorMessage('Check out your Account or Password again');
       console.log(formErrorMessage);
+    }
+  };
+
+  const snsLogin = async loginType => {
+    try {
+      window.location.href = `${process.env.REACT_APP_API_URL}api/auth/${loginType}`;
+    } catch (error) {
+      // 에러 핸들링할 코드
+      console.log(error.response.data);
     }
   };
 
@@ -142,9 +152,11 @@ function LoginPage() {
         <div className="or">or</div>
         <div className="right-login-content">
           <Link to="/signup">Don&apos;t have an account? Sign Up!</Link>
-          <button>Sign in with FaceBook</button>
-          <button>Sign in with Kakao</button>
-          <button>Sign in with Google+</button>
+          <button onClick={() => snsLogin('naver')}>Sign in with Naver</button>
+          <button onClick={() => snsLogin('kakao')}>Sign in with Kakao</button>
+          <button onClick={() => snsLogin('google')}>
+            Sign in with Google+
+          </button>
         </div>
       </div>
     </>

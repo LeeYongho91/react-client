@@ -29,8 +29,8 @@ class AuthRoute implements Route {
     this.router.get(`${this.path}/logout`, authMiddleware, this.authController.logout);
 
     // 구글 로그인
-    this.router.get(`${this.path}auth/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));
-    this.router.get(`${this.path}auth/google/callback`, passport.authenticate('google', { failureRedirect: '/login' }), this.authController.googleLogin);
+    this.router.get(`${this.path}/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));
+    this.router.get(`${this.path}/google/callback`, passport.authenticate('google', { failureRedirect: '/login' }), this.authController.googleLogin);
 
     // // 카카오 로그인
     // this.router.get(`${this.path}auth/kakao`, passport.authenticate('kakao'));

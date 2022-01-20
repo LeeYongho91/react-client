@@ -14,7 +14,7 @@ class Passport {
   public ExtractJwt = passportJwt.ExtractJwt;
   public JWTStrategy = passportJwt.Strategy;
   public secretKey: string = config.get('secretKey');
-  public callbackUrl = `http://localhost:${process.env.PORT}/auth/`;
+  public callbackUrl = `http://localhost:${process.env.PORT}/api/auth/`;
 
   public passportConfig = () => {
     // const passportConfig = { usernameField: 'email', passwordField: 'password' };
@@ -63,15 +63,15 @@ class Passport {
     //   }
     // };
 
-    // passport.serializeUser((user, done) => {
-    //   //console.log('passport session save: ', user['id']);
-    //   done(null, user);
-    // });
+    passport.serializeUser((user, done) => {
+      //console.log('passport session save: ', user['id']);
+      done(null, user);
+    });
 
-    // passport.deserializeUser((user, done) => {
-    //   // console.log('passport session get id: ', user['id']);
-    //   done(null, user);
-    // });
+    passport.deserializeUser((user, done) => {
+      // console.log('passport session get id: ', user['id']);
+      done(null, user);
+    });
 
     // 구글 인증
     passport.use(
@@ -82,7 +82,11 @@ class Passport {
           callbackURL: this.callbackUrl + 'google/callback',
         },
         function (accessToken, refreshToken, profile, done) {
-          return done(null, profile);
+          const user = {
+            accessToken,
+            profile,
+          };
+          return done(null, user);
         }
       )
     );

@@ -80,24 +80,33 @@ class AuthService {
     return true;
   }
 
-  // /**
-  //  *
-  //  * @param userData
-  //  * @param loginType
-  //  * @returns
-  //  */
-  // public async SnsLogin(userData: CreateUserDto, loginType: LOGINTYPE): Promise<User> {
-  //   if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  /**
+   *
+   * @param userData
+   * @param loginType
+   * @returns
+   */
+  public async SnsLogin(userData) {
+    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
-  //   const findUser: User = await this.users.findOne({ where: { login_type: loginType, email: userData.email } });
-  //   if (!findUser) {
-  //     const uuid: string = uuid1();
-  //     const createUserData: User = await this.users.create({ ...userData, uuid, password: '', login_type: loginType });
-  //     return createUserData;
-  //   } else {
-  //     return findUser;
-  //   }
-  // }
+    const email = userData['profile']['_json']['email'];
+    const name = userData['profile']['displayName'];
+    const userType = userData['profile']['provider'];
+
+    const user = {
+      email,
+      name,
+      password: '',
+      userType,
+    };
+
+    const findUser: UserInput = await this.User.findOne({ email: email, userType: userType });
+    if (!findUser) {
+      const result = this.signup(user);
+    } else {
+      return findUser;
+    }
+  }
 
   // /**
   //  *

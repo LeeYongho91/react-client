@@ -85,23 +85,17 @@ class AuthController {
    * @param res
    * @param next
    */
-  public googleLogin = (req: Request, res: Response, next: NextFunction) => {
+  public googleLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userJson = req.user['_json'];
-      const email = userJson.email;
-      const nickname = userJson.name;
+ 
+      const user  = await this.authService.SnsLogin(req.user);
 
-      // const createUser: CreateUserDto = { email, nickname, password: '' };
-      // const loginType: LOGINTYPE = LoginType.GOOGLE;
+      const token = createToken(user);
 
-      // const user: User = await this.authService.SnsLogin(createUser, loginType);
-
-      // const token = createToken(user);
-
-      // const data = { token, user, loginType };
-      // Set cookie
-      // res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
-      // res.redirect(this.redirectUrl);
+      const data = { token, user, loginType };
+      Set cookie
+      res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
+      res.redirect(this.redirectUrl);
     } catch (error) {
       next(error);
     }
