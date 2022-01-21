@@ -11,6 +11,7 @@ export interface UserDocument extends UserInput, mongoose.Document {
   comparePassword(candidatePassword: string): Promise<Boolean>;
   generateToken(): Promise<UserDocument>;
   findByToken(token): Promise<UserDocument>;
+  snsLogin(token): Promise<UserDocument>;
 }
 
 export interface UserModel extends mongoose.Model<UserDocument> {
@@ -107,6 +108,12 @@ userSchema.statics.findByToken = async function (token) {
   const userData = await user.findOne({ _id: decode, token: token });
 
   return userData;
+};
+
+userSchema.methods.snsLogin = async function (token) {
+  const user = this as UserDocument;
+  user.token = token;
+  await user.save();
 };
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);

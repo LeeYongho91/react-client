@@ -87,14 +87,40 @@ class AuthController {
    */
   public googleLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
- 
-      const user  = await this.authService.SnsLogin(req.user);
+      const email = req.user['profile']['_json']['email'];
+      const name = req.user['profile']['displayName'];
+      const userType = req.user['profile']['provider'];
 
-      const token = createToken(user);
+      const userData = { email, name, password: '', userType };
+      const tokenData = await this.authService.snsLogin(userData);
+      res.cookie('w_auth', tokenData['token']);
+      res.cookie('w_authExp', tokenData['tokenExp']);
 
-      const data = { token, user, loginType };
-      Set cookie
-      res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
+      res.redirect(this.redirectUrl);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public kakaoLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userJson = req.user['_json'];
+      const email = userJson.kakao_account.email;
+      const name = req.user['username'];
+      const userType = req.user['provider'];
+
+      const userData = { email, name, password: '', userType };
+
+      const tokenData = await this.authService.snsLogin(userData);
+      res.cookie('w_auth', tokenData['token']);
+      res.cookie('w_authExp', tokenData['tokenExp']);
+
       res.redirect(this.redirectUrl);
     } catch (error) {
       next(error);
@@ -107,58 +133,26 @@ class AuthController {
   //  * @param res
   //  * @param next
   //  */
-  // public kakaoLogin = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const userJson = req.user['_json'];
-  //     const email = userJson.kakao_account.email;
-  //     const nickname = userJson.properties.nickname;
+  public naverLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userJson = req.user['_json'];
+      const email = userJson.email;
+      const name = userJson.nickname;
+      const userType = req.user['provider'];
 
-  //     const createUser: CreateUserDto = { email, nickname, password: '' };
-  //     const loginType: LOGINTYPE = LoginType.KAKAO;
+      if (!email || !name) res.redirect(`${this.redirectUrl}/oauth/error`);
 
-  //     const user: User = await this.authService.SnsLogin(createUser, loginType);
+      const userData = { email, name, password: '', userType };
 
-  //     const token = createToken(user);
+      const tokenData = await this.authService.snsLogin(userData);
+      res.cookie('w_auth', tokenData['token']);
+      res.cookie('w_authExp', tokenData['tokenExp']);
 
-  //     const data = { token, user, loginType };
-  //     // Set cookie
-  //     res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
-  //     res.redirect(this.redirectUrl);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
-
-  // /**
-  //  *
-  //  * @param req
-  //  * @param res
-  //  * @param next
-  //  */
-  // public naverLogin = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const userJson = req.user['_json'];
-  //     const email = userJson.email;
-  //     const nickname = userJson.nickname;
-
-  //     if (!email || !nickname) res.redirect(`${this.redirectUrl}/oauth/error`);
-
-  //     const createUser: CreateUserDto = { email, nickname, password: '' };
-  //     const loginType: LOGINTYPE = LoginType.NAVER;
-
-  //     const user: User = await this.authService.SnsLogin(createUser, loginType);
-
-  //     const token = createToken(user);
-
-  //     const data = { token, user, loginType };
-
-  //     // Set cookie
-  //     res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
-  //     res.redirect(this.redirectUrl);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+      res.redirect(this.redirectUrl);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   // /**
   //  *

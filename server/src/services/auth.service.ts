@@ -74,7 +74,6 @@ class AuthService {
 
   public async logout(userId): Promise<boolean> {
     const result = await this.User.findOneAndUpdate({ _id: userId }, { token: '', tokenExp: '' });
-    console.log(result);
     if (!result) throw new HttpException(409, "You're userId not found");
 
     return true;
@@ -86,26 +85,20 @@ class AuthService {
    * @param loginType
    * @returns
    */
-  public async SnsLogin(userData) {
+  public async snsLogin(userData): Promise<object> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
-
-    const email = userData['profile']['_json']['email'];
-    const name = userData['profile']['displayName'];
-    const userType = userData['profile']['provider'];
-
-    const user = {
-      email,
-      name,
-      password: '',
-      userType,
-    };
-
-    const findUser: UserInput = await this.User.findOne({ email: email, userType: userType });
+    let findUser = await this.User.findOne({ email: userData['email'], userType: userData['userType'] });
+    let tokenData = {};
     if (!findUser) {
-      const result = this.signup(user);
+      const result = await this.signup(userData);
+      if (result) {
+        findUser = await this.User.findOne({ email: userData['email'], userType: userData['userType'] });
+        tokenData = await findUser.generateToken();
+      }
     } else {
-      return findUser;
+      tokenData = await findUser.generateToken();
     }
+    return { tokenExp: tokenData['tokenExp'], token: tokenData['token'] };
   }
 
   // /**

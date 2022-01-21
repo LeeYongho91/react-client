@@ -33,12 +33,12 @@ class AuthRoute implements Route {
     this.router.get(`${this.path}/google/callback`, passport.authenticate('google', { failureRedirect: '/login' }), this.authController.googleLogin);
 
     // // 카카오 로그인
-    // this.router.get(`${this.path}auth/kakao`, passport.authenticate('kakao'));
-    // this.router.get(`${this.path}auth/kakao/callback`, passport.authenticate('kakao', { failureRedirect: '/login' }), this.authController.kakaoLogin);
+    this.router.get(`${this.path}/kakao`, passport.authenticate('kakao'));
+    this.router.get(`${this.path}/kakao/callback`, passport.authenticate('kakao', { failureRedirect: '/login' }), this.authController.kakaoLogin);
 
     // // 네이버 로그인
-    // this.router.get(`${this.path}auth/naver`, passport.authenticate('naver'));
-    // this.router.get(`${this.path}auth/naver/callback`, passport.authenticate('naver', { failureRedirect: '/login' }), this.authController.naverLogin);
+    this.router.get(`${this.path}/naver`, passport.authenticate('naver'));
+    this.router.get(`${this.path}/naver/callback`, passport.authenticate('naver', { failureRedirect: '/login' }), this.authController.naverLogin);
 
     // // 이메일 중복확인
     // this.router.post(`${this.path}emailDoubleCheck`, validationMiddleware(EmailDoubleCheckDto, 'body'), this.authController.emailDoubleCheck);
