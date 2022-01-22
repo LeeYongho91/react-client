@@ -1,7 +1,10 @@
 export interface Product {
-  seq: number;
-  product_type: string;
+  writer: string;
+  title: string;
   name: string;
+  description: string;
   price: number;
-  img: string;
+  images: Array<string>;
+  sold: number;
+  view: number;
 }

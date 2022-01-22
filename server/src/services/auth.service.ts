@@ -1,11 +1,8 @@
-import bcrypt from 'bcrypt';
-import { CreateUserDto, LoginUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
+import { CreateUserDto, LoginUserDto } from '@dtos/auth.dto';
 import HttpException from '@exceptions/HttpException';
 import { UserInput } from '@/interfaces/user/users.interface';
-import { isEmpty } from '@utils/util';
-import { uuid1 } from '@utils/uuid';
-import { LoginType, LOGINTYPE } from '@utils/login_type';
 import User from '@/models/users.model';
+import { isEmpty } from '@utils/util';
 
 class AuthService {
   public User = User;

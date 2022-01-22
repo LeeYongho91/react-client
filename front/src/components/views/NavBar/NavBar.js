@@ -69,7 +69,9 @@ function NavBar() {
 
   return (
     <header>
-      <div className={`title ${scrollPosition ? 'active' : ''}`}>DEPOT</div>
+      <div className={`title ${scrollPosition ? 'active' : ''}`}>
+        <Link to="/">DEPOT</Link>
+      </div>
       <nav
         className={`${isActive ? 'active' : ''} ${
           scrollPosition ? 'scroll-active' : ''
@@ -151,6 +153,9 @@ function NavBar() {
               </a>
               <Link to="/history">
                 <FontAwesomeIcon icon="list" /> HISTORY
+              </Link>
+              <Link to="/upload">
+                <FontAwesomeIcon icon="upload" /> UPLOAD
               </Link>
             </>
           )}

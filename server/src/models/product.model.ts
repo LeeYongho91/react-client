@@ -1,49 +1,62 @@
-import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
+
 import { Product } from '@/interfaces/shop/product.interface';
 
-export type ProductAttributes = Optional<Product, 'seq' | 'product_type' | 'name' | 'price' | 'img'>;
-
-export class ProductModel extends Model<Product, ProductAttributes> implements Product {
-  public seq: number;
-  public product_type: string;
-  public name: string;
-  public price: number;
-  public img: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+export interface ProductDocument extends Product, mongoose.Document {
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export default function (sequelize: Sequelize): typeof ProductModel {
-  ProductModel.init(
-    {
-      seq: {
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      product_type: {
-        allowNull: false,
-        type: DataTypes.STRING(8),
-      },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING(64),
-      },
-      price: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
-      img: {
-        allowNull: false,
-        type: DataTypes.STRING(64),
-      },
+const productSchema = new mongoose.Schema(
+  {
+    writer: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
-    {
-      tableName: 'product_list',
-      sequelize,
-    }
-  );
+    title: {
+      type: String,
+      maxlength: 50,
+    },
+    description: {
+      type: String,
+    },
+    price: {
+      type: Number,
+      default: 0,
+    },
+    images: {
+      type: Array,
+      default: [],
+    },
+    sold: {
+      type: Number,
+      maxlength: 100,
+      default: 0,
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-  return ProductModel;
-}
+productSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+  },
+  {
+    weights: {
+      title: 5,
+      description: 1,
+    },
+  }
+);
+
+const Product = mongoose.model('Product', productSchema);
+
+export default Product;

@@ -5,6 +5,8 @@ import {
   faAngleUp,
   faSignOutAlt,
   faList,
+  faUpload,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -23,4 +25,6 @@ library.add(
   faAngleUp,
   faSignOutAlt,
   faList,
+  faUpload,
+  faPlus,
 );

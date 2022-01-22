@@ -72,7 +72,7 @@ function LoginPage() {
 
   const snsLogin = async loginType => {
     try {
-      window.location.href = `${process.env.REACT_APP_API_URL}api/auth/${loginType}`;
+      window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/${loginType}`;
     } catch (error) {
       // 에러 핸들링할 코드
       console.log(error.response.data);

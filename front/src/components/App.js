@@ -5,6 +5,7 @@ import LandingPage from './views/LandingPage/LandingPage';
 import Container from './views/Container/Container';
 import LoginPage from './views/LoginPage/LoginPage';
 import RegisterPage from './views/Register/Register';
+import UploadProductPage from './views/UploadProductPage/UploadProductPage';
 import Auth from '../hoc/auth';
 
 // import Auth from "../hoc/auth";
@@ -18,6 +19,7 @@ function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegister = Auth(RegisterPage, false);
+  const AuthUploadProductPage = Auth(UploadProductPage, true);
 
   return (
     <>
@@ -27,6 +29,7 @@ function App() {
             <Route path="/" element={<AuthLandingPage />} />
             <Route path="/login" element={<AuthLoginPage />} />
             <Route path="/signup" element={<AuthRegister />} />
+            <Route path="/upload" element={<AuthUploadProductPage />} />
 
             {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
             {/*
