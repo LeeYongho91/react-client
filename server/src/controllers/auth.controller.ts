@@ -1,10 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto, LoginUserDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
-import { UserInput } from '@/interfaces/user/users.interface';
-import { RequestWithUser } from '@/interfaces/auth/auth.interface';
+import { CreateUserDto, LoginUserDto } from '@dtos/auth.dto';
 import AuthService from '@services/auth.service';
-import passport from 'passport';
-import { LoginType, LOGINTYPE } from '@utils/login_type';
 
 class AuthController {
   public authService = new AuthService();

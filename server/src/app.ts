@@ -67,6 +67,7 @@ class App {
     this.app.use(cookieParser());
     this.app.use(passport.initialize());
     this.app.use(passport.session());
+    this.app.use('/uploads', express.static('uploads'));
 
     this.passportConfig.passportConfig();
   }

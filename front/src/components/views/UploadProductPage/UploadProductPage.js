@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import FileUpload from '../../utils/FileUpload';
 import './UploadProductPage.css';
+import { SHOP_SERVER } from '../../Config';
 
 function UploadProductPage(props) {
-  console.log(props);
-
   const [Title, setTitle] = useState('');
   const [Description, setDescription] = useState('');
   const [Price, setPrice] = useState(0);
   const [Images, setImages] = useState([]);
+  const navigate = useNavigate();
 
   const titleChangeHander = e => {
     setTitle(e.currentTarget.value);
@@ -23,7 +23,7 @@ function UploadProductPage(props) {
   };
 
   const PriceChangeHander = e => {
-    setPrice(e.currentTarget.value);
+    setPrice(parseInt(e.currentTarget.value, 10));
   };
 
   const updateImages = newImages => {
@@ -32,16 +32,12 @@ function UploadProductPage(props) {
 
   const submitHandler = async e => {
     e.preventDefault();
-    console.log('test');
 
     if (!Title || !Description || !Price || !Images) {
       return alert('모든 값을 넣어주세요.');
     }
 
-    // 서버에 채운 값들을 request로 보낸다.
-
     const body = {
-      // 로그인 된 사람의 ID
       writer: props.user.userData._id,
       title: Title,
       description: Description,
@@ -50,12 +46,12 @@ function UploadProductPage(props) {
     };
 
     try {
-      const { data } = await axios.post('/api/product', body);
+      const { data } = await axios.post(`${SHOP_SERVER}/upload`, body);
       console.log(data);
 
       if (data.success) {
         alert('상품 업로드에 성공하였습니다.');
-        // props.history.push('/');
+        navigate('/');
       } else {
         alert('상품 업로드에 실패하였습니다.');
       }
@@ -99,8 +95,8 @@ function UploadProductPage(props) {
           fullWidth
           required
           onChange={PriceChangeHander}
-          value={Price}
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          type="number"
         />
         <br />
         <br />

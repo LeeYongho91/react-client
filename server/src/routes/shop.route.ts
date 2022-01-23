@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ShopController from '@controllers/shop.controller';
-
+import validationMiddleware from '@middlewares/validation.middleware';
+import { uploadDto } from '@/dtos/shop.dto';
 import Route from '@/interfaces/route/routes.interface';
 
 class ShopRoute implements Route {
@@ -15,6 +16,7 @@ class ShopRoute implements Route {
   private initializeRoutes() {
     // this.router.get(`${this.path}/:params`, this.ShopController.getProducts);
     this.router.post(`${this.path}/image`, this.ShopController.imageSave);
+    this.router.post(`${this.path}/upload`, validationMiddleware(uploadDto, 'body'), this.ShopController.upload);
   }
 }
 

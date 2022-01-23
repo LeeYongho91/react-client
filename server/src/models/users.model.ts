@@ -91,7 +91,7 @@ userSchema.methods.generateToken = async function (): Promise<object> {
   const user = this as UserDocument;
   const secretKey = config.get<string>('secretKey');
   const token = jwt.sign({ _id: user._id.toHexString() }, secretKey, {
-    expiresIn: 30 * 30,
+    expiresIn: 60 * 60 * 24,
   });
   const oneHour = moment().add(1, 'hour').valueOf();
   user.tokenExp = oneHour;

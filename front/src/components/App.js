@@ -45,45 +45,48 @@ function App() {
   );
 }
 
-function solution(n, f) {
+function solution(n, arr) {
   let answer = 0;
-  let flag = 0;
-  const dy = Array.from(Array(11), () => Array(11).fill(0));
+  const graph = Array.from(Array(n), () => Array());
   const ch = Array.from({ length: n + 1 }, () => 0);
-  const tmp = Array.from({ length: n }, () => 0);
-  const c = Array.from({ length: n }, () => 0);
 
-  function memo(n, r) {
-    if (dy[n][r] > 0) return dy[n][r];
-    if (n === r || r === 0) return 1;
-    return (dy[n][r] = memo(n - 1, r - 1) + memo(n - 1, r));
+  for (const [a, b] of arr) {
+    graph[a].push(b);
   }
 
-  function DFS(L, sum) {
-    if (flag) return;
-    if (L === n && sum === f) {
-      answer = tmp.slice();
-      flag = 1;
+  console.log(graph);
+
+  function DFS(v) {
+    if (v === n) {
+      answer++;
     } else {
-      for (let i = 1; i <= n; i++) {
-        if (ch[i] === 0) {
-          ch[i] = 1;
-          tmp[L] = i;
-          DFS(L + 1, sum + c[L] * tmp[L]);
-          ch[i] = 0;
+      for (let i = 0; i < graph[v].length; i++) {
+        if (ch[graph[v][i]] === 0) {
+          ch[graph[v][i]] = 1;
+          DFS(graph[v][i]);
+          ch[graph[v][i]] = 0;
         }
       }
     }
   }
 
-  for (let i = 0; i < n; i++) {
-    c[i] = memo(n - 1, i);
-  }
-
-  DFS(0, 0);
+  ch[1] = 1;
+  DFS(1);
 
   return answer;
 }
-console.log(solution(4, 16));
+console.log(
+  solution(5, [
+    [1, 2],
+    [1, 3],
+    [1, 4],
+    [2, 1],
+    [2, 3],
+    [2, 5],
+    [3, 4],
+    [4, 2],
+    [4, 5],
+  ]),
+);
 
 export default App;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SHOP_SERVER } from '../Config';
 
 function FileUpload(props) {
   const [Images, setImages] = useState([]);
@@ -16,11 +17,7 @@ function FileUpload(props) {
 
     formData.append('file', files[0]);
 
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/shop/image`,
-      formData,
-      config,
-    );
+    const { data } = await axios.post(`${SHOP_SERVER}/image`, formData, config);
 
     if (data.success) {
       console.log(data);
@@ -68,7 +65,7 @@ function FileUpload(props) {
       <div
         style={{
           display: 'flex',
-          width: '350px',
+          width: '316px',
           height: '240px',
           overflowX: 'scroll',
           visibility: scrollView,
@@ -79,7 +76,7 @@ function FileUpload(props) {
             <img
               style={{ minWidth: '300px', width: '300px', height: '240px' }}
               alt="test"
-              src={`http://localhost:5000/uploads/${image}`}
+              src={`http://localhost:5000/${image}`}
             />
           </div>
         ))}

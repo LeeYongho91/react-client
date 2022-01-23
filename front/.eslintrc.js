@@ -40,6 +40,8 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     'consistent-return': 0,
     'react/no-array-index-key': 0,
+    'no-restricted-syntax': 0,
+    'no-array-constructor': 0,
   },
   // settings: {
   //   'import/resolver': {
