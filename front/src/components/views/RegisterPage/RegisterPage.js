@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Register.css';
+import './RegisterPage.css';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import * as Yup from 'yup';

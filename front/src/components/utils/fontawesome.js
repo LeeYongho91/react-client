@@ -7,6 +7,7 @@ import {
   faList,
   faUpload,
   faPlus,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -27,4 +28,5 @@ library.add(
   faList,
   faUpload,
   faPlus,
+  faCaretDown,
 );

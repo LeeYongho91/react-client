@@ -4,11 +4,10 @@ import React, { Suspense } from 'react';
 import LandingPage from './views/LandingPage/LandingPage';
 import Container from './views/Container/Container';
 import LoginPage from './views/LoginPage/LoginPage';
-import RegisterPage from './views/Register/Register';
+import RegisterPage from './views/RegisterPage/RegisterPage';
 import UploadProductPage from './views/UploadProductPage/UploadProductPage';
+import ShopPage from './views/ShopPage/ShopPage';
 import Auth from '../hoc/auth';
-
-// import Auth from "../hoc/auth";
 import './utils/fontawesome';
 
 function App() {
@@ -20,6 +19,7 @@ function App() {
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegister = Auth(RegisterPage, false);
   const AuthUploadProductPage = Auth(UploadProductPage, true);
+  const AuthShopPage = Auth(ShopPage, null);
 
   return (
     <>
@@ -30,6 +30,7 @@ function App() {
             <Route path="/login" element={<AuthLoginPage />} />
             <Route path="/signup" element={<AuthRegister />} />
             <Route path="/upload" element={<AuthUploadProductPage />} />
+            <Route path="/shop" element={<AuthShopPage />} />
 
             {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
             {/*
@@ -45,47 +46,49 @@ function App() {
   );
 }
 
-function solution(n, arr) {
+function solution(board2) {
+  const board = board2;
   let answer = 0;
-  const graph = Array.from(Array(n), () => Array());
-  const ch = Array.from({ length: n + 1 }, () => 0);
+  const n = board.length;
+  const queue = [];
 
-  for (const [a, b] of arr) {
-    graph[a].push(b);
-  }
+  const posX = [-1, -1, 0, 1, 1, 1, 0, -1];
+  const posY = [0, 1, 1, 1, 0, -1, -1, -1];
 
-  console.log(graph);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (board[i][j] === 1) {
+        answer++;
+        board[i][j] = 0;
+        queue.push([i, j]);
 
-  function DFS(v) {
-    if (v === n) {
-      answer++;
-    } else {
-      for (let i = 0; i < graph[v].length; i++) {
-        if (ch[graph[v][i]] === 0) {
-          ch[graph[v][i]] = 1;
-          DFS(graph[v][i]);
-          ch[graph[v][i]] = 0;
+        while (queue.length) {
+          const [x, y] = queue.shift();
+          for (let k = 0; k < 8; k++) {
+            const dx = x + posX[k];
+            const dy = y + posY[k];
+
+            if (dx >= 0 && dx < n && dy >= 0 && dy < n && board[dx][dy] === 1) {
+              board[dx][dy] = 0;
+              queue.push([dx, dy]);
+            }
+          }
         }
       }
     }
   }
 
-  ch[1] = 1;
-  DFS(1);
-
   return answer;
 }
 console.log(
-  solution(5, [
-    [1, 2],
-    [1, 3],
-    [1, 4],
-    [2, 1],
-    [2, 3],
-    [2, 5],
-    [3, 4],
-    [4, 2],
-    [4, 5],
+  solution([
+    [1, 1, 0, 0, 0, 1, 0],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 1],
+    [1, 1, 0, 1, 1, 0, 0],
+    [1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 1, 0, 1, 0, 0],
   ]),
 );
 

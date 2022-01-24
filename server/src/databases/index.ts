@@ -7,7 +7,7 @@ async function connect() {
 
   try {
     await mongoose.connect(dbUri);
-    logger.info('====== MONGODB CONNECT ======');
+    logger.info('✅ ====== MONGODB CONNECT ====== ✅');
   } catch (error) {
     logger.error('Could not connect to db');
     process.exit(1);

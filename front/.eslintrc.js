@@ -42,6 +42,7 @@ module.exports = {
     'react/no-array-index-key': 0,
     'no-restricted-syntax': 0,
     'no-array-constructor': 0,
+    'no-continue': 0,
   },
   // settings: {
   //   'import/resolver': {
