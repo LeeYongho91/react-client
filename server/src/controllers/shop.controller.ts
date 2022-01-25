@@ -4,23 +4,20 @@ import upload from '@utils/upload';
 class ShopController {
   public shopService = new shopService();
 
-  // /**
-  //  *
-  //  * @param req
-  //  * @param res
-  //  * @param next
-  //  */
-  // public getProducts = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const params = req.params.params;
-  //     const findAllProduct: Product[] = await this.shopService.findAllProduct(JSON.parse(params));
-  //     const findAllProductCount: number = await this.shopService.findAllProductCount(JSON.parse(params));
-
-  //     res.status(200).json({ products: findAllProduct, count: findAllProductCount, message: 'findAll' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public getProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await this.shopService.getProducts(req.body);
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   /**
    *

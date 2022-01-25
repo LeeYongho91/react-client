@@ -46,50 +46,32 @@ function App() {
   );
 }
 
-function solution(board2) {
-  const board = board2;
-  let answer = 0;
-  const n = board.length;
-  const queue = [];
+function solution(s, t) {
+  const answer = [];
+  let p = 1000;
 
-  const posX = [-1, -1, 0, 1, 1, 1, 0, -1];
-  const posY = [0, 1, 1, 1, 0, -1, -1, -1];
+  for (const x of s) {
+    if (x === t) {
+      p = 0;
+      answer.push(p);
+    } else {
+      p++;
+      answer.push(p);
+    }
+  }
 
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (board[i][j] === 1) {
-        answer++;
-        board[i][j] = 0;
-        queue.push([i, j]);
-
-        while (queue.length) {
-          const [x, y] = queue.shift();
-          for (let k = 0; k < 8; k++) {
-            const dx = x + posX[k];
-            const dy = y + posY[k];
-
-            if (dx >= 0 && dx < n && dy >= 0 && dy < n && board[dx][dy] === 1) {
-              board[dx][dy] = 0;
-              queue.push([dx, dy]);
-            }
-          }
-        }
-      }
+  for (let i = s.length - 1; i >= 0; i--) {
+    if (s[i] === t) {
+      p = 0;
+    } else {
+      p++;
+      answer[i] = Math.min(answer[i], p);
     }
   }
 
   return answer;
 }
-console.log(
-  solution([
-    [1, 1, 0, 0, 0, 1, 0],
-    [0, 1, 1, 0, 1, 1, 0],
-    [0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 1, 1],
-    [1, 1, 0, 1, 1, 0, 0],
-    [1, 0, 0, 0, 1, 0, 0],
-    [1, 0, 1, 0, 1, 0, 0],
-  ]),
-);
+
+console.log(solution('teachermode', 'e'));
 
 export default App;

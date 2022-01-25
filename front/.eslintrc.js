@@ -43,6 +43,7 @@ module.exports = {
     'no-restricted-syntax': 0,
     'no-array-constructor': 0,
     'no-continue': 0,
+    'react-hooks/exhaustive-deps': 0,
   },
   // settings: {
   //   'import/resolver': {

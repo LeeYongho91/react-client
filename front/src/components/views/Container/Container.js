@@ -6,7 +6,6 @@ import Footer from '../Footer/Footer';
 
 function Container({ children }) {
   const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
-  console.log(children);
   const handleFollow = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 300) {

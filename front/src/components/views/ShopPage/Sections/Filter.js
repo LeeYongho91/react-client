@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import Popover from '@mui/material/Popover';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FormLabel from '@mui/material/FormLabel';
 
-function Filter() {
+function Filter(props) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [Value, setValue] = useState(0);
 
   const handleClick = event => {
     event.preventDefault();
@@ -19,9 +22,27 @@ function Filter() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  const renderRadioboxLists = () =>
+    props.list &&
+    props.list.map(value => (
+      <FormControlLabel
+        key={value._id}
+        control={<Radio />}
+        value={value._id}
+        label={`${value.name}`}
+      />
+    ));
+
+  const handleChange = event => {
+    setValue(event.target.value);
+    props.handleFilters(event.target.value);
+    setAnchorEl(null);
+  };
+
   return (
     <div>
-      <a href="true" onClick={handleClick}>
+      <a href="true" className="filter-field" onClick={handleClick}>
         FILTER <FontAwesomeIcon icon="caret-down" />
       </a>
       <Popover
@@ -34,14 +55,17 @@ function Filter() {
           horizontal: 'left',
         }}
       >
-        <FormGroup sx={{ p: 3 }}>
-          <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label="Label"
-          />
-          <FormControlLabel control={<Checkbox />} label="Label" />
-          <FormControlLabel control={<Checkbox />} label="Label" />
-        </FormGroup>
+        <FormControl sx={{ p: 4 }}>
+          <FormLabel id="demo-radio-buttons-group-label">Price</FormLabel>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            value={Value}
+            name="radio-buttons-group"
+            onChange={handleChange}
+          >
+            {renderRadioboxLists()}
+          </RadioGroup>
+        </FormControl>
       </Popover>
     </div>
   );

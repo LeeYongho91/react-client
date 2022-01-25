@@ -16,3 +16,20 @@ export class uploadDto {
   @IsString({ each: true })
   public images: Array<string>;
 }
+
+export class getProductDto {
+  @IsInt()
+  public skip: number;
+
+  @IsInt()
+  public limit: number;
+
+  // @IsString()
+  // public searchTerm: string;
+
+  // @IsString()
+  // public filters: object;
+
+  // @IsBoolean()
+  // public loadMore: boolean;
+}
