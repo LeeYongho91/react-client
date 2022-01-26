@@ -46,32 +46,29 @@ function App() {
   );
 }
 
-function solution(s, t) {
+function solution(a1, a2) {
   const answer = [];
-  let p = 1000;
+  a1.sort((a, b) => a - b);
+  a2.sort((a, b) => a - b);
 
-  for (const x of s) {
-    if (x === t) {
-      p = 0;
-      answer.push(p);
-    } else {
-      p++;
-      answer.push(p);
-    }
-  }
+  const n = a1.length;
+  const m = a2.length;
 
-  for (let i = s.length - 1; i >= 0; i--) {
-    if (s[i] === t) {
-      p = 0;
-    } else {
-      p++;
-      answer[i] = Math.min(answer[i], p);
-    }
+  let p1 = 0;
+  let p2 = 0;
+
+  while (p1 < n && p2 < m) {
+    if (a1[p1] === a2[p2]) {
+      answer.push(a1[p1]);
+      p1++;
+      p2++;
+    } else if (a1[p1] < a2[p2]) p1++;
+    else p2++;
   }
 
   return answer;
 }
 
-console.log(solution('teachermode', 'e'));
+console.log(solution([1, 3, 9, 5, 2], [3, 2, 5, 7, 8]));
 
 export default App;

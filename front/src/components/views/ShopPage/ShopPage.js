@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './ShopPage.css';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import price from './Sections/Datas';
 import Filter from './Sections/Filter';
+import SearchFeature from './Sections/SearchFeature';
 import { SHOP_SERVER } from '../../Config';
+import { laadingToggleAction } from '../../../_actions/util_actions';
 
 function ShopPage() {
   const [Filters, setFilters] = useState({
@@ -18,12 +17,16 @@ function ShopPage() {
   const [Limit] = useState(8);
   const [PostSize, setPostSize] = useState(0);
   const [Next, setNext] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const getProducts = async body => {
     try {
+      setSearchLoading(false);
+      console.log(searchLoading);
+      if (searchLoading) dispatch(laadingToggleAction(true));
       const { data } = await axios.post(`${SHOP_SERVER}/products`, body);
       if (data.success) {
-        console.log(data);
         if (body.loadMore) {
           setProducts([...Products, ...data.productInfo]);
         } else {
@@ -31,6 +34,7 @@ function ShopPage() {
         }
         setPostSize(data.postSize);
         setNext(data.next);
+        dispatch(laadingToggleAction(false));
       } else {
         alert('상품들을 가져오는데 실패 하였습니다.');
       }
@@ -59,7 +63,7 @@ function ShopPage() {
     };
 
     getProducts(body);
-  }, [Limit, Skip]);
+  }, []);
 
   const shwoFilterResults = filters => {
     const body = {
@@ -67,7 +71,7 @@ function ShopPage() {
       limit: Limit,
       filters,
     };
-
+    // setSearchLoading(true);
     getProducts(body);
     setSkip(0);
   };
@@ -110,30 +114,36 @@ function ShopPage() {
         <div className="product-price">
           <div className="product-price-child">
             <div>ADD TO CART</div>
-            <div>{product.price}</div>
+            <div>￦ {product.price.toLocaleString()}</div>
           </div>
         </div>
       </div>
     </div>
   ));
 
+  const test = () => {
+    setSearchLoading(false);
+  };
+
+  const updateSearchTerm = newSearchTerm => {
+    const body = {
+      skip: 0,
+      limit: Limit,
+      filters: Filters,
+      searchTerm: newSearchTerm,
+    };
+    setSkip(0);
+    test();
+    console.log(searchLoading);
+
+    getProducts(body);
+  };
+
   return (
     <div className="shop">
       <div className="inner">
         <div className="shop-filter">
-          <TextField
-            label="Search Product"
-            className="search-field"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+          <SearchFeature refreshFunction={updateSearchTerm} />
           <Filter
             list={price}
             handleFilters={filters => handleFilters(filters, 'price')}

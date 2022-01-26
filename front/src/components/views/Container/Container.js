@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Container.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
 import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
+import Spinner from '../../utils/Spinner/Spinner';
 
 function Container({ children }) {
   const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
+  const util = useSelector(state => state.util);
+
   const handleFollow = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 300) {
@@ -45,6 +49,7 @@ function Container({ children }) {
       >
         <FontAwesomeIcon icon="angle-up" />
       </button>
+      {util.showLoading && <Spinner />}
     </div>
   );
 }

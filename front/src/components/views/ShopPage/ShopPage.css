@@ -43,6 +43,7 @@
 }
 .product-desc h2 {
     margin: 10px 0; 
+    text-transform: uppercase;
 }
 .product-price {
     width: 150px;
