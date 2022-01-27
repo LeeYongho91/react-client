@@ -1,4 +1,3 @@
-import { pagination } from '@/utils/pagination';
 import ProductModel from '@/models/product.model';
 import { uploadDto } from '@/dtos/shop.dto';
 import HttpException from '@/exceptions/HttpException';
@@ -6,7 +5,6 @@ import { isEmpty } from '@/utils/util';
 
 class ShopService {
   public Product = ProductModel;
-  public pagination = pagination;
 
   public async upload(productData: uploadDto): Promise<boolean> {
     if (isEmpty(productData)) throw new HttpException(400, "You're not productData");
@@ -58,6 +56,26 @@ class ShopService {
         .limit(limit);
       return { success: true, productInfo, postSize: productInfo.length, next: next.length !== 0 };
     }
+  }
+
+  public async getProductById(type, productIds): Promise<object> {
+    if (isEmpty(type)) throw new HttpException(400, "You're nottype");
+    if (isEmpty(productIds)) throw new HttpException(400, "You're not productIds");
+
+    if (type === 'array') {
+      const ids = productIds.split(',');
+      productIds = ids.map((item) => {
+        return item;
+      });
+    }
+
+    const product = await this.Product.find({
+      _id: {
+        $in: productIds,
+      },
+    }).populate('writer');
+
+    return { success: true, product };
   }
 }
 

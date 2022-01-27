@@ -7,6 +7,7 @@ import Filter from './Sections/Filter';
 import SearchFeature from './Sections/SearchFeature';
 import { SHOP_SERVER } from '../../Config';
 import { laadingToggleAction } from '../../../_actions/util_actions';
+import Product from './Sections/Product';
 
 function ShopPage() {
   const [Filters, setFilters] = useState({
@@ -17,14 +18,12 @@ function ShopPage() {
   const [Limit] = useState(8);
   const [PostSize, setPostSize] = useState(0);
   const [Next, setNext] = useState(false);
-  const [searchLoading, setSearchLoading] = useState(true);
+
   const dispatch = useDispatch();
 
   const getProducts = async body => {
     try {
-      setSearchLoading(false);
-      console.log(searchLoading);
-      if (searchLoading) dispatch(laadingToggleAction(true));
+      dispatch(laadingToggleAction(true));
       const { data } = await axios.post(`${SHOP_SERVER}/products`, body);
       if (data.success) {
         if (body.loadMore) {
@@ -71,7 +70,6 @@ function ShopPage() {
       limit: Limit,
       filters,
     };
-    // setSearchLoading(true);
     getProducts(body);
     setSkip(0);
   };
@@ -102,28 +100,8 @@ function ShopPage() {
   };
 
   const renderProducts = Products.map((product, index) => (
-    <div className="product-content" key={index}>
-      <div className="product-image">
-        <img
-          src={`http://localhost:5000/${product.images[0]}`}
-          alt="product_1"
-        />
-      </div>
-      <div className="product-desc">
-        <h2>{product.title}</h2>
-        <div className="product-price">
-          <div className="product-price-child">
-            <div>ADD TO CART</div>
-            <div>￦ {product.price.toLocaleString()}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Product index={index} product={product} key={index} />
   ));
-
-  const test = () => {
-    setSearchLoading(false);
-  };
 
   const updateSearchTerm = newSearchTerm => {
     const body = {
@@ -133,9 +111,6 @@ function ShopPage() {
       searchTerm: newSearchTerm,
     };
     setSkip(0);
-    test();
-    console.log(searchLoading);
-
     getProducts(body);
   };
 
@@ -153,7 +128,9 @@ function ShopPage() {
 
         {PostSize >= Limit && Next && (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <button onClick={loadMoreHandler}>더보기</button>
+            <button onClick={loadMoreHandler} className="load-more-btn">
+              더보기
+            </button>
           </div>
         )}
       </div>

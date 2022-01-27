@@ -7,6 +7,7 @@ import LoginPage from './views/LoginPage/LoginPage';
 import RegisterPage from './views/RegisterPage/RegisterPage';
 import UploadProductPage from './views/UploadProductPage/UploadProductPage';
 import ShopPage from './views/ShopPage/ShopPage';
+import DetailProductPage from './views/DetailProductPage/DetailProductPage';
 import Auth from '../hoc/auth';
 import './utils/fontawesome';
 
@@ -20,6 +21,7 @@ function App() {
   const AuthRegister = Auth(RegisterPage, false);
   const AuthUploadProductPage = Auth(UploadProductPage, true);
   const AuthShopPage = Auth(ShopPage, null);
+  const AuthDetailProductPage = Auth(DetailProductPage, null);
 
   return (
     <>
@@ -31,6 +33,10 @@ function App() {
             <Route path="/signup" element={<AuthRegister />} />
             <Route path="/upload" element={<AuthUploadProductPage />} />
             <Route path="/shop" element={<AuthShopPage />} />
+            <Route
+              path="/product/:productId"
+              element={<AuthDetailProductPage />}
+            />
 
             {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
             {/*
@@ -46,29 +52,48 @@ function App() {
   );
 }
 
-function solution(a1, a2) {
-  const answer = [];
-  a1.sort((a, b) => a - b);
-  a2.sort((a, b) => a - b);
+function anagram(map1, map2) {
+  if (map1.size !== map2.size) return false;
 
-  const n = a1.length;
-  const m = a2.length;
+  for (const [key, val] of map1) {
+    if (map2.get(key) !== val || !map2.has(key)) return false;
+  }
 
-  let p1 = 0;
-  let p2 = 0;
+  return true;
+}
 
-  while (p1 < n && p2 < m) {
-    if (a1[p1] === a2[p2]) {
-      answer.push(a1[p1]);
-      p1++;
-      p2++;
-    } else if (a1[p1] < a2[p2]) p1++;
-    else p2++;
+function solution(s, t) {
+  let answer = 0;
+  const h1 = new Map();
+  const h2 = new Map();
+
+  for (const x of t) {
+    if (!h1.has(x)) h1.set(x, 1);
+    else h1.set(x, h1.get(x) + 1);
+  }
+
+  for (let i = 0; i < t.length - 1; i++) {
+    if (!h2.has(s[i])) h2.set(s[i], 1);
+    else h2.set(s[i], h2.get(s[i]) + 1);
+  }
+
+  const len = t.length - 1;
+
+  let lt = 0;
+  for (let rt = len; rt < s.length; rt++) {
+    if (!h2.has(s[rt])) h2.set(s[rt], 1);
+    else h2.set(s[rt], h2.get(s[rt]) + 1);
+
+    if (anagram(h1, h2)) answer++;
+
+    h2.set(s[lt], h2.get(s[lt]) - 1);
+    if (h2.get(s[lt]) === 0) h2.delete(s[lt]);
+    lt++;
   }
 
   return answer;
 }
 
-console.log(solution([1, 3, 9, 5, 2], [3, 2, 5, 7, 8]));
+console.log(solution('bacaAacba', 'abc'));
 
 export default App;

@@ -17,6 +17,7 @@ class ShopRoute implements Route {
     this.router.post(`${this.path}/products`, /* validationMiddleware(getProductDto, 'body'), */ this.ShopController.getProducts);
     this.router.post(`${this.path}/image`, this.ShopController.imageSave);
     this.router.post(`${this.path}/upload`, validationMiddleware(uploadDto, 'body'), this.ShopController.upload);
+    this.router.get(`${this.path}/product/product_by_id`, this.ShopController.getProductById);
   }
 }
 

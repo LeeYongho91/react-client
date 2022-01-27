@@ -1,0 +1,21 @@
+.product-detail {
+    margin: 200px 0;
+}
+.product-detail-layout {
+    border: 1px solid #000;
+}
+.product-detail-content {
+    border: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+
+}
+.product-detail-image {
+    width: 500px;
+    height: 500px;
+    
+}
+.product-detail-desc {
+    border: 1px solid red;
+    width: 500px;
+}

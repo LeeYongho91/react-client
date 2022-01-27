@@ -40,10 +40,34 @@ class ShopController {
     }
   };
 
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
   public upload = (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = this.shopService.upload(req.body);
       if (result) res.json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public getProductById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const type = req.query.type;
+      const productIds = req.query.id;
+      const data = await this.shopService.getProductById(type, productIds);
+
+      res.status(200).json(data);
     } catch (error) {
       next(error);
     }
