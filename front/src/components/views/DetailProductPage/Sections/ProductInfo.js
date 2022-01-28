@@ -1,42 +1,36 @@
-// import React from 'react';
-// import { Descriptions, Button } from 'antd';
-// import { useDispatch } from 'react-redux';
-// import { addToCart } from '../../../../_actions/user_actions';
+import React from 'react';
+import TextField from '@mui/material/TextField';
 
-// function ProductInfo(props) {
-//   const dispatch = useDispatch();
+function ProductInfo(props) {
+  const { price } = props.Product;
+  const { title } = props.Product;
+  const priceSetting = () => `￦ ${parseInt(price, 10).toLocaleString()}`;
+  return (
+    <div className="product-detail-desc">
+      <h2>{title}</h2>
+      <span>{priceSetting()}</span>
+      <span>CUSTOMER REVIEW (1)</span>
+      <div className="product-detail-tag">
+        SKU: 008 <br />
+        <br />
+        Categories: Decoration, Home Decor <br />
+        <br />
+        Tags: Black, Modern
+      </div>
+      <div className="product-detail-cart">
+        <TextField
+          id="outlined-number"
+          label="Quantity"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={1}
+        />
+        <button className="cart-btn">Add To Cart</button>
+      </div>
+    </div>
+  );
+}
 
-//   const clickHandler = async () => {
-//     // 필요한 정보를 Cart 필드에다가 넣어 준다.
-//     const data = await dispatch(addToCart(props.detail._id));
-
-//     console.log(data);
-//   };
-
-//   return (
-//     <div>
-//       <Descriptions title="Product Info" bordered>
-//         <Descriptions.Item label="Price">
-//           {props.detail.price}
-//         </Descriptions.Item>
-//         <Descriptions.Item label="Sold">{props.detail.sold}</Descriptions.Item>
-//         <Descriptions.Item label="View">{props.detail.views}</Descriptions.Item>
-//         <Descriptions.Item label="Description">
-//           {props.detail.description}
-//         </Descriptions.Item>
-//       </Descriptions>
-
-//       <br />
-//       <br />
-//       <br />
-
-//       <div style={{ display: 'flex', justifyContent: 'center' }}>
-//         <Button size="large" shape="round" type="danger" onClick={clickHandler}>
-//           Add to Cart
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ProductInfo;
+export default ProductInfo;

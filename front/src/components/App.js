@@ -52,48 +52,24 @@ function App() {
   );
 }
 
-function anagram(map1, map2) {
-  if (map1.size !== map2.size) return false;
-
-  for (const [key, val] of map1) {
-    if (map2.get(key) !== val || !map2.has(key)) return false;
-  }
-
-  return true;
-}
-
-function solution(s, t) {
+function solution(s) {
   let answer = 0;
-  const h1 = new Map();
-  const h2 = new Map();
+  const stack = [];
 
-  for (const x of t) {
-    if (!h1.has(x)) h1.set(x, 1);
-    else h1.set(x, h1.get(x) + 1);
-  }
+  for (let i = 0; i < s.length; i++) {
+    const x = s[i];
 
-  for (let i = 0; i < t.length - 1; i++) {
-    if (!h2.has(s[i])) h2.set(s[i], 1);
-    else h2.set(s[i], h2.get(s[i]) + 1);
-  }
-
-  const len = t.length - 1;
-
-  let lt = 0;
-  for (let rt = len; rt < s.length; rt++) {
-    if (!h2.has(s[rt])) h2.set(s[rt], 1);
-    else h2.set(s[rt], h2.get(s[rt]) + 1);
-
-    if (anagram(h1, h2)) answer++;
-
-    h2.set(s[lt], h2.get(s[lt]) - 1);
-    if (h2.get(s[lt]) === 0) h2.delete(s[lt]);
-    lt++;
+    if (x === '(') {
+      stack.push(x);
+    } else {
+      stack.pop();
+      if (s[i - 1] === '(') answer += stack.length;
+      else answer++;
+    }
   }
 
   return answer;
 }
-
-console.log(solution('bacaAacba', 'abc'));
+console.log(solution('()(((()())(())()))(())'));
 
 export default App;

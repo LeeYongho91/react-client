@@ -45,6 +45,8 @@ module.exports = {
     'no-continue': 0,
     'react-hooks/exhaustive-deps': 0,
     'import/prefer-default-export': 0,
+    'no-multi-assign': 0,
+    'no-restricted-globals': 0,
   },
   // settings: {
   //   'import/resolver': {

@@ -22,7 +22,7 @@ function ProductImage(props) {
   }, [props.detail]);
 
   return (
-    <div>
+    <div className="product-detail-image">
       <ImageGallery items={Images} />
     </div>
   );
