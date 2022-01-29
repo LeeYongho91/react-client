@@ -17,14 +17,16 @@ function ProductTabs(props) {
       <TabContext value={value}>
         <TabList onChange={handleChange} aria-label="lab API tabs example">
           <Tab label="DESCRIPTION" value="1" />
-          <Tab label="REVIEWS" value="2" />
+          <Tab label="REVIEWS (1)" value="2" />
         </TabList>
 
         <TabPanel value="1">
-          <h2>Description</h2>
+          <h4>DESCRIPTION</h4>
           <p className="tab-desc">{Product.description}</p>
         </TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="2">
+          <h4 className="tab-review-title">1 REVIEW FOR {Product.title}</h4>
+        </TabPanel>
       </TabContext>
     </>
   );

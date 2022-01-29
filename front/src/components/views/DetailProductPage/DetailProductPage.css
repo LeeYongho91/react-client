@@ -1,9 +1,9 @@
 .product-detail {
     margin: 200px 0;
 }
-.product-detail-layout {
-    /* border: 1px solid #000; */
-}
+/* .product-detail-layout {
+   
+} */
 .product-detail-content {
     display: flex;
     justify-content: space-between;
@@ -14,9 +14,9 @@
     height: 500px;
     /* margin-right: 100px; */
 }
-.product-detail-desc {
+/* .product-detail-desc {
 
-}
+} */
 .product-detail-desc h2 {
     text-transform: uppercase;
     font-weight: 550;
@@ -56,4 +56,7 @@
 }
 .tab-desc {
     line-height: 1.6em;
+}
+.tab-review-title {
+    text-transform: uppercase;
 }

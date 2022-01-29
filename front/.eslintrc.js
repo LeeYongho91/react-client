@@ -47,6 +47,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-multi-assign': 0,
     'no-restricted-globals': 0,
+    'prefer-destructuring': 0,
   },
   // settings: {
   //   'import/resolver': {

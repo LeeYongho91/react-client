@@ -37,7 +37,6 @@ function App() {
               path="/product/:productId"
               element={<AuthDetailProductPage />}
             />
-
             {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
             {/*
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
@@ -52,24 +51,20 @@ function App() {
   );
 }
 
-function solution(s) {
-  let answer = 0;
-  const stack = [];
+function solution(t, s) {
+  let answer = 'YES';
+  const queue = [...t];
 
-  for (let i = 0; i < s.length; i++) {
-    const x = s[i];
-
-    if (x === '(') {
-      stack.push(x);
-    } else {
-      stack.pop();
-      if (s[i - 1] === '(') answer += stack.length;
-      else answer++;
+  for (const x of s) {
+    if (queue.indexOf(x) !== -1) {
+      if (queue.shift() !== x) answer = 'NO';
     }
   }
 
+  if (queue.length > 0) answer = 'NO';
+
   return answer;
 }
-console.log(solution('()(((()())(())()))(())'));
+console.log(solution('CBA', 'CBDAGE'));
 
 export default App;

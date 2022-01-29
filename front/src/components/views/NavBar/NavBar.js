@@ -15,6 +15,7 @@ function NavBar() {
   const pathName = useLocation().pathname;
   const user = useSelector(state => state.user);
   const navigate = useNavigate();
+  const [browserWidthValue] = useState(768);
 
   const sideMenuClick = () => {
     setActive(!isActive);
@@ -32,6 +33,8 @@ function NavBar() {
       bool = false;
     } else if (url === '/login') {
       bool = false;
+    } else if (url === '/shop') {
+      bool = false;
     }
     return bool;
   };
@@ -39,12 +42,17 @@ function NavBar() {
   const updateScroll = useMemo(
     () =>
       throttle(() => {
+        setScroll(scrollActiveCheck(pathName));
         const browserWidth =
           window.innerWidth > 0 ? window.innerWidth : window.screen.width;
         const scrollCheck = window.scrollY >= 200;
-        if (isScroll && browserWidth > 768 && scrollCheck !== scrollPosition)
+        if (
+          isScroll &&
+          browserWidth > browserWidthValue &&
+          scrollCheck !== scrollPosition
+        )
           setScrollPosition(scrollCheck);
-        else if (browserWidth < 768) setScrollPosition(false);
+        else if (browserWidth < browserWidthValue) setScrollPosition(false);
       }, 100),
     [scrollPosition, isScroll],
   );
@@ -61,6 +69,7 @@ function NavBar() {
 
   useEffect(() => {
     setScroll(scrollActiveCheck(pathName));
+    if (!isScroll) setScrollPosition(false);
     window.addEventListener('scroll', updateScroll);
     return () => {
       window.removeEventListener('scroll', updateScroll);

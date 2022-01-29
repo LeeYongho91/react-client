@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Container.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
 import Spinner from '../../utils/Spinner/Spinner';
@@ -9,13 +10,15 @@ import Spinner from '../../utils/Spinner/Spinner';
 function Container({ children }) {
   const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
   const util = useSelector(state => state.util);
+  const location = useLocation();
+  const [scrollY] = useState(300); // 버튼 상태
 
   const handleFollow = () => {
     const scrolled = document.documentElement.scrollTop;
-    if (scrolled > 300) {
+    if (scrolled > scrollY) {
       // 300 이상이면 버튼이 보이게
       setBtnStatus(true);
-    } else if (scrolled <= 300) {
+    } else if (scrolled <= scrollY) {
       // 300 이하면 버튼이 사라지게
       setBtnStatus(false);
     }
@@ -30,6 +33,7 @@ function Container({ children }) {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const watch = () => {
       window.addEventListener('scroll', handleFollow);
     };
@@ -37,7 +41,8 @@ function Container({ children }) {
     return () => {
       window.removeEventListener('scroll', handleFollow);
     };
-  });
+  }, [location]);
+
   return (
     <div className="container">
       <NavBar />

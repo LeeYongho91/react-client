@@ -15,7 +15,7 @@ function Spinner() {
 
   return (
     <div className="spinner-container">
-      <ClipLoader color={color} loading={loading} css={override} size={350} />
+      <ClipLoader color={color} loading={loading} css={override} size={80} />
     </div>
   );
 }
