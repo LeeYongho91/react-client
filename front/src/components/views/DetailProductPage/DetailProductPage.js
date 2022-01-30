@@ -9,7 +9,7 @@ import ProductInfo from './Sections/ProductInfo';
 // import ProductInfo from './Sections/ProductInfo';
 import { SHOP_SERVER } from '../../Config';
 import './DetailProductPage.css';
-import { laadingToggleAction } from '../../../_actions/util_actions';
+import { loadingToggleAction } from '../../../_actions/util_actions';
 
 function DetailProductPage() {
   const { productId } = useParams();
@@ -19,14 +19,14 @@ function DetailProductPage() {
 
   const getProductData = async () => {
     try {
-      dispatch(laadingToggleAction(true));
+      dispatch(loadingToggleAction(true));
 
       const { data } = await axios.get(
         `${SHOP_SERVER}/product/product_by_id?id=${productId}&type=single`,
       );
       console.log(data);
       setProduct(data.product[0]);
-      dispatch(laadingToggleAction(false));
+      dispatch(loadingToggleAction(false));
     } catch (error) {
       console.log(error.response.data.error);
     }

@@ -3,8 +3,9 @@ import './Slick.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import Product from '../../../ShopPage/Sections/Product';
 
-function Slick() {
+function Slick({ Products }) {
   // settings 부분, 슬라이더의 기능을 조정할 수 있다.
   const settings = {
     dots: true, // 점은 안 보이게
@@ -38,60 +39,31 @@ function Slick() {
     ],
   };
 
+  const renderProducts = Products.map((product, index) => (
+    <div className="card" key={index}>
+      <div className="card-image">
+        <img
+          src={`http://localhost:5000/${product.images[0]}`}
+          alt={product.title}
+        />
+      </div>
+      <h2>{product.title}</h2>
+      <div className="card-price">
+        <div className="card-price-child">
+          <div>ADD TO CART</div>
+          <div>{product.price}</div>
+        </div>
+      </div>
+    </div>
+  ));
+
   return (
     <section className="slick">
       <div className="inner">
         <div className="slick-content">
           <h4> FEATURED ITEMS</h4>
           <Slider {...settings} className="cards">
-            <div className="card">
-              <div className="card-image">
-                <img src="assets/product_1.png" alt="product_1" />
-              </div>
-              <h2>fdsfsfds</h2>
-              <div className="card-price">
-                <div className="card-price-child">
-                  <div>ADD TO CART</div>
-                  <div>1,000</div>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-image">
-                <img src="assets/product_2.png" alt="product_2" />
-              </div>
-              <h2>fdsfsfds</h2>
-              <div className="card-price">
-                <div className="card-price-child">
-                  <div>ADD TO CART</div>
-                  <div>1,000</div>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-image">
-                <img src="assets/product_3.png" alt="product_3" />
-              </div>
-              <h2>fdsfsfds</h2>
-              <div className="card-price">
-                <div className="card-price-child">
-                  <div>ADD TO CART</div>
-                  <div>1,000</div>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-image">
-                <img src="assets/product_4.png" alt="product_4" />
-              </div>
-              <h2>fdsfsfds</h2>
-              <div className="card-price">
-                <div className="card-price-child">
-                  <div>ADD TO CART</div>
-                  <div>1,000</div>
-                </div>
-              </div>
-            </div>
+            {Product.length > 0 && renderProducts}
           </Slider>
         </div>
       </div>

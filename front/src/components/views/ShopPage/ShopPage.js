@@ -6,7 +6,7 @@ import price from './Sections/Datas';
 import Filter from './Sections/Filter';
 import SearchFeature from './Sections/SearchFeature';
 import { SHOP_SERVER } from '../../Config';
-import { laadingToggleAction } from '../../../_actions/util_actions';
+import { loadingToggleAction } from '../../../_actions/util_actions';
 import Product from './Sections/Product';
 
 function ShopPage() {
@@ -23,7 +23,7 @@ function ShopPage() {
 
   const getProducts = async body => {
     try {
-      dispatch(laadingToggleAction(true));
+      dispatch(loadingToggleAction(true));
       const { data } = await axios.post(`${SHOP_SERVER}/products`, body);
       if (data.success) {
         if (body.loadMore) {
@@ -33,7 +33,7 @@ function ShopPage() {
         }
         setPostSize(data.postSize);
         setNext(data.next);
-        dispatch(laadingToggleAction(false));
+        dispatch(loadingToggleAction(false));
       } else {
         alert('상품들을 가져오는데 실패 하였습니다.');
       }

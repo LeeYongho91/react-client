@@ -51,20 +51,32 @@ function App() {
   );
 }
 
-function solution(t, s) {
-  let answer = 'YES';
-  const queue = [...t];
+function solution(n, arr) {
+  const answer = Array.from({ length: n }, () => 0);
 
-  for (const x of s) {
-    if (queue.indexOf(x) !== -1) {
-      if (queue.shift() !== x) answer = 'NO';
+  arr.forEach(x => {
+    let idx = -1;
+
+    for (let i = 0; i < answer.length; i++) {
+      if (answer[i] === x) {
+        idx = i;
+      }
     }
-  }
 
-  if (queue.length > 0) answer = 'NO';
+    if (idx === -1) {
+      for (let i = n - 1; i >= 1; i--) {
+        answer[i] = answer[i - 1];
+      }
+    } else {
+      for (let i = idx; i >= 1; i--) {
+        answer[i] = answer[i - 1];
+      }
+    }
+    answer[0] = x;
+  });
 
   return answer;
 }
-console.log(solution('CBA', 'CBDAGE'));
+console.log(solution(5, [1, 2, 3, 2, 6, 2, 3, 5, 7]));
 
 export default App;
