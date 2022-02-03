@@ -43,7 +43,7 @@ function Slick({ Products }) {
     <div className="card" key={index}>
       <div className="card-image">
         <img
-          src={`http://localhost:5000/${product.images[0]}`}
+          src={`${process.env.REACT_APP_API_URL}/${product.images[0]}`}
           alt={product.title}
         />
       </div>

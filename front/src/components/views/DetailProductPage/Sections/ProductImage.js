@@ -10,8 +10,8 @@ function ProductImage(props) {
 
       props.detail.images.map(item => {
         images.push({
-          original: `http://localhost:5000/${item}`,
-          thumbnail: `http://localhost:5000/${item}`,
+          original: `${process.env.REACT_APP_API_URL}/${item}`,
+          thumbnail: `${process.env.REACT_APP_API_URL}/${item}`,
         });
         return item;
       });

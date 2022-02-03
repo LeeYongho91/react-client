@@ -196,13 +196,14 @@ nav {
   width: 400px;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 320px;
+  margin-bottom: 300px;
 }
 .hidden-section .items .item {
   width: 90px;
 }
 .hidden-section .items .item img {
   width: 100%;
+  margin-bottom: 20px;
 }
 .hidden-section .sns span {
   color: #fff;

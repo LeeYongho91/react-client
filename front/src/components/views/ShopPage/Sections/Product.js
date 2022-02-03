@@ -17,7 +17,7 @@ function Product(props) {
     >
       <div className="product-image">
         <img
-          src={`http://localhost:5000/${props.product.images[0]}`}
+          src={`${process.env.REACT_APP_API_URL}/${props.product.images[0]}`}
           alt="product_1"
         />
       </div>

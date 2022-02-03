@@ -14,10 +14,18 @@ function LandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip] = useState(0);
   const [Limit] = useState(10);
-  const [Products, setProducts] = useState([]);
-
+  const [ProductsImages, setProductsImage] = useState([]);
 
   const dispatch = useDispatch();
+
+  // const productImages = () => {
+  //   const arr = [];
+  //   Products.forEach(product => {
+  //     arr.push(product.images[0]);
+  //   });
+  //   setProductsImage(arr);
+  //   dispatch(productImagesAction(ProductsImages));
+  // };
 
   const getProducts = async body => {
     try {
@@ -29,7 +37,6 @@ function LandingPage() {
         } else {
           setProducts(data.productInfo);
         }
-        dispatch(productImagesAction(Products));
         dispatch(loadingToggleAction(false));
       } else {
         alert('상품들을 가져오는데 실패 하였습니다.');
@@ -39,19 +46,27 @@ function LandingPage() {
     }
   };
 
-
-  const productImages = () => {
-    
-  }
-
   useEffect(() => {
     const body = {
       skip: Skip,
       limit: Limit,
     };
 
-    getProducts(body);
-  }, []);
+    if (Products.length === 0) {
+      getProducts(body);
+    } else if (ProductsImages.length === 0) {
+      const arr = [];
+
+      for (let i = 0; i < Products.length; i++) {
+        const product = Products[i];
+        arr.push(product.images[0]);
+        if (i === 7) break;
+      }
+      setProductsImage(arr);
+    } else {
+      dispatch(productImagesAction(ProductsImages));
+    }
+  }, [Products, ProductsImages]);
 
   return (
     <>
