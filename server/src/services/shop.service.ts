@@ -1,10 +1,12 @@
 import ProductModel from '@/models/product.model';
+import ReviewModel from '@/models/review.model';
 import { uploadDto } from '@/dtos/shop.dto';
 import HttpException from '@/exceptions/HttpException';
 import { isEmpty } from '@/utils/util';
 
 class ShopService {
   public Product = ProductModel;
+  public Review = ReviewModel;
 
   public async upload(productData: uploadDto): Promise<boolean> {
     if (isEmpty(productData)) throw new HttpException(400, "You're not productData");
@@ -73,9 +75,23 @@ class ShopService {
       _id: {
         $in: productIds,
       },
-    }).populate('writer');
+    })
+      .populate('writer')
+      .populate('review');
 
     return { success: true, product };
+  }
+
+  public async reviewAdd(req): Promise<boolean> {
+    if (isEmpty(req.body)) throw new HttpException(400, "You're not reviewData");
+    const reviewData = {
+      writer: req.user['_id'],
+      description: req.body.description,
+    };
+    const review = new this.Review(reviewData);
+    const { _id } = await review.save();
+    await this.Product.findOneAndUpdate({ _id: req.body.productId }, { review: _id }, { new: true });
+    return true;
   }
 }
 

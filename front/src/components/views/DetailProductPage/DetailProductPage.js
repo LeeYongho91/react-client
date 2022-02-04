@@ -24,8 +24,8 @@ function DetailProductPage() {
       const { data } = await axios.get(
         `${SHOP_SERVER}/product/product_by_id?id=${productId}&type=single`,
       );
-      console.log(data);
       setProduct(data.product[0]);
+      console.log(data.product[0]);
       dispatch(loadingToggleAction(false));
     } catch (error) {
       console.log(error.response.data.error);

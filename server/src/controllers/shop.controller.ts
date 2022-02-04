@@ -72,6 +72,21 @@ class ShopController {
       next(error);
     }
   };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public reviewAdd = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = this.shopService.reviewAdd(req);
+      if (result) res.json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default ShopController;

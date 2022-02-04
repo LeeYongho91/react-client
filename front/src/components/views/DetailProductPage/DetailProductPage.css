@@ -59,4 +59,29 @@
 }
 .tab-review-title {
     text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.review-layout {
+    margin-bottom: 30px;
+}
+.review-content {
+    margin-top: 30px;
+}
+.review-header span:nth-child(1) {
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 18px;
+}
+.review-add {
+    text-align: right;
+}
+.review-add-btn {
+    color: #fff;
+    background-color: #000;
+    display: inline-block;
+    padding: 10px;
+    font-weight: 500;
+    border: none;
+    width: 150px;
 }

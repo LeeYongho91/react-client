@@ -37,13 +37,6 @@ function App() {
               path="/product/:productId"
               element={<AuthDetailProductPage />}
             />
-            {/* <Route exact path="/login" component={Auth(LoginPage, false)} /> */}
-            {/*
-          <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
-          <Route exact path="/product/:productId" component={Auth(DetailProductPage, null)} />
-          <Route exact path="/user/cart" component={Auth(CartPage, true)} />
-          <Route exact path="/history" component={Auth(HistoryPage, true)} /> */}
           </Routes>
         </Container>
       </Suspense>
@@ -51,32 +44,38 @@ function App() {
   );
 }
 
-function solution(n, arr) {
-  const answer = Array.from({ length: n }, () => 0);
+function count(t, arr) {
+  let cnt = 1;
+  let ep = arr[0];
 
-  arr.forEach(x => {
-    let idx = -1;
-
-    for (let i = 0; i < answer.length; i++) {
-      if (answer[i] === x) {
-        idx = i;
-      }
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] - ep >= t) {
+      cnt++;
+      ep = arr[i];
     }
+  }
 
-    if (idx === -1) {
-      for (let i = n - 1; i >= 1; i--) {
-        answer[i] = answer[i - 1];
-      }
+  return cnt;
+}
+
+function solution(t, arr) {
+  let answer = Number.MIN_SAFE_INTEGER;
+  arr.sort((a, b) => a - b);
+  let lt = 1;
+  let rt = arr[arr.length - 1];
+  let mid = 0;
+  while (lt <= rt) {
+    mid = parseInt((lt + rt) / 2, 10);
+    if (count(mid, arr) >= t) {
+      answer = mid;
+      lt = mid + 1;
     } else {
-      for (let i = idx; i >= 1; i--) {
-        answer[i] = answer[i - 1];
-      }
+      rt = mid - 1;
     }
-    answer[0] = x;
-  });
+  }
 
   return answer;
 }
-console.log(solution(5, [1, 2, 3, 2, 6, 2, 3, 5, 7]));
+console.log(solution(3, [1, 2, 8, 4, 9]));
 
 export default App;

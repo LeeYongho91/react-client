@@ -33,3 +33,10 @@ export class getProductDto {
   // @IsBoolean()
   // public loadMore: boolean;
 }
+
+export class reviewDto {
+  @IsString()
+  public productId: string;
+  @IsString()
+  public description: string;
+}
