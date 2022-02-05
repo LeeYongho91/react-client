@@ -15,6 +15,7 @@ function DetailProductPage() {
   const { productId } = useParams();
 
   const [Product, setProduct] = useState({});
+  const [ReviewCount, setReviewCount] = useState(0);
   const dispatch = useDispatch();
 
   const getProductData = async () => {
@@ -25,7 +26,7 @@ function DetailProductPage() {
         `${SHOP_SERVER}/product/product_by_id?id=${productId}&type=single`,
       );
       setProduct(data.product[0]);
-      console.log(data.product[0]);
+      setReviewCount(data.reviewCount);
       dispatch(loadingToggleAction(false));
     } catch (error) {
       console.log(error.response.data.error);
@@ -42,10 +43,10 @@ function DetailProductPage() {
         <div className="product-detail-layout">
           <div className="product-detail-content">
             <ProductImage detail={Product} />
-            <ProductInfo Product={Product} />
+            <ProductInfo Product={Product} ReviewCount={ReviewCount} />
           </div>
           <div className="product-detail-tabs">
-            <ProductTabs Product={Product} />
+            <ProductTabs Product={Product} ReviewCount={ReviewCount} />
           </div>
         </div>
       </div>

@@ -61,7 +61,7 @@ class ShopService {
   }
 
   public async getProductById(type, productIds): Promise<object> {
-    if (isEmpty(type)) throw new HttpException(400, "You're nottype");
+    if (isEmpty(type)) throw new HttpException(400, "You're not type");
     if (isEmpty(productIds)) throw new HttpException(400, "You're not productIds");
 
     if (type === 'array') {
@@ -77,9 +77,20 @@ class ShopService {
       },
     })
       .populate('writer')
-      .populate('review');
+      .populate({
+        path: 'review',
+        populate: {
+          path: 'writer',
+        },
+        options: {
+          skip: 0,
+          limit: 5,
+        },
+      });
 
-    return { success: true, product };
+    const reviewCount = await this.reviewCount(productIds);
+
+    return { success: true, product, reviewCount };
   }
 
   public async reviewAdd(req): Promise<boolean> {
@@ -88,10 +99,23 @@ class ShopService {
       writer: req.user['_id'],
       description: req.body.description,
     };
-    const review = new this.Review(reviewData);
-    const { _id } = await review.save();
-    await this.Product.findOneAndUpdate({ _id: req.body.productId }, { review: _id }, { new: true });
+    const { _id } = await this.Review.create(reviewData);
+    await this.Product.findOneAndUpdate({ _id: req.body.productId }, { $push: { review: _id } }, { new: true });
     return true;
+  }
+
+  /**
+   *
+   * @param productId
+   */
+  public async reviewCount(productIds: string): Promise<number> {
+    const reviewCount = await this.Product.find({
+      _id: {
+        $in: productIds,
+      },
+    }).populate('review');
+
+    return reviewCount[0].review.length;
   }
 }
 

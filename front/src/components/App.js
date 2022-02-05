@@ -44,38 +44,25 @@ function App() {
   );
 }
 
-function count(t, arr) {
-  let cnt = 1;
-  let ep = arr[0];
-
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] - ep >= t) {
-      cnt++;
-      ep = arr[i];
-    }
-  }
-
-  return cnt;
-}
-
 function solution(t, arr) {
-  let answer = Number.MIN_SAFE_INTEGER;
-  arr.sort((a, b) => a - b);
-  let lt = 1;
-  let rt = arr[arr.length - 1];
-  let mid = 0;
-  while (lt <= rt) {
-    mid = parseInt((lt + rt) / 2, 10);
-    if (count(mid, arr) >= t) {
-      answer = mid;
-      lt = mid + 1;
+  let answer = Number.MAX_SAFE_INTEGER;
+  const n = arr.length;
+
+  function DFS(L, sum) {
+    if (L >= answer) return;
+    if (sum === t) {
+      answer = Math.min(answer, L);
     } else {
-      rt = mid - 1;
+      for (let i = 0; i < n; i++) {
+        DFS(L + 1, sum + arr[i]);
+      }
     }
   }
+
+  DFS(0, 0);
 
   return answer;
 }
-console.log(solution(3, [1, 2, 8, 4, 9]));
+console.log(solution(15, [1, 2, 5]));
 
 export default App;

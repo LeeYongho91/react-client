@@ -2,14 +2,15 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 
 function ProductInfo(props) {
-  const { price } = props.Product;
+  const price = props.Product.price || 0;
+  const reviewCount = props.ReviewCount || '';
   const { title } = props.Product;
-  const priceSetting = () => `￦ ${parseInt(price, 10).toLocaleString()}`;
+  const priceSetting = `￦ ${parseInt(price, 10).toLocaleString()}`;
   return (
     <div className="product-detail-desc">
       <h2>{title}</h2>
-      <span>{priceSetting()}</span>
-      <span>CUSTOMER REVIEW (1)</span>
+      <span>{price > 0 && priceSetting}</span>
+      <span>CUSTOMER REVIEW ( {reviewCount} )</span>
       <div className="product-detail-tag">
         SKU: 008 <br />
         <br />
