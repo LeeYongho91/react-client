@@ -8,6 +8,11 @@ class ShopService {
   public Product = ProductModel;
   public Review = ReviewModel;
 
+  /**
+   *
+   * @param productData
+   * @returns
+   */
   public async upload(productData: uploadDto): Promise<boolean> {
     if (isEmpty(productData)) throw new HttpException(400, "You're not productData");
 
@@ -17,6 +22,11 @@ class ShopService {
     return true;
   }
 
+  /**
+   *
+   * @param filterData
+   * @returns
+   */
   public async getProducts(filterData): Promise<object> {
     if (isEmpty(filterData)) throw new HttpException(400, "You're not filterData");
 
@@ -60,6 +70,12 @@ class ShopService {
     }
   }
 
+  /**
+   *
+   * @param type
+   * @param productIds
+   * @returns
+   */
   public async getProductById(type, productIds): Promise<object> {
     if (isEmpty(type)) throw new HttpException(400, "You're not type");
     if (isEmpty(productIds)) throw new HttpException(400, "You're not productIds");
@@ -85,6 +101,9 @@ class ShopService {
         options: {
           skip: 0,
           limit: 5,
+          sort: {
+            createdAt: -1,
+          },
         },
       });
 
@@ -93,15 +112,31 @@ class ShopService {
     return { success: true, product, reviewCount };
   }
 
-  public async reviewAdd(req): Promise<boolean> {
+  /**
+   *
+   * @param req
+   * @returns
+   */
+  public async reviewAdd(req): Promise<object> {
     if (isEmpty(req.body)) throw new HttpException(400, "You're not reviewData");
     const reviewData = {
       writer: req.user['_id'],
       description: req.body.description,
     };
     const { _id } = await this.Review.create(reviewData);
-    await this.Product.findOneAndUpdate({ _id: req.body.productId }, { $push: { review: _id } }, { new: true });
-    return true;
+    const { review } = await this.Product.findOneAndUpdate({ _id: req.body.productId }, { $push: { review: _id } }, { new: true }).populate({
+      path: 'review',
+      options: {
+        skip: 0,
+        limit: 5,
+        sort: {
+          createdAt: -1,
+        },
+      },
+    });
+
+    const reviewCount = await this.reviewCount(req.body.productId);
+    return { success: true, review, reviewCount };
   }
 
   /**

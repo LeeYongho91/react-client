@@ -10,13 +10,15 @@ import { useDispatch } from 'react-redux';
 import { loadingToggleAction } from '../../../../_actions/util_actions';
 import { SHOP_SERVER } from '../../../Config';
 
-export default function FormDialog({ productId }) {
+export default function FormDialog(props) {
   const [open, setOpen] = useState(false);
   const [Desc, setDesc] = useState('');
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const productId = props.productId;
 
   const handleReviewAdd = async () => {
     try {
@@ -31,6 +33,7 @@ export default function FormDialog({ productId }) {
       if (data.success) {
         alert('리뷰등록에 성공하였습니다');
       }
+      props.refreshReviews(data.review, data.reviewCount);
 
       dispatch(loadingToggleAction(false));
       setOpen(false);

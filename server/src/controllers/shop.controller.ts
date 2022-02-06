@@ -79,10 +79,10 @@ class ShopController {
    * @param res
    * @param next
    */
-  public reviewAdd = (req: Request, res: Response, next: NextFunction) => {
+  public reviewAdd = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = this.shopService.reviewAdd(req);
-      if (result) res.json({ success: true });
+      const result = await this.shopService.reviewAdd(req);
+      if (result['success']) res.json({ success: true, review: result['review'], reviewCount: result['reviewCount'] });
     } catch (error) {
       next(error);
     }

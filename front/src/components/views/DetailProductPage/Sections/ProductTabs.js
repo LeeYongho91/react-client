@@ -5,11 +5,12 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Pagination from '../../../utils/Pagination/Pagination';
 import ReviewDialog from './ReviewDialog';
+import { dataFormat } from '../../../utils/DateFormat';
 
 function ProductTabs(props) {
   const [value, setValue] = useState('1');
   const [reviews, setReviews] = useState([]);
-  const reviewCount = props.ReviewCount || '';
+  const [reviewCount, setReviewCount] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -17,19 +18,25 @@ function ProductTabs(props) {
 
   useEffect(() => {
     if (props.Product.review !== undefined) setReviews(props.Product.review);
-  }, [props.Product]);
+    if (props.ReviewCount !== 0) setReviewCount(props.ReviewCount);
+  }, [props.Product, props.ReviewCount]);
 
   const renderReviews = reviews.map((review, idx) => (
     <div className="review-content" key={idx}>
       <div className="review-header">
         <span>{review.writer.name}</span>
-        <span>{review.createdAt}</span>
+        <span>{dataFormat(review.createdAt)}</span>
       </div>
       <div className="review-desc">
         <p>{review.description}</p>
       </div>
     </div>
   ));
+
+  const refreshReviews = (reviewsData, reviewCountData) => {
+    setReviews(reviewsData);
+    setReviewCount(reviewCountData);
+  };
 
   return (
     <>
@@ -52,7 +59,10 @@ function ProductTabs(props) {
             <Pagination />
           </div>
           <div className="review-add">
-            <ReviewDialog productId={props.Product._id} />
+            <ReviewDialog
+              productId={props.Product._id}
+              refreshReviews={refreshReviews}
+            />
           </div>
         </TabPanel>
       </TabContext>

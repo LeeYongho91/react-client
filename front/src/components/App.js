@@ -44,25 +44,45 @@ function App() {
   );
 }
 
-function solution(t, arr) {
-  let answer = Number.MAX_SAFE_INTEGER;
-  const n = arr.length;
+function solution(n, f) {
+  let answer = 0;
+  const dy = Array.from(Array(11), () => Array(11).fill(0));
+  const tmp = Array.from({ length: n }, () => 0);
+  const v = Array.from({ length: n }, () => 0);
+  const ch = Array.from({ length: n + 1 }, () => 0);
+  let flag = 0;
+
+  function memo(n, r) {
+    if (dy[n][r] > 0) return dy[n][r];
+    if (n === r || r === 0) return 1;
+    return (dy[n][r] = memo(n - 1, r - 1) + memo(n - 1, r));
+  }
 
   function DFS(L, sum) {
-    if (L >= answer) return;
-    if (sum === t) {
-      answer = Math.min(answer, L);
+    if (flag) return;
+    if (L === n && sum === f) {
+      answer = v.slice();
+      flag = 1;
     } else {
-      for (let i = 0; i < n; i++) {
-        DFS(L + 1, sum + arr[i]);
+      for (let i = 1; i <= n; i++) {
+        if (ch[i] === 0) {
+          ch[i] = 1;
+          v[L] = i;
+          DFS(L + 1, sum + v[L] * tmp[L]);
+          ch[i] = 0;
+        }
       }
     }
+  }
+
+  for (let i = 0; i < n; i++) {
+    tmp[i] = memo(n - 1, i);
   }
 
   DFS(0, 0);
 
   return answer;
 }
-console.log(solution(15, [1, 2, 5]));
+console.log(solution(4, 16));
 
 export default App;
