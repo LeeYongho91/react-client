@@ -27,7 +27,7 @@ function NavSection(props) {
   return (
     <>
       <div className={`title ${props.scrollPosition ? 'active' : ''}`}>
-        <Link to="/">DEPOT</Link>
+        <Link to="/">ECRU WORLD</Link>
       </div>
       <nav
         className={`${props.isActive ? 'active' : ''} ${

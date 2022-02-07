@@ -76,7 +76,7 @@ class ShopService {
    * @param productIds
    * @returns
    */
-  public async getProductById(type, productIds): Promise<object> {
+  public async getProductById(type, skip, productIds): Promise<object> {
     if (isEmpty(type)) throw new HttpException(400, "You're not type");
     if (isEmpty(productIds)) throw new HttpException(400, "You're not productIds");
 
@@ -99,7 +99,7 @@ class ShopService {
           path: 'writer',
         },
         options: {
-          skip: 0,
+          skip: skip,
           limit: 5,
           sort: {
             createdAt: -1,
@@ -108,8 +108,16 @@ class ShopService {
       });
 
     const reviewCount = await this.reviewCount(productIds);
+    const productsCount = await this.Product.count({});
+    const randValues: number[] = this.getRandomValues(productsCount);
 
-    return { success: true, product, reviewCount };
+    const relatedProducts = [];
+    for (const n of randValues) {
+      const product = await this.Product.findOne().skip(n);
+      relatedProducts.push(product);
+    }
+
+    return { success: true, product, reviewCount, relatedProducts };
   }
 
   /**
@@ -119,13 +127,18 @@ class ShopService {
    */
   public async reviewAdd(req): Promise<object> {
     if (isEmpty(req.body)) throw new HttpException(400, "You're not reviewData");
+
     const reviewData = {
       writer: req.user['_id'],
       description: req.body.description,
     };
+
     const { _id } = await this.Review.create(reviewData);
     const { review } = await this.Product.findOneAndUpdate({ _id: req.body.productId }, { $push: { review: _id } }, { new: true }).populate({
       path: 'review',
+      populate: {
+        path: 'writer',
+      },
       options: {
         skip: 0,
         limit: 5,
@@ -134,6 +147,8 @@ class ShopService {
         },
       },
     });
+
+    console.log(review);
 
     const reviewCount = await this.reviewCount(req.body.productId);
     return { success: true, review, reviewCount };
@@ -151,6 +166,22 @@ class ShopService {
     }).populate('review');
 
     return reviewCount[0].review.length;
+  }
+
+  /**
+   *
+   * @param count
+   * @returns
+   */
+  public getRandomValues(count: number): Array<number> {
+    const randArr = [];
+    while (randArr.length < 4) {
+      const rand = Math.floor(Math.random() * count);
+      if (randArr.indexOf(rand) === -1) {
+        randArr.push(rand);
+      }
+    }
+    return randArr;
   }
 }
 

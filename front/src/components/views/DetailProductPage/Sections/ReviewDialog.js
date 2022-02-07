@@ -23,6 +23,8 @@ export default function FormDialog(props) {
   const handleReviewAdd = async () => {
     try {
       dispatch(loadingToggleAction(true));
+      setOpen(false);
+
       const body = {
         productId,
         description: Desc,
@@ -36,7 +38,6 @@ export default function FormDialog(props) {
       props.refreshReviews(data.review, data.reviewCount);
 
       dispatch(loadingToggleAction(false));
-      setOpen(false);
     } catch (error) {
       console.log(error.response.data.error);
     }

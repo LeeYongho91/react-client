@@ -64,8 +64,9 @@ class ShopController {
   public getProductById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const type = req.query.type;
+      const skip = req.query.skip;
       const productIds = req.query.id;
-      const data = await this.shopService.getProductById(type, productIds);
+      const data = await this.shopService.getProductById(type, skip, productIds);
 
       res.status(200).json(data);
     } catch (error) {
