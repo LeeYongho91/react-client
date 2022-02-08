@@ -8,6 +8,7 @@ import RegisterPage from './views/RegisterPage/RegisterPage';
 import UploadProductPage from './views/UploadProductPage/UploadProductPage';
 import ShopPage from './views/ShopPage/ShopPage';
 import DetailProductPage from './views/DetailProductPage/DetailProductPage';
+import CartPage from './views/CartPage/CartPage';
 import Auth from '../hoc/auth';
 import './utils/fontawesome';
 
@@ -22,6 +23,7 @@ function App() {
   const AuthUploadProductPage = Auth(UploadProductPage, true);
   const AuthShopPage = Auth(ShopPage, null);
   const AuthDetailProductPage = Auth(DetailProductPage, null);
+  const AuthCartPage = Auth(CartPage, null);
 
   return (
     <>
@@ -37,6 +39,7 @@ function App() {
               path="/product/:productId"
               element={<AuthDetailProductPage />}
             />
+            <Route path="/cart" element={<AuthCartPage />} />
           </Routes>
         </Container>
       </Suspense>

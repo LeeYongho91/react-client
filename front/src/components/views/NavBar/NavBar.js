@@ -33,6 +33,8 @@ function NavBar() {
       bool = false;
     } else if (url === '/shop') {
       bool = false;
+    } else if (url === '/cart') {
+      bool = false;
     }
     return bool;
   };

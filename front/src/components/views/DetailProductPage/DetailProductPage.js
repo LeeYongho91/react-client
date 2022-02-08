@@ -51,7 +51,7 @@ function DetailProductPage() {
       <div className="related-item-price">
         <div className="related-item-price-child">
           <div>ADD TO CART</div>
-          <div>{product.price}</div>
+          <div>￦ {product.price.toLocaleString()}</div>
         </div>
       </div>
     </div>

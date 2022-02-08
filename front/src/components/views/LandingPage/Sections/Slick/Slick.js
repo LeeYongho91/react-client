@@ -3,9 +3,12 @@ import './Slick.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import { useNavigate } from 'react-router-dom';
 import Product from '../../../ShopPage/Sections/Product';
 
 function Slick({ Products }) {
+  const navigate = useNavigate();
+
   // settings 부분, 슬라이더의 기능을 조정할 수 있다.
   const settings = {
     dots: true, // 점은 안 보이게
@@ -39,8 +42,12 @@ function Slick({ Products }) {
     ],
   };
 
+  const pageMove = productId => {
+    navigate(`/product/${productId}`);
+  };
+
   const renderProducts = Products.map((product, index) => (
-    <div className="card" key={index}>
+    <div className="card" key={index} onClick={() => pageMove(product._id)}>
       <div className="card-image">
         <img
           src={`${process.env.REACT_APP_API_URL}/${product.images[0]}`}
@@ -51,7 +58,7 @@ function Slick({ Products }) {
       <div className="card-price">
         <div className="card-price-child">
           <div>ADD TO CART</div>
-          <div>{product.price}</div>
+          <div>￦ {product.price.toLocaleString()}</div>
         </div>
       </div>
     </div>
