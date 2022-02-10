@@ -1,8 +1,32 @@
-import React from 'react';
-import './CartPage.css';
-import TextField from '@mui/material/TextField';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  getCartItems,
+  // removeCartItem,
+  // onSuccessBuy,
+} from '../../../_actions/user_actions';
 
-function CartPage() {
+import './CartPage.css';
+
+function CartPage(props) {
+  const dispatch = useDispatch();
+  useEffect(async () => {
+    const cartItems = [];
+
+    // 리덕스 User state안에 cart 안에 상품이 들어있는지 확인
+    if (props.user.userData && props.user.userData.cart) {
+      if (props.user.userData.cart.length > 0) {
+        props.user.userData.cart.forEach(item => {
+          cartItems.push(item.id);
+        });
+
+        const data = await dispatch(
+          getCartItems(cartItems, props.user.userData.cart),
+        );
+        console.log(data);
+      }
+    }
+  }, [props.user.userData]);
   return (
     <div className="cart-layout">
       <div className="inner">
@@ -32,19 +56,7 @@ function CartPage() {
                 </div>
               </td>
               <td>$119.00</td>
-              <td>
-                {' '}
-                <TextField
-                  id="price"
-                  variant="outlined"
-                  required
-                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                  type="number"
-                  size="small"
-                  style={{ width: 100 }}
-                  value={1}
-                />
-              </td>
+              <td>2</td>
               <td>$119.00</td>
             </tr>
             <tr>
@@ -60,18 +72,7 @@ function CartPage() {
                 </div>
               </td>
               <td>$119.00</td>
-              <td>
-                <TextField
-                  id="price"
-                  variant="outlined"
-                  required
-                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                  type="number"
-                  size="small"
-                  style={{ width: 100 }}
-                  value={1}
-                />
-              </td>
+              <td>2</td>
               <td>$119.00</td>
             </tr>
           </tbody>

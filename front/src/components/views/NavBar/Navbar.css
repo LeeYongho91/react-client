@@ -215,7 +215,7 @@ nav {
 @media (max-width:768px) {
 
   header {
-    padding: 0 15px;
+    padding: 0 25px;
     box-sizing: border-box;
   }
   nav {
@@ -286,7 +286,7 @@ nav {
   .sidemenu {
     position: absolute;
     top: 40px;
-    right: 15px;
+    right: 25px;
     display: block;
     cursor: pointer;
   }

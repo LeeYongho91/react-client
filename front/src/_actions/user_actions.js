@@ -1,6 +1,6 @@
 import axios from 'axios';
 import types from './types';
-import { AUTH_SERVER } from '../components/Config';
+import { AUTH_SERVER, USER_SERVER } from '../components/Config';
 
 export function registerUser(dataToSubmit) {
   const request = axios
@@ -33,56 +33,35 @@ export async function auth() {
   };
 }
 
-// export function logoutUser() {
-//   const request = axios
-//     .get(`${USER_SERVER}/logout`)
-//     .then(response => response.data);
+export async function addToCart(body) {
+  const { data } = await axios.post(`${USER_SERVER}/cart/add`, body);
 
-//   return {
-//     type: LOGOUT_USER,
-//     payload: request,
-//   };
-// }
+  return {
+    type: types.ADD_TO_CART,
+    payload: data.cart,
+  };
+}
 
-// export async function addToCart(id) {
-//   const body = {
-//     productId: id,
-//   };
+export async function getCartItems(cartItems, userCart) {
+  const { data } = await axios.get(`${USER_SERVER}/cart/get?id=${cartItems}`);
 
-//   const { data } = await axios.post(`${USER_SERVER}/addToCart`, body);
+  // CartItem들에 해당하는 정보들을
+  // Product Collection에서 가져온후에
+  // Quantity 정보를 넣어 준다.
 
-//   console.log(data);
-//   return {
-//     type: ADD_TO_CART,
-//     payload: data.cart,
-//   };
-// }
+  userCart.forEach(cartItem => {
+    data.products.forEach((productDetail, index) => {
+      if (cartItem.id === productDetail._id) {
+        data.product[index].quantity = cartItem.quantity;
+      }
+    });
+  });
 
-// export async function getCartItems(cartItems, userCart) {
-//   console.log('test');
-//   const { data } = await axios.get(
-//     `/api/product/product_by_id?id=${cartItems}&type=array`,
-//   );
-
-//   console.log(data);
-
-//   // CartItem들에 해당하는 정보들을
-//   // Product Collection에서 가져온후에
-//   // Quantity 정보를 넣어 준다.
-
-//   userCart.forEach(cartItem => {
-//     data.product.forEach((productDetail, index) => {
-//       if (cartItem.id === productDetail._id) {
-//         data.product[index].quantity = cartItem.quantity;
-//       }
-//     });
-//   });
-
-//   return {
-//     type: GET_CART_ITEMS,
-//     payload: data.product,
-//   };
-// }
+  return {
+    type: types.GET_CART_ITEMS,
+    payload: data.product,
+  };
+}
 
 // export async function removeCartItem(productId) {
 //   const { data } = await axios.get(`/api/users/removeFromCart?id=${productId}`);

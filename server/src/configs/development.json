@@ -1,6 +1,6 @@
 {
     "env": "development",
-    "mongoURI":"mongodb+srv://test:1234qwer@cluster0.zpvzz.mongodb.net/react-project?retryWrites=true&w=majority",
+    "mongoURI":"mongodb://test:1234qwer@cluster0-shard-00-00.zpvzz.mongodb.net:27017,cluster0-shard-00-01.zpvzz.mongodb.net:27017,cluster0-shard-00-02.zpvzz.mongodb.net:27017/react-project?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
     "saltWorkFactor": 10,
     "secretKey": "secretKey"
 }

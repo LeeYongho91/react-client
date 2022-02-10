@@ -8,16 +8,14 @@ export default function (state = {}, action) {
       return { ...state, loginSucces: action.payload };
     case types.AUTH_USER:
       return { ...state, userData: action.payload };
-    // case LOGOUT_USER:
-    //   return { ...state };
-    // case ADD_TO_CART:
-    //   return {
-    //     ...state,
-    //     userData: {
-    //       ...state.userData,
-    //       cart: action.payload,
-    //     },
-    //   };
+    case types.ADD_TO_CART:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          cart: action.payload,
+        },
+      };
     // case GET_CART_ITEMS:
     //   return { ...state, cartDetail: action.payload };
     // case REMOVE_CART_ITEM:

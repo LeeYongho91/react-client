@@ -1,61 +1,79 @@
-// import bcrypt from 'bcrypt';
-// import DB from '@databases/index';
-// import { CreateUserDto } from '@dtos/auth.dto';
-// import HttpException from '@exceptions/HttpException';
-// import { User } from '@/interfaces/user/users.interface';
-// import { isEmpty } from '@utils/util';
+import UserModel from '@/models/users.model';
+import ProductModel from '@/models/product.model';
 
-// class UserService {
-//   public users = DB.Users;
+class UserService {
+  public User = UserModel;
+  public Product = ProductModel;
 
-//   public async findAllUser(): Promise<User[]> {
-//     const allUser: User[] = await this.users.findAll();
-//     return allUser;
-//   }
+  /**
+   *
+   * @param userId
+   * @param data
+   * @returns
+   */
+  public async addCart(userId: string, data: object): Promise<object> {
+    // 먼저 User Collection에 해당 유저의 정보를 가져오기.
 
-//   public async findUserById(userId: number): Promise<User> {
-//     if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
+    const userInfo = await this.User.findOne({ _id: userId });
 
-//     const findUser: User = await this.users.findByPk(userId);
-//     if (!findUser) throw new HttpException(409, "You're not user");
+    let duplicate = false;
 
-//     return findUser;
-//   }
+    userInfo.cart.forEach((item) => {
+      if (item['id'] === data['productId']) {
+        duplicate = true;
+      }
+    });
 
-//   public async createUser(userData: CreateUserDto): Promise<User> {
-//     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    //상품이 있을때
 
-//     const findUser: User = await this.users.findOne({ where: { email: userData.email } });
-//     if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    if (duplicate) {
+      const userInfo = await this.User.findOneAndUpdate(
+        { '_id': userId, 'cart.id': data['productId'] },
+        // increment 증가시킨다
+        { $inc: { 'cart.$.quantity': parseInt(data['qty']) } },
+        // update된 정보를 얻으려면 new: true를 해야함
+        { new: true }
+      );
+      if (userInfo) {
+        return { success: true, cart: userInfo.cart };
+      }
+    } else {
+      // 상품이 있지 않을때
+      const userInfo = await this.User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $push: {
+            cart: {
+              id: data['productId'],
+              quantity: parseInt(data['qty']),
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true }
+      );
+      return { success: true, cart: userInfo.cart };
+    }
+  }
 
-//     const hashedPassword = await bcrypt.hash(userData.password, 10);
-//     const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
-//     return createUserData;
-//   }
+  /**
+   *
+   * @param productIds
+   */
+  public async getCart(productIds: string): Promise<object> {
+    const ids = productIds.split(',');
+    const newProductIds = ids.map((item) => {
+      return item;
+    });
 
-//   public async updateUser(userId: number, userData: CreateUserDto): Promise<User> {
-//     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    const products = await this.Product.find({
+      _id: {
+        $in: newProductIds,
+      },
+    }).populate('writer');
 
-//     const findUser: User = await this.users.findByPk(userId);
-//     if (!findUser) throw new HttpException(409, "You're not user");
+    return { success: true, products };
+  }
+}
 
-//     const hashedPassword = await bcrypt.hash(userData.password, 10);
-//     await this.users.update({ ...userData, password: hashedPassword }, { where: { seq: userId } });
-
-//     const updateUser: User = await this.users.findByPk(userId);
-//     return updateUser;
-//   }
-
-//   public async deleteUser(userId: number): Promise<User> {
-//     if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
-
-//     const findUser: User = await this.users.findByPk(userId);
-//     if (!findUser) throw new HttpException(409, "You're not user");
-
-//     await this.users.destroy({ where: { seq: userId } });
-
-//     return findUser;
-//   }
-// }
-
-// export default UserService;
+export default UserService;
