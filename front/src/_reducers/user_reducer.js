@@ -16,17 +16,17 @@ export default function (state = {}, action) {
           cart: action.payload,
         },
       };
-    // case GET_CART_ITEMS:
-    //   return { ...state, cartDetail: action.payload };
-    // case REMOVE_CART_ITEM:
-    //   return {
-    //     ...state,
-    //     cartDetail: action.payload.productInfo,
-    //     userData: {
-    //       ...state.userData,
-    //       cart: action.payload.cart,
-    //     },
-    //   };
+    case types.GET_CART_ITEMS:
+      return { ...state, cartDetail: action.payload };
+    case types.REMOVE_CART_ITEM:
+      return {
+        ...state,
+        cartDetail: action.payload.productInfo,
+        userData: {
+          ...state.userData,
+          cart: action.payload.cart,
+        },
+      };
     // case ON_SUCCESS_BUY:
     //   return {
     //     ...state,

@@ -34,6 +34,7 @@ tbody tr {
     width: 100px;
     height: 100px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .cart-image img {
     width: 100%;
@@ -99,6 +100,7 @@ tbody tr {
     margin-top: 20px;
     border: none;
 }
+
 
 
 @media (max-width:768px) { 

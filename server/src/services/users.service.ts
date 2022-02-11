@@ -74,6 +74,23 @@ class UserService {
 
     return { success: true, products };
   }
+
+  /**
+   *
+   * @param userId
+   * @param productIds
+   */
+  public async removeCart(userId: string, productIds: string): Promise<object> {
+    const userInfo = await this.User.findOneAndUpdate({ _id: userId }, { $pull: { cart: { id: productIds } } }, { new: true });
+    const cart = userInfo.cart;
+    const array = cart.map((item) => {
+      return item['id'];
+    });
+
+    const productInfo = await this.Product.find({ _id: { $in: array } }).populate('writer');
+
+    return { success: true, productInfo, cart };
+  }
 }
 
 export default UserService;

@@ -1,51 +1,107 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import {
+  getCartItems,
+  removeCartItem,
+} from '../../../../_actions/user_actions';
 
 function CartSection() {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  const cartCount = (user.userData && user.userData.cart.length) || 0;
+  const [Total, setTotal] = useState(0);
+
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      right: -6,
+      top: -5,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '2px 6px',
+    },
+  }));
+
+  const calculateTotal = cartDetail => {
+    let total = 0;
+
+    cartDetail.forEach(item => {
+      total += parseInt(item.price, 10) * item.quantity;
+    });
+
+    setTotal(total);
+  };
+
+  const removeFromCart = async productId => {
+    const data = await dispatch(removeCartItem(productId));
+    if (data.payload.productInfo.length <= 0) {
+      setTotal(0);
+    }
+  };
+
+  useEffect(async () => {
+    const cartItems = [];
+    // 리덕스 User state안에 cart 안에 상품이 들어있는지 확인
+    if (user.userData && user.userData.cart) {
+      if (user.userData.cart.length > 0) {
+        user.userData.cart.forEach(item => {
+          cartItems.push(item.id);
+        });
+        const data = await dispatch(
+          getCartItems(cartItems, user.userData.cart),
+        );
+        calculateTotal(data.payload);
+      }
+    }
+  }, [user.userData]);
+
+  const renderItems = () =>
+    user.userData && user.userData.cart.length > 0 ? (
+      user.cartDetail &&
+      user.cartDetail.map((product, index) => (
+        <div className="cart-item" key={index}>
+          <div className="cart-img">
+            <img
+              src={`${process.env.REACT_APP_API_URL}/${product.images[0]}`}
+              alt={product.title}
+            />
+          </div>
+          <div className="cart-content">
+            <h5>{product.title}</h5>
+            <h6>
+              {product.quantity} x {product.price.toLocaleString()}
+            </h6>
+          </div>
+          <span>
+            <FontAwesomeIcon
+              icon="times"
+              onClick={() => removeFromCart(product._id)}
+            />
+          </span>
+        </div>
+      ))
+    ) : (
+      <div className="cart-no-products">No Products in Cart</div>
+    );
+
   return (
     <div className="cart-parent">
       <Link to="/cart" className="shopping-cart">
-        <FontAwesomeIcon icon="shopping-cart" />
-        (2)
+        <StyledBadge badgeContent={cartCount} color="primary">
+          <FontAwesomeIcon icon="shopping-cart" />
+        </StyledBadge>
       </Link>
       <div className="dropdown-cart">
-        <div className="cart-list">
-          <div className="cart-item">
-            <div className="cart-img">
-              <img src="assets/product_1.png" alt="" />
-            </div>
-            <div className="cart-content">
-              <h5>titletitletitle</h5>
-              <h6>1 x 13000</h6>
-            </div>
-            <span>
-              <FontAwesomeIcon icon="times" />
-            </span>
-          </div>
-          <div className="cart-item">
-            <div className="cart-img">
-              <img src="assets/product_2.png" alt="" />
-            </div>
-            <div className="cart-content">
-              <h5>title</h5>
-              <h6>1 x 13000</h6>
-            </div>
-            <span>
-              <FontAwesomeIcon icon="times" />
-            </span>
-          </div>
-        </div>
+        <div className="cart-list">{renderItems()}</div>
         <div className="cart-total">
           <span>TOTAL: </span>
-          <span>$270,000</span>
+          <span>{Total.toLocaleString()}</span>
         </div>
         <div className="cart-btns">
           <Link as={Link} to="/cart">
             VIEW CART
-          </Link>
-          <Link as={Link} to="/checkout">
-            CHECKOUT
           </Link>
         </div>
       </div>
