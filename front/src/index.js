@@ -8,6 +8,8 @@ import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './_reducers';
 import App from './components/App';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,

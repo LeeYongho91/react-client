@@ -12,7 +12,8 @@ import {
 function CartSection() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-  const cartCount = (user.userData && user.userData.cart.length) || 0;
+  const cartCount =
+    (user.userData && user.userData.isAuth && user.userData.cart.length) || 0;
   const [Total, setTotal] = useState(0);
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -58,7 +59,7 @@ function CartSection() {
   }, [user.userData]);
 
   const renderItems = () =>
-    user.userData && user.userData.cart.length > 0 ? (
+    user.userData && user.userData.isAuth && user.userData.cart.length > 0 ? (
       user.cartDetail &&
       user.cartDetail.map((product, index) => (
         <div className="cart-item" key={index}>
@@ -89,16 +90,24 @@ function CartSection() {
   return (
     <div className="cart-parent">
       <Link to="/cart" className="shopping-cart">
-        <StyledBadge badgeContent={cartCount} color="primary">
+        <StyledBadge
+          badgeContent={user.userData && user.userData.isAuth ? cartCount : 0}
+          color="primary"
+        >
           <FontAwesomeIcon icon="shopping-cart" />
         </StyledBadge>
       </Link>
       <div className="dropdown-cart">
         <div className="cart-list">{renderItems()}</div>
-        <div className="cart-total">
-          <span>TOTAL: </span>
-          <span>{Total.toLocaleString()}</span>
-        </div>
+        {user.userData &&
+          user.userData.isAuth &&
+          user.userData.cart.length > 0 && (
+            <div className="cart-total">
+              <span>TOTAL: </span>
+              <span>{Total.toLocaleString()}</span>
+            </div>
+          )}
+
         <div className="cart-btns">
           <Link as={Link} to="/cart">
             VIEW CART

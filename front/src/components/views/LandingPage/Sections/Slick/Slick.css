@@ -5,7 +5,7 @@
    margin-right: 14px;
 }
 .card-image {
-    width: 420px;
+    width: 390px;
     position: relative;
     cursor: pointer; 
     border-radius: 20px;
@@ -79,10 +79,13 @@
 
 @media (max-width:768px) {
         .card {
-            margin-right: 0;
+            margin-right: 10px;
+            width: 100%;
         }
         .card-image {
             border-radius: 0px;
+            width: 100%;
+        
         }
         .slick-content h4 {
             margin-bottom: 20px;
