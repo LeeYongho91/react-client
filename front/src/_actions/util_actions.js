@@ -13,3 +13,17 @@ export function productImagesAction(images) {
     payload: images,
   };
 }
+
+export function showDialogAction(data) {
+  return {
+    type: types.SHOW_DIALOG,
+    payload: data,
+  };
+}
+
+export function hideDialogAction(data) {
+  return {
+    type: types.HIDE_DIALOG,
+    payload: data,
+  };
+}

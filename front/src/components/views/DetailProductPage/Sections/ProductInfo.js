@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../../_actions/user_actions';
+import { UseBasicModalExample } from '../../../utils/Dialogs/DialogHooks';
 
 function ProductInfo(props) {
   const price = props.Product.price || 0;
@@ -11,6 +12,7 @@ function ProductInfo(props) {
   const priceSetting = `￦ ${parseInt(price, 10).toLocaleString()}`;
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+
   const addCartHandler = async () => {
     try {
       if (!user.userData.isAuth) {
@@ -21,8 +23,26 @@ function ProductInfo(props) {
         productId: props.Product._id,
         qty,
       };
+
+      // const cart = user.cartDetail;
+      // let duplicate = false;
+
+      // for (const product of cart) {
+      //   if (props.Product._id === product._id) duplicate = true;
+      // }
+
+      // if (duplicate) {
+      //   dispatch(
+      //     showDialogAction({
+      //       title: 'Test Modal',
+      //       body: 'This is a basic action Modal',
+      //     }),
+      //   );
+      // }
+
       const data = await dispatch(addToCart(body));
       console.log(data);
+      UseBasicModalExample();
     } catch (error) {
       console.log(error.response.data.message);
     }

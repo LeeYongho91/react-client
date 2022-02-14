@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import {
   getCartItems,
   removeCartItem,
-  // onSuccessBuy,
+  onSuccessBuy,
 } from '../../../_actions/user_actions';
 import './CartPage.css';
 
 import CartItem from './Sections/CartItem';
+import Paypal from '../../utils/Paypal';
 
 function CartPage(props) {
   const dispatch = useDispatch();
@@ -54,6 +55,24 @@ function CartPage(props) {
   const pageMove = () => {
     navigate(`/shop`);
   };
+
+  const transactionSuccess = data => {
+    dispatch(
+      onSuccessBuy({
+        paymentData: data,
+        cartDetail: props.user.cartDetail,
+      }),
+    ).then(response => {
+      if (response.payload.success) {
+        console.log(response.payload);
+        // setShowTotal(false);
+        // setShowSuccess(true);
+        setTotal(0);
+        setShipping(0);
+      }
+    });
+  };
+
   return (
     <div className="cart-layout">
       <div className="inner">
@@ -84,7 +103,11 @@ function CartPage(props) {
               <span>{(Total + shipping).toLocaleString()}</span>
             </div>
             <div className="cart-checkout-btn">
-              <button>Proceed to Checkout</button>
+              <Paypal
+                className="paypal-btn"
+                total={Total + shipping}
+                onSuccess={transactionSuccess}
+              />
             </div>
           </div>
         </div>

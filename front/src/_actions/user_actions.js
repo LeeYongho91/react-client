@@ -107,15 +107,20 @@ export async function removeCartItem(productId) {
   };
 }
 
-// export async function onSuccessBuy(paymentData) {
-//   console.log(paymentData);
+/**
+ *
+ * @param {*} paymentData
+ * @returns
+ */
+export async function onSuccessBuy(paymentData) {
+  console.log(paymentData);
 
-//   const { data } = await axios.post(`/api/users/successBuy`, paymentData);
+  const { data } = await axios.post(`${USER_SERVER}/successBuy`, paymentData);
 
-//   console.log(data);
+  console.log(data);
 
-//   return {
-//     type: ON_SUCCESS_BUY,
-//     payload: data,
-//   };
-// }
+  return {
+    type: types.ON_SUCCESS_BUY,
+    payload: data,
+  };
+}

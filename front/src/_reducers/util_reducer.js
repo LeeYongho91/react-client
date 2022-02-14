@@ -8,6 +8,16 @@ export default function (state = {}, action) {
     case types.PRODUCT_IMAGES_ACTION:
       return { ...state, images: action.payload };
 
+    case types.SHOW_DIALOG:
+      return {
+        ...state,
+        showDialog: { show: true, ...action.payload },
+      };
+    case types.HIDE_DIALOG:
+      return {
+        ...state,
+        showDialog: {},
+      };
     default:
       return state;
   }

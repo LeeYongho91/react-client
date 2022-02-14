@@ -6,7 +6,9 @@ const PRODUCT_IMAGES_ACTION = 'product_images_action';
 const ADD_TO_CART = 'add_to_cart';
 const GET_CART_ITEMS = 'get_cart_items';
 const REMOVE_CART_ITEM = 'remove_cart_item';
-// export const ON_SUCCESS_BUY = 'on_success_buy';
+const ON_SUCCESS_BUY = 'on_success_buy';
+const SHOW_DIALOG = 'show_dialog';
+const HIDE_DIALOG = 'hide_dialog';
 
 export default {
   LOGIN_USER,
@@ -17,4 +19,7 @@ export default {
   ADD_TO_CART,
   GET_CART_ITEMS,
   REMOVE_CART_ITEM,
+  ON_SUCCESS_BUY,
+  SHOW_DIALOG,
+  HIDE_DIALOG,
 };

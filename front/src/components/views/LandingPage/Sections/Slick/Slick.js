@@ -16,7 +16,6 @@ function Slick({ Products }) {
     speed: 500,
     slidesToShow: 3, // 3장씩 보이게 해주세요
     slidesToScroll: 3, // 3장씩 넘어가세요
-    initialSlide: 0,
 
     responsive: [
       {
@@ -24,6 +23,7 @@ function Slick({ Products }) {
         settings: {
           slidesToShow: 1, // 3장씩 보이게 해주세요
           slidesToScroll: 1, // 3장씩 넘어가세요
+          infinite: true, // 무한으로 즐기게
         },
       },
     ],
