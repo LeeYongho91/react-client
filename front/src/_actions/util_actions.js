@@ -21,9 +21,8 @@ export function showDialogAction(data) {
   };
 }
 
-export function hideDialogAction(data) {
+export function hideDialogAction() {
   return {
     type: types.HIDE_DIALOG,
-    payload: data,
   };
 }

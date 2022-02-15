@@ -11,12 +11,12 @@ export default function (state = {}, action) {
     case types.SHOW_DIALOG:
       return {
         ...state,
-        showDialog: { show: true, ...action.payload },
+        dialog: { show: true, ...action.payload },
       };
     case types.HIDE_DIALOG:
       return {
         ...state,
-        showDialog: {},
+        dialog: { show: false, ...action.payload },
       };
     default:
       return state;

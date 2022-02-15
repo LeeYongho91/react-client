@@ -10,7 +10,7 @@ import {
 export const useModal = () =>
   // Get modal params from store using reselect
   ({
-    modal: useSelector(state => state.showDialog, shallowEqual),
+    modal: useSelector(state => state.util, shallowEqual),
   });
 
 export const useShowModal = props => {

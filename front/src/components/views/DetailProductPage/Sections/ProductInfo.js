@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
+// import { UseBasicModalExample } from '../../../utils/Dialogs/DialogHooks';
 import { addToCart } from '../../../../_actions/user_actions';
-import { UseBasicModalExample } from '../../../utils/Dialogs/DialogHooks';
+import { showDialogAction } from '../../../../_actions/util_actions';
 
 function ProductInfo(props) {
   const price = props.Product.price || 0;
@@ -24,25 +25,27 @@ function ProductInfo(props) {
         qty,
       };
 
-      // const cart = user.cartDetail;
-      // let duplicate = false;
+      const cart = user.cartDetail;
+      let duplicate = false;
 
-      // for (const product of cart) {
-      //   if (props.Product._id === product._id) duplicate = true;
-      // }
+      for (const product of cart) {
+        if (props.Product._id === product._id) duplicate = true;
+      }
 
-      // if (duplicate) {
-      //   dispatch(
-      //     showDialogAction({
-      //       title: 'Test Modal',
-      //       body: 'This is a basic action Modal',
-      //     }),
-      //   );
-      // }
+      if (duplicate) {
+        await dispatch(
+          showDialogAction({
+            title: '',
+            body: '이미 장바구니에 있는 상품입니다. 추가 하시겠습니까?',
+            product: body,
+          }),
+        );
+
+        return;
+      }
 
       const data = await dispatch(addToCart(body));
       console.log(data);
-      UseBasicModalExample();
     } catch (error) {
       console.log(error.response.data.message);
     }
