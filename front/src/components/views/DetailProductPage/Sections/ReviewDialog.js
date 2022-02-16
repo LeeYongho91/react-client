@@ -65,9 +65,11 @@ export default function FormDialog(props) {
           <textarea
             name=""
             id=""
-            cols="50"
+            cols="30"
             rows="15"
             onChange={DescChangeHander}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
           />
         </DialogContent>
         <DialogActions>

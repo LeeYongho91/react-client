@@ -53,6 +53,9 @@ nav {
   font-weight: 500;
   margin-right: 20px;
 }
+.submenu a:hover {
+  color: #bbb;
+}
 .dropdown-cart {
   position: absolute;
   top: 24px;
@@ -213,6 +216,10 @@ nav {
 .cart-no-products {
   text-align: center;
 }
+.cart-icon {
+  margin-top: 2.5px;
+  margin-right: 2px;
+}
 
 
 @media (max-width:768px) {
@@ -326,6 +333,12 @@ nav {
   .trigger span:nth-child(3) {
     top: 100%;
   }
+  .gnb li a:hover,
+  .submenu a:hover {
+    color: #000;
+    background-color: #fff;
+  }
+  
 }
 
 

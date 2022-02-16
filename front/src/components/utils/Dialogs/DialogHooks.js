@@ -1,47 +1,58 @@
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import {
+  showDialogAction,
+  hideDialogAction,
+} from '../../../_actions/util_actions';
 
-import { showDialogAction } from '../../../_actions/util_actions';
-
-export const UseBasicModalExample = () => {
-  console.log('test');
+export default function useDialog() {
   const dispatch = useDispatch();
-  return useCallback(() => {
-    console.log('test2');
-    dispatch(
+
+  // const UseBasicModalExample = () => {
+  //   console.log('test');
+  //   return useCallback(() => {
+  //     console.log('test2');
+  //     dispatch(
+  //       showDialogAction({
+  //         title: 'Test Modal',
+  //         body: 'This is a basic action Modal',
+  //         product: {
+  //           productId: '61ed2030666c4718783be3bf',
+  //           qty: 1,
+  //         },
+  //       }),
+  //     );
+  //   }, [dispatch]);
+  // };
+
+  const cartDupDialog = async product => {
+    await dispatch(
       showDialogAction({
-        title: 'Test Modal',
-        body: 'This is a basic action Modal',
+        title: '',
+        body: '이미 장바구니에 있는 상품입니다. 추가 하시겠습니까?',
+        product,
+        type: 'confirm',
       }),
     );
-  }, [dispatch]);
-};
+  };
 
-// export const UseBasicModalExample = async () => {
-//   console.log('test');
+  const cartDialog = async () => {
+    await dispatch(
+      showDialogAction({
+        title: '',
+        body: '장바구니에 추가 되었습니다.',
+        type: 'alert',
+      }),
+    );
+  };
 
-//   const dispatch = useDispatch();
-//   await dispatch(
-//     showDialogAction({
-//       title: 'Test Modal',
-//       body: 'This is a basic action Modal',
-//       // type: 'alert',
-//       // withButtons: true,
-//       // actionButton: 'Confirm',
-//     }),
-//   );
-// };
+  const closeDialog = async () => {
+    await dispatch(hideDialogAction());
+  };
 
-// export const useDynamicModalExample = () => {
-//   const dispatch = useDispatch();
-//   return useCallback(() => {
-//     dispatch(
-//       showDialogAction({
-//         title: 'Test Dynamic Modal',
-//         type: 'standard',
-//         componentPath: 'path/to/your/component',
-//         componentProps: {},
-//       }),
-//     );
-//   }, [dispatch]);
-// };
+  return {
+    cartDupDialog,
+    cartDialog,
+    closeDialog,
+  };
+}

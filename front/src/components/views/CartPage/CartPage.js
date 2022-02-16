@@ -10,6 +10,7 @@ import './CartPage.css';
 
 import CartItem from './Sections/CartItem';
 import Paypal from '../../utils/Paypal';
+import { loadingToggleAction } from '../../../_actions/util_actions';
 
 function CartPage(props) {
   const dispatch = useDispatch();
@@ -35,9 +36,11 @@ function CartPage(props) {
         props.user.userData.cart.forEach(item => {
           cartItems.push(item.id);
         });
+        dispatch(loadingToggleAction(true));
         const data = await dispatch(
           getCartItems(cartItems, props.user.userData.cart),
         );
+        dispatch(loadingToggleAction(false));
         if (props.user.userData.cart.length > 0) setShipping(1500);
         calculateTotal(data.payload);
       }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
-// import { UseBasicModalExample } from '../../../utils/Dialogs/DialogHooks';
+import useDialog from '../../../utils/Dialogs/DialogHooks';
 import { addToCart } from '../../../../_actions/user_actions';
-import { showDialogAction } from '../../../../_actions/util_actions';
+// import { showDialogAction } from '../../../../_actions/util_actions';
 
 function ProductInfo(props) {
   const price = props.Product.price || 0;
@@ -13,6 +13,7 @@ function ProductInfo(props) {
   const priceSetting = `￦ ${parseInt(price, 10).toLocaleString()}`;
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const { cartDialog, cartDupDialog } = useDialog();
 
   const addCartHandler = async () => {
     try {
@@ -33,19 +34,12 @@ function ProductInfo(props) {
       }
 
       if (duplicate) {
-        await dispatch(
-          showDialogAction({
-            title: '',
-            body: '이미 장바구니에 있는 상품입니다. 추가 하시겠습니까?',
-            product: body,
-          }),
-        );
-
+        await cartDupDialog(body);
         return;
       }
 
-      const data = await dispatch(addToCart(body));
-      console.log(data);
+      await dispatch(addToCart(body));
+      cartDialog();
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -77,6 +71,7 @@ function ProductInfo(props) {
           }}
           value={qty}
           onChange={cartQtyChange}
+          className="cart-qty-field"
         />
         <button className="cart-btn" onClick={addCartHandler}>
           Add To Cart

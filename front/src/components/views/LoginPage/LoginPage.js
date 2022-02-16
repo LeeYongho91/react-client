@@ -11,6 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_actions';
+import { loadingToggleAction } from '../../../_actions/util_actions';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ function LoginPage() {
         email: data.email,
         password: data.password,
       };
+      dispatch(loadingToggleAction(true));
       const res = await dispatch(loginUser(dataToSubmit));
       if (res.payload.loginSuccess) {
         window.localStorage.setItem('userId', res.payload.userId);
@@ -59,6 +61,7 @@ function LoginPage() {
         } else {
           localStorage.removeItem('rememberMe');
         }
+        dispatch(loadingToggleAction(false));
         navigate('/');
       } else {
         setFormErrorMessage('Check out your Account or Password again');
@@ -72,6 +75,7 @@ function LoginPage() {
 
   const snsLogin = async loginType => {
     try {
+      dispatch(loadingToggleAction(true));
       window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/${loginType}`;
     } catch (error) {
       // 에러 핸들링할 코드

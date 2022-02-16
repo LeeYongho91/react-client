@@ -63,6 +63,7 @@ function NavBar() {
     window.addEventListener('scroll', updateScroll);
     return () => {
       window.removeEventListener('scroll', updateScroll);
+      if (isActive === true) setActive(false);
     };
   }, [updateScroll, pathName]);
 

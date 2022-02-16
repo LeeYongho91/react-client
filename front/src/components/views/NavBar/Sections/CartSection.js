@@ -15,10 +15,13 @@ function CartSection() {
   const cartCount =
     (user.userData && user.userData.isAuth && user.userData.cart.length) || 0;
   const [Total, setTotal] = useState(0);
+  const browserWidth =
+    window.innerWidth > 0 ? window.innerWidth : window.screen.width;
+  const browserWidthValue = 768;
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-      right: -6,
+      right: -2,
       top: -5,
       border: `2px solid ${theme.palette.background.paper}`,
       padding: '2px 6px',
@@ -94,26 +97,29 @@ function CartSection() {
           badgeContent={user.userData && user.userData.isAuth ? cartCount : 0}
           color="primary"
         >
-          <FontAwesomeIcon icon="shopping-cart" />
+          <FontAwesomeIcon icon="shopping-cart" className="cart-icon" />
+          <span className="cart-text">CART</span>
         </StyledBadge>
       </Link>
-      <div className="dropdown-cart">
-        <div className="cart-list">{renderItems()}</div>
-        {user.userData &&
-          user.userData.isAuth &&
-          user.userData.cart.length > 0 && (
-            <div className="cart-total">
-              <span>TOTAL: </span>
-              <span>{Total.toLocaleString()}</span>
-            </div>
-          )}
+      {browserWidth > browserWidthValue && (
+        <div className="dropdown-cart">
+          <div className="cart-list">{renderItems()}</div>
+          {user.userData &&
+            user.userData.isAuth &&
+            user.userData.cart.length > 0 && (
+              <div className="cart-total">
+                <span>TOTAL: </span>
+                <span>{Total.toLocaleString()}</span>
+              </div>
+            )}
 
-        <div className="cart-btns">
-          <Link as={Link} to="/cart">
-            VIEW CART
-          </Link>
+          <div className="cart-btns">
+            <Link as={Link} to="/cart">
+              VIEW CART
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -102,3 +102,39 @@
     border: none;
     width: 100px;
 }
+
+@media (max-width:768px) {
+    .shop {
+        margin: 20px 0;
+    }
+    .product-content {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 50px;    
+    }
+    .product-image {
+        width: 100%;
+    }
+    .product-image img {
+        width: 100%;
+    }
+    .load-more-btn {
+        width: 100%;
+    }
+    .shop-filter {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        margin-bottom: 30px;
+        order: 1;
+        width: 100%;
+    }
+    .search-field {
+        width: 120% !important;
+        margin-top: 40px !important;
+        order: 2;
+    }
+    .filter-field {
+        width: 100%;
+    }
+}

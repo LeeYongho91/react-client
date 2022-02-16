@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { registerUser } from '../../../_actions/user_actions';
+import { loadingToggleAction } from '../../../_actions/util_actions';
 
 function Register() {
   const dispatch = useDispatch();
@@ -46,8 +47,10 @@ function Register() {
         password: data.password,
         image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
       };
+      dispatch(loadingToggleAction(true));
       const res = await dispatch(registerUser(dataToSubmit));
       if (res.payload.success) {
+        dispatch(loadingToggleAction(false));
         navigate('/login');
       }
     } catch (error) {
@@ -113,7 +116,7 @@ function Register() {
           className="signup-btn"
           onClick={handleSubmit(onSubmit)}
         >
-          sign up
+          Sign Up
         </button>
       </div>
     </>

@@ -118,10 +118,14 @@ function ShopPage() {
     <div className="shop">
       <div className="inner">
         <div className="shop-filter">
-          <SearchFeature refreshFunction={updateSearchTerm} />
+          <SearchFeature
+            refreshFunction={updateSearchTerm}
+            className="search-field"
+          />
           <Filter
             list={price}
             handleFilters={filters => handleFilters(filters, 'price')}
+            className="filter-field"
           />
         </div>
         <div className="shop-content">{renderProducts}</div>

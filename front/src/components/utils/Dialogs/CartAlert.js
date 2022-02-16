@@ -7,28 +7,32 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { hideDialogAction } from '../../../_actions/util_actions';
 import { addToCart } from '../../../_actions/user_actions';
+import useDialog from './DialogHooks';
 
 export default function AlertDialog() {
   const navigate = useNavigate();
-
+  const { closeDialog } = useDialog();
   const dispatch = useDispatch();
   const dialog = useSelector(state => state.util.dialog);
   const show = dialog ? dialog.show : false;
 
   const handleClose = () => {
-    dispatch(hideDialogAction());
+    closeDialog();
   };
 
   const handleArgee = async () => {
-    dispatch(hideDialogAction());
-    await dispatch(addToCart(dialog.product));
+    if (dialog.type === 'confirm') {
+      closeDialog();
+      const result = await dispatch(addToCart(dialog.product));
+      if (result) navigate(`/cart`);
+    }
+    closeDialog();
     navigate(`/cart`);
   };
 
   useEffect(() => {
-    dispatch(hideDialogAction());
+    closeDialog();
   }, []);
 
   return (
@@ -52,13 +56,33 @@ export default function AlertDialog() {
             </DialogContentText>
           </Suspense>
         </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={handleArgee}>
-            Ok
-          </Button>
+
+        <DialogActions
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {dialog && dialog.type === 'confirm' ? (
+            <>
+              <Button variant="contained" onClick={handleArgee}>
+                확인
+              </Button>
+              <Button variant="contained" color="error" onClick={handleClose}>
+                취소
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="contained" onClick={handleArgee}>
+                장바구니로 가기
+              </Button>
+              <Button variant="contained" color="error" onClick={handleClose}>
+                취소
+              </Button>
+            </>
+          )}
         </DialogActions>
       </Dialog>
     </div>
