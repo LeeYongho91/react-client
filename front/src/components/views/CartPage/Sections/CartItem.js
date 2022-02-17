@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function CartItem(props) {
@@ -12,6 +12,8 @@ function CartItem(props) {
   const pageMove = productId => {
     navigate(`/product/${productId}`);
   };
+
+  useEffect(() => {}, [props.test]);
 
   const renderItems = () =>
     props.products &&

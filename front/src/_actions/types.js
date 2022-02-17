@@ -7,8 +7,11 @@ const ADD_TO_CART = 'add_to_cart';
 const GET_CART_ITEMS = 'get_cart_items';
 const REMOVE_CART_ITEM = 'remove_cart_item';
 const ON_SUCCESS_BUY = 'on_success_buy';
-const SHOW_DIALOG = 'show_dialog';
-const HIDE_DIALOG = 'hide_dialog';
+const SHOW_CART_DIALOG = 'show_cart_dialog';
+const HIDE_CART_DIALOG = 'hide_cart_dialog';
+const CLEAR_CART_CLEAR = 'clear_cart_clear';
+const SHOW_ALERT_DIALOG = 'show_alert_dialog';
+const CLOSE_ALERT_DIALOG = 'close_alert_dialog';
 
 export default {
   LOGIN_USER,
@@ -20,6 +23,9 @@ export default {
   GET_CART_ITEMS,
   REMOVE_CART_ITEM,
   ON_SUCCESS_BUY,
-  SHOW_DIALOG,
-  HIDE_DIALOG,
+  SHOW_CART_DIALOG,
+  HIDE_CART_DIALOG,
+  CLEAR_CART_CLEAR,
+  SHOW_ALERT_DIALOG,
+  CLOSE_ALERT_DIALOG,
 };

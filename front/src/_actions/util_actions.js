@@ -14,15 +14,28 @@ export function productImagesAction(images) {
   };
 }
 
-export function showDialogAction(data) {
+export function showCartDialogAction(data) {
   return {
-    type: types.SHOW_DIALOG,
+    type: types.SHOW_CART_DIALOG,
     payload: data,
   };
 }
 
-export function hideDialogAction() {
+export function hideCartDialogAction() {
   return {
-    type: types.HIDE_DIALOG,
+    type: types.HIDE_CART_DIALOG,
+  };
+}
+
+export function showAlertDialogAction(data) {
+  return {
+    type: types.SHOW_ALERT_DIALOG,
+    payload: data,
+  };
+}
+
+export function closeAlertDialogAction() {
+  return {
+    type: types.CLOSE_ALERT_DIALOG,
   };
 }

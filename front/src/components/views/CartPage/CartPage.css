@@ -90,17 +90,6 @@ tbody tr {
     border-bottom: 1px solid rgba(219, 216, 216, 0.582);
     padding-bottom: 20px;
 }
-/* .cart-checkout-btn .paypal-btn {
-    width: 100%;
-    color: #fff;
-    background-color: #000;
-    display: block;
-    padding: 10px;
-    font-weight: 500;
-    margin-top: 20px;
-    border: none;
-    margin-top: 400px !important;
-} */
 
 
 
@@ -145,7 +134,7 @@ tbody tr {
     }
     .cart-prev-btn button {
         width: 100%;
-        padding: 20px;
+        padding: 12px;
         font-size: 20px;
     }
     .cart-checkout-content {

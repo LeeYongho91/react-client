@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import useDialog from '../../../utils/Dialogs/DialogHooks';
 import { addToCart } from '../../../../_actions/user_actions';
-// import { showDialogAction } from '../../../../_actions/util_actions';
 
 function ProductInfo(props) {
   const price = props.Product.price || 0;
@@ -13,12 +12,16 @@ function ProductInfo(props) {
   const priceSetting = `￦ ${parseInt(price, 10).toLocaleString()}`;
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const { cartDialog, cartDupDialog } = useDialog();
+  const { cartDialog, cartDupDialog, alertDialog } = useDialog();
 
   const addCartHandler = async () => {
     try {
       if (!user.userData.isAuth) {
-        alert('로그인 해주세요');
+        await alertDialog({
+          title: '',
+          body: '로그인 해주세요.',
+          type: 'login',
+        });
         return;
       }
       const body = {
@@ -39,6 +42,7 @@ function ProductInfo(props) {
       }
 
       await dispatch(addToCart(body));
+
       cartDialog();
     } catch (error) {
       console.log(error.response.data.message);

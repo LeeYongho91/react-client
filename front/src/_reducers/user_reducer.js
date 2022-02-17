@@ -36,6 +36,11 @@ export default function (state = {}, action) {
           cart: action.payload.cart,
         },
       };
+    case types.CLEAR_CART_CLEAR:
+      return {
+        ...state,
+        cartDetail: [],
+      };
     default:
       return state;
   }

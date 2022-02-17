@@ -1,33 +1,17 @@
-// import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  showDialogAction,
-  hideDialogAction,
+  showCartDialogAction,
+  hideCartDialogAction,
+  showAlertDialogAction,
+  closeAlertDialogAction,
 } from '../../../_actions/util_actions';
 
 export default function useDialog() {
   const dispatch = useDispatch();
 
-  // const UseBasicModalExample = () => {
-  //   console.log('test');
-  //   return useCallback(() => {
-  //     console.log('test2');
-  //     dispatch(
-  //       showDialogAction({
-  //         title: 'Test Modal',
-  //         body: 'This is a basic action Modal',
-  //         product: {
-  //           productId: '61ed2030666c4718783be3bf',
-  //           qty: 1,
-  //         },
-  //       }),
-  //     );
-  //   }, [dispatch]);
-  // };
-
   const cartDupDialog = async product => {
     await dispatch(
-      showDialogAction({
+      showCartDialogAction({
         title: '',
         body: '이미 장바구니에 있는 상품입니다. 추가 하시겠습니까?',
         product,
@@ -38,7 +22,7 @@ export default function useDialog() {
 
   const cartDialog = async () => {
     await dispatch(
-      showDialogAction({
+      showCartDialogAction({
         title: '',
         body: '장바구니에 추가 되었습니다.',
         type: 'alert',
@@ -46,13 +30,23 @@ export default function useDialog() {
     );
   };
 
-  const closeDialog = async () => {
-    await dispatch(hideDialogAction());
+  const cartCloseDialog = async () => {
+    await dispatch(hideCartDialogAction());
+  };
+
+  const alertDialog = async data => {
+    await dispatch(showAlertDialogAction(data));
+  };
+
+  const alertCloseDialog = async () => {
+    await dispatch(closeAlertDialogAction());
   };
 
   return {
     cartDupDialog,
     cartDialog,
-    closeDialog,
+    cartCloseDialog,
+    alertDialog,
+    alertCloseDialog,
   };
 }

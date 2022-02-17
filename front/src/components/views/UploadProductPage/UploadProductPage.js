@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import FileUpload from '../../utils/FileUpload';
 import './UploadProductPage.css';
 import { SHOP_SERVER } from '../../Config';
+import { loadingToggleAction } from '../../../_actions/util_actions';
+import useDialog from '../../utils/Dialogs/DialogHooks';
 
 function UploadProductPage(props) {
   const [Title, setTitle] = useState('');
   const [Description, setDescription] = useState('');
   const [Price, setPrice] = useState(0);
   const [Images, setImages] = useState([]);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { alertDialog } = useDialog();
 
   const titleChangeHander = e => {
     setTitle(e.currentTarget.value);
@@ -34,7 +37,7 @@ function UploadProductPage(props) {
     e.preventDefault();
 
     if (!Title || !Description || !Price || !Images) {
-      return alert('모든 값을 넣어주세요.');
+      return alertDialog({ title: '', body: '모든값을 넣어주세요.' });
     }
 
     const body = {
@@ -46,15 +49,20 @@ function UploadProductPage(props) {
     };
 
     try {
+      dispatch(loadingToggleAction(true));
       const { data } = await axios.post(`${SHOP_SERVER}/upload`, body);
       console.log(data);
 
       if (data.success) {
-        alert('상품 업로드에 성공하였습니다.');
-        navigate('/');
+        alertDialog({
+          title: '',
+          body: '상품 업로드에 성공하였습니다.',
+          type: 'upload',
+        });
       } else {
-        alert('상품 업로드에 실패하였습니다.');
+        alertDialog({ title: '', body: '상품 업로드에 실패하였습니다.' });
       }
+      dispatch(loadingToggleAction(false));
     } catch (error) {
       console.log(error.response.data);
     }

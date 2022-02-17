@@ -7,6 +7,7 @@ import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
 import Spinner from '../../utils/Spinner/Spinner';
 import CartAlert from '../../utils/Dialogs/CartAlert';
+import Alert from '../../utils/Dialogs/Alert';
 
 function Container({ children }) {
   const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
@@ -56,6 +57,7 @@ function Container({ children }) {
       </button>
       {util.showLoading && <Spinner />}
       <CartAlert />
+      <Alert />
     </div>
   );
 }

@@ -20,6 +20,7 @@ function NavSection(props) {
       const res = await axios.get(`${AUTH_SERVER}/logout`);
       if (res.status === 200) {
         dispatch(loadingToggleAction(false));
+        dispatch({ type: 'clear_cart_clear' });
         navigate('/login');
       }
     } catch (error) {
@@ -50,9 +51,6 @@ function NavSection(props) {
           </li>
           <li>
             <Link to="/blog">Blog</Link>
-          </li>
-          <li>
-            <Link to="/cart">Cart</Link>
           </li>
           <li>
             <Link to="/contact">Contact</Link>

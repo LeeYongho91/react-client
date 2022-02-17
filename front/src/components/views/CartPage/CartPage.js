@@ -30,6 +30,7 @@ function CartPage(props) {
 
   useEffect(async () => {
     const cartItems = [];
+    console.log('test');
     // 리덕스 User state안에 cart 안에 상품이 들어있는지 확인
     if (props.user.userData && props.user.userData.cart) {
       if (props.user.userData.cart.length > 0) {
@@ -48,10 +49,12 @@ function CartPage(props) {
   }, [props.user.userData]);
 
   const removeFromCart = async productId => {
+    dispatch(loadingToggleAction(true));
     const data = await dispatch(removeCartItem(productId));
     if (data.payload.productInfo.length <= 0) {
       setTotal(0);
       setShipping(0);
+      dispatch(loadingToggleAction(false));
     }
   };
 
@@ -85,6 +88,7 @@ function CartPage(props) {
         <CartItem
           products={props.user.cartDetail}
           removeItem={removeFromCart}
+          test={props.user.userData}
         />
 
         <div className="cart-prev-btn">

@@ -8,15 +8,25 @@ export default function (state = {}, action) {
     case types.PRODUCT_IMAGES_ACTION:
       return { ...state, images: action.payload };
 
-    case types.SHOW_DIALOG:
+    case types.SHOW_CART_DIALOG:
       return {
         ...state,
-        dialog: { show: true, ...action.payload },
+        cartDialog: { show: true, ...action.payload },
       };
-    case types.HIDE_DIALOG:
+    case types.HIDE_CART_DIALOG:
       return {
         ...state,
-        dialog: { show: false, ...action.payload },
+        cartDialog: { show: false, ...action.payload },
+      };
+    case types.SHOW_ALERT_DIALOG:
+      return {
+        ...state,
+        alertDialog: { show: true, ...action.payload },
+      };
+    case types.CLOSE_ALERT_DIALOG:
+      return {
+        ...state,
+        alertDialog: { show: false, ...action.payload },
       };
     default:
       return state;

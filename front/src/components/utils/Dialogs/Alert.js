@@ -5,34 +5,24 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addToCart } from '../../../_actions/user_actions';
 import useDialog from './DialogHooks';
 
-export default function CartDialog() {
-  const navigate = useNavigate();
-  const { cartCloseDialog } = useDialog();
-  const dispatch = useDispatch();
-  const dialog = useSelector(state => state.util.cartDialog);
+export default function AlertDialog() {
+  const { alertCloseDialog } = useDialog();
+  const dialog = useSelector(state => state.util.alertDialog);
   const show = dialog ? dialog.show : false;
+  const navigate = useNavigate();
 
   const handleClose = () => {
-    cartCloseDialog();
-  };
-
-  const handleArgee = async () => {
-    if (dialog.type === 'confirm') {
-      cartCloseDialog();
-      const result = await dispatch(addToCart(dialog.product));
-      if (result) navigate(`/cart`);
-    }
-    cartCloseDialog();
-    navigate(`/cart`);
+    alertCloseDialog();
+    if (dialog.type === 'upload') navigate('/shop');
+    else if (dialog.type === 'login') navigate('/login');
   };
 
   useEffect(() => {
-    cartCloseDialog();
+    alertCloseDialog();
   }, []);
 
   return (
@@ -50,7 +40,7 @@ export default function CartDialog() {
           <Suspense>
             <DialogContentText
               id="alert-dialog-description"
-              style={{ color: 'black' }}
+              style={{ color: 'black', padding: '10px 50px' }}
             >
               {dialog && dialog.body}
             </DialogContentText>
@@ -64,25 +54,9 @@ export default function CartDialog() {
             alignItems: 'center',
           }}
         >
-          {dialog && dialog.type === 'confirm' ? (
-            <>
-              <Button variant="contained" onClick={handleArgee}>
-                확인
-              </Button>
-              <Button variant="contained" color="error" onClick={handleClose}>
-                취소
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="contained" onClick={handleArgee}>
-                장바구니로 가기
-              </Button>
-              <Button variant="contained" color="error" onClick={handleClose}>
-                취소
-              </Button>
-            </>
-          )}
+          <Button variant="contained" onClick={handleClose}>
+            확인
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
