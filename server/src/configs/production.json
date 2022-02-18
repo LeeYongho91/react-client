@@ -1,5 +1,6 @@
 {
     "env": "production",
+    "mongoURI":"mongodb+srv://test:1234qwer@cluster0.zpvzz.mongodb.net/react-project?retryWrites=true&w=majority",
     "saltWorkFactor": 10,
     "secretKey": "secretKey"
 }
