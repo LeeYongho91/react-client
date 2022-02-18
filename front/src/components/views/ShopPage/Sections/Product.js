@@ -32,13 +32,15 @@ function Product(props) {
       const cart = user.cartDetail;
       let duplicate = false;
 
-      for (const product of cart) {
-        if (props.product._id === product._id) duplicate = true;
-      }
+      if (cart) {
+        for (const product of cart) {
+          if (props.product._id === product._id) duplicate = true;
+        }
 
-      if (duplicate) {
-        await cartDupDialog(body);
-        return;
+        if (duplicate) {
+          await cartDupDialog(body);
+          return;
+        }
       }
 
       await dispatch(addToCart(body));

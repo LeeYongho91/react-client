@@ -8,10 +8,12 @@
     "test": "tsc-watch --onSuccess \"cross-env NODE_ENV=development ts-node -r tsconfig-paths/register --transpile-only server/src/server.ts\" ",
     "frontend": "npm run start --prefix front",
     "backend": "cross-env NODE_ENV=development nodemon",
+    "backend:production": "cross-env NODE_ENV=production nodemon",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix front\"",
     "build": "tsc && tsc-alias",
     "lint": "eslint --ignore-path .gitignore --ext .ts server/src/",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm i --prefix front && npm run build --prefix front  "
   },
   "author": "",
   "license": "ISC",

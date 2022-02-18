@@ -14,10 +14,10 @@ export function productImagesAction(images) {
   };
 }
 
-export function showCartDialogAction(data) {
+export function showCartDialogAction(data2) {
   return {
     type: types.SHOW_CART_DIALOG,
-    payload: data,
+    payload: data2,
   };
 }
 

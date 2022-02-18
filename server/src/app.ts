@@ -14,6 +14,7 @@ import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@/utils/logger';
 import passport from 'passport';
 import passportConfig from '@/passports/index';
+import path from 'path';
 
 class App {
   public app: express.Application;
@@ -68,6 +69,17 @@ class App {
     this.app.use(passport.initialize());
     this.app.use(passport.session());
     this.app.use('/uploads', express.static('uploads'));
+    // Serve static assets if in production
+    if (this.env === 'production') {
+      // Set static folder
+      // All the javascript and css files will be read and served from this folder
+      this.app.use(express.static('front/build'));
+
+      // index.html for all page routes    html or routing and naviagtion
+      this.app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../front', 'build', 'index.html'));
+      });
+    }
 
     this.passportConfig.passportConfig();
   }

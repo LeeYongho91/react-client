@@ -1,0 +1,40 @@
+.about-us {
+    margin: 100px 0;
+}
+.about-image {
+    width: 100%;
+}
+.about-image img {
+    width: 100%;
+}
+.about-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 150px;
+}
+.about-item-header {
+    margin-bottom: 30px;
+}
+.about-icon {
+    font-size: 30px;
+    margin-right: 10px;
+}
+.about-item-header span {
+    font-weight: 500;
+}
+.about-item-body p {
+    font-weight: 500;
+}
+
+@media (max-width:768px) {
+    .about-us {
+        margin: 20px 0;
+    }
+    .about-content {
+        flex-direction: column;
+        margin-top: 50px;
+    }
+    .about-item {
+        margin-bottom: 30px;
+    }
+}

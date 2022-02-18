@@ -56,13 +56,15 @@ function Slick({ Products }) {
       const cart = user.cartDetail;
       let duplicate = false;
 
-      for (const product of cart) {
-        if (productId === product._id) duplicate = true;
-      }
+      if (cart) {
+        for (const product of cart) {
+          if (productId === product._id) duplicate = true;
+        }
 
-      if (duplicate) {
-        await cartDupDialog(body);
-        return;
+        if (duplicate) {
+          await cartDupDialog(body);
+          return;
+        }
       }
 
       await dispatch(addToCart(body));

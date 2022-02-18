@@ -8,6 +8,10 @@ import {
   faUpload,
   faPlus,
   faCaretDown,
+  faShoppingBag,
+  faMoneyCheck,
+  faTruck,
+  faCheckCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -29,4 +33,8 @@ library.add(
   faUpload,
   faPlus,
   faCaretDown,
+  faShoppingBag,
+  faMoneyCheck,
+  faTruck,
+  faCheckCircle,
 );

@@ -3,8 +3,8 @@ import config from 'config';
 import { logger } from '@utils/logger';
 
 async function connect() {
-  const dbUri = config.get<string>('mongoURI');
-
+  let dbUri = config.get<string>('mongoURI');
+  if (config.get<string>('env') === 'production') dbUri = process.env.MONGO_URI;
   try {
     await mongoose.connect(dbUri);
     logger.info('✅ ====== MONGODB CONNECT ====== ✅');
