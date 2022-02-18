@@ -13,8 +13,8 @@ class Passport {
   public LocalStrategy = passportLocal.Strategy;
   public ExtractJwt = passportJwt.ExtractJwt;
   public JWTStrategy = passportJwt.Strategy;
-  public secretKey: string = config.get('secretKey');
-  public callbackUrl = `http://localhost:${process.env.PORT}/api/auth/`;
+  public serverURL = process.env.SERVER_URL;
+  public callbackUrl = `${this.serverURL}/api/auth/`;
 
   public passportConfig = () => {
     // const passportConfig = { usernameField: 'email', passwordField: 'password' };

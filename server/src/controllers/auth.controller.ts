@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto, LoginUserDto } from '@dtos/auth.dto';
 import AuthService from '@services/auth.service';
+import config from 'config';
 
 class AuthController {
   public authService = new AuthService();
   public cookieOptions = { maxAge: 1000 * 60 * 15 };
-  public redirectUrl = `http://localhost:${process.env.CLIENT_PORT}`;
+  public clientURL = process.env.CLIENT_URL;
+  public redirectUrl = this.clientURL;
 
   /**
    *

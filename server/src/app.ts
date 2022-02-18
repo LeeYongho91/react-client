@@ -15,6 +15,7 @@ import { logger, stream } from '@/utils/logger';
 import passport from 'passport';
 import passportConfig from '@/passports/index';
 import path from 'path';
+import dotenv from 'dotenv';
 
 class App {
   public app: express.Application;
@@ -24,14 +25,24 @@ class App {
 
   constructor(routes: Routes[]) {
     this.app = express();
+
     this.port = process.env.PORT || 5000;
     this.env = process.env.NODE_ENV || 'development';
+
+    if (this.env === 'production') {
+      dotenv.config({ path: path.join(__dirname, 'path/to/.env.production') });
+    } else if (this.env === 'development') {
+      dotenv.config({ path: path.join(__dirname, 'path/to/.env.develop') });
+    } else {
+      throw new Error('process.env.NODE_ENV를 설정하지 않았습니다!');
+    }
 
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
+    this.pageSetting();
   }
 
   public listen() {
@@ -69,17 +80,6 @@ class App {
     this.app.use(passport.initialize());
     this.app.use(passport.session());
     this.app.use('/uploads', express.static('uploads'));
-    // Serve static assets if in production
-    if (this.env === 'production') {
-      // Set static folder
-      // All the javascript and css files will be read and served from this folder
-      this.app.use(express.static('front/build'));
-
-      // index.html for all page routes    html or routing and naviagtion
-      this.app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../front', 'build', 'index.html'));
-      });
-    }
 
     this.passportConfig.passportConfig();
   }
@@ -108,6 +108,19 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
+  }
+
+  private pageSetting() {
+    if (this.env === 'production') {
+      // Set static folder
+      // All the javascript and css files will be read and served from this folder
+      this.app.use(express.static('front/build'));
+
+      // index.html for all page routes    html or routing and naviagtion
+      this.app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../front', 'build', 'index.html'));
+      });
+    }
   }
 }
 

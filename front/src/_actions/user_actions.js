@@ -40,7 +40,6 @@ export function loginUser(dataToSubmit) {
  */
 export async function auth() {
   const response = await axios.get(`${AUTH_SERVER}`);
-
   return {
     type: types.AUTH_USER,
     payload: response.data,
