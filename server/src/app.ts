@@ -64,7 +64,11 @@ class App {
     }
 
     this.app.use(hpp());
-    this.app.use(helmet());
+    this.app.use(
+      helmet({
+        contentSecurityPolicy: false,
+      })
+    );
 
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
