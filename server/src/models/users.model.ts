@@ -88,7 +88,7 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
 
 userSchema.methods.generateToken = async function (): Promise<object> {
   const user = this as UserDocument;
-  const secretKey = process.env.secretKey;
+  const secretKey = config.get<string>('secretKey');
   const token = jwt.sign({ _id: user._id.toHexString() }, secretKey, {
     expiresIn: 60 * 60 * 24,
   });
@@ -101,7 +101,7 @@ userSchema.methods.generateToken = async function (): Promise<object> {
 
 userSchema.statics.findByToken = async function (token) {
   const user = this as UserModel;
-  const secretKey = process.env.secretKey;
+  const secretKey = config.get<string>('secretKey');
 
   const decode = await Promise.resolve(jwt.verify(token, secretKey));
   const userData = await user.findOne({ _id: decode, token: token });

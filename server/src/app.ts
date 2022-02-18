@@ -29,14 +29,6 @@ class App {
     this.port = process.env.PORT || 5000;
     this.env = process.env.NODE_ENV || 'development';
 
-    if (this.env === 'production') {
-      dotenv.config({ path: path.join(__dirname, 'path/to/.env.production') });
-    } else if (this.env === 'development') {
-      dotenv.config({ path: path.join(__dirname, 'path/to/.env.develop') });
-    } else {
-      throw new Error('process.env.NODE_ENV를 설정하지 않았습니다!');
-    }
-
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);

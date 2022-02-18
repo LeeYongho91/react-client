@@ -6,8 +6,7 @@ import config from 'config';
 class AuthController {
   public authService = new AuthService();
   public cookieOptions = { maxAge: 1000 * 60 * 15 };
-  public clientURL = process.env.CLIENT_URL;
-  public redirectUrl = this.clientURL;
+  public redirectUrl = config.get<string>('CLIENT_URL');
 
   /**
    *
@@ -88,6 +87,7 @@ class AuthController {
       const email = req.user['profile']['_json']['email'];
       const name = req.user['profile']['displayName'];
       const userType = req.user['profile']['provider'];
+      console.log(email);
 
       const userData = { email, name, password: '', userType };
       const tokenData = await this.authService.snsLogin(userData);

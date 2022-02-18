@@ -13,7 +13,7 @@ class Passport {
   public LocalStrategy = passportLocal.Strategy;
   public ExtractJwt = passportJwt.ExtractJwt;
   public JWTStrategy = passportJwt.Strategy;
-  public serverURL = process.env.SERVER_URL;
+  public serverURL = config.get<string>('SERVER_URL');
   public callbackUrl = `${this.serverURL}/api/auth/`;
 
   public passportConfig = () => {
