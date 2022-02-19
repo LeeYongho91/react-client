@@ -13,7 +13,8 @@ function Container({ children }) {
   const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
   const util = useSelector(state => state.util);
   const location = useLocation();
-  const [scrollY] = useState(300); // 버튼 상태
+  const [scrollY] = useState(300);
+
   const handleFollow = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > scrollY) {

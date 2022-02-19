@@ -21,7 +21,6 @@ function NavBar() {
   };
 
   const sideMenuClick = () => {
-    console.log('test2');
     setActive(!isActive);
   };
 
@@ -53,11 +52,10 @@ function NavBar() {
     [scrollPosition, isScroll],
   );
 
-  const handleClose = async e => {
-    // console.log('test');
+  const handleClose = e => {
     const sideCildren = side.current.contains(e.target);
-    if (isActive && sideCildren === false) {
-      setActive(!isActive);
+    if (/* isActive && */ sideCildren === false) {
+      setActive(false);
     }
   };
 
@@ -69,6 +67,7 @@ function NavBar() {
     return () => {
       window.removeEventListener('scroll', updateScroll);
       window.addEventListener('click', handleClose);
+      setActive(false);
     };
   }, [updateScroll, pathName]);
 
