@@ -77,6 +77,7 @@ function LoginPage() {
     try {
       dispatch(loadingToggleAction(true));
       window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/${loginType}`;
+      dispatch(loadingToggleAction(false));
     } catch (error) {
       // 에러 핸들링할 코드
       console.log(error.response.data);
