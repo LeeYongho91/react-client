@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoginPage.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -65,10 +65,13 @@ function LoginPage() {
         navigate('/');
       } else {
         setFormErrorMessage('Check out your Account or Password again');
+        dispatch(loadingToggleAction(false));
       }
     } catch (error) {
       console.log(error.response.data.message);
       setFormErrorMessage('Check out your Account or Password again');
+      dispatch(loadingToggleAction(false));
+
       console.log(formErrorMessage);
     }
   };
@@ -77,12 +80,15 @@ function LoginPage() {
     try {
       dispatch(loadingToggleAction(true));
       window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/${loginType}`;
-      dispatch(loadingToggleAction(false));
     } catch (error) {
       // 에러 핸들링할 코드
       console.log(error.response.data);
     }
   };
+
+  useEffect(() => {
+    dispatch(loadingToggleAction(false));
+  });
 
   return (
     <>

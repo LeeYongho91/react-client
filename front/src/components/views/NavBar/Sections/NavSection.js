@@ -13,6 +13,14 @@ function NavSection(props) {
 
   const user = useSelector(state => state.user);
 
+  const hiddenSectionClick = () => {
+    props.hiddenSectionClick();
+  };
+
+  const closeSideMenu = () => {
+    props.closeSideMenu();
+  };
+
   const logout = async e => {
     e.preventDefault();
     try {
@@ -21,19 +29,12 @@ function NavSection(props) {
       if (res.status === 200) {
         dispatch(loadingToggleAction(false));
         dispatch({ type: 'clear_cart_clear' });
+        closeSideMenu();
         navigate('/login');
       }
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const hiddenSectionClick = () => {
-    props.hiddenSectionClick();
-  };
-
-  const closeSideMenu = () => {
-    props.closeSideMenu();
   };
 
   return (
