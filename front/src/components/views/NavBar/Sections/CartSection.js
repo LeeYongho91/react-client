@@ -9,7 +9,7 @@ import {
   removeCartItem,
 } from '../../../../_actions/user_actions';
 
-function CartSection() {
+function CartSection(props) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const cartCount =
@@ -90,9 +90,13 @@ function CartSection() {
       <div className="cart-no-products">No Products in Cart</div>
     );
 
+  const closeSideMenu = () => {
+    props.closeSideMenu();
+  };
+
   return (
     <div className="cart-parent">
-      <Link to="/cart" className="shopping-cart">
+      <Link to="/cart" className="shopping-cart" onClick={closeSideMenu}>
         <StyledBadge
           badgeContent={user.userData && user.userData.isAuth ? cartCount : 0}
           color="primary"

@@ -32,6 +32,10 @@ function NavSection(props) {
     props.hiddenSectionClick();
   };
 
+  const closeSideMenu = () => {
+    props.closeSideMenu();
+  };
+
   return (
     <>
       <div className={`title ${props.scrollPosition ? 'active' : ''}`}>
@@ -44,19 +48,25 @@ function NavSection(props) {
       >
         <ul className="gnb">
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={closeSideMenu}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/about">About Us</Link>
+            <Link to="/about" onClick={closeSideMenu}>
+              About Us
+            </Link>
           </li>
           <li>
-            <Link to="/shop">Shop</Link>
+            <Link to="/shop" onClick={closeSideMenu}>
+              Shop
+            </Link>
           </li>
         </ul>
         <div className="submenu">
-          <CartSection />
+          <CartSection closeSideMenu={closeSideMenu} />
           {user.userData && !user.userData.isAuth ? (
-            <Link to="/login">
+            <Link to="/login" onClick={closeSideMenu}>
               <FontAwesomeIcon icon={['far', 'user']} /> LOGIN
             </Link>
           ) : (
@@ -64,10 +74,10 @@ function NavSection(props) {
               <a href="true" onClick={logout}>
                 <FontAwesomeIcon icon="sign-out-alt" /> LOGOUT
               </a>
-              <Link to="/history">
+              <Link to="/history" onClick={closeSideMenu}>
                 <FontAwesomeIcon icon="list" /> HISTORY
               </Link>
-              <Link to="/upload">
+              <Link to="/upload" onClick={closeSideMenu}>
                 <FontAwesomeIcon icon="upload" /> UPLOAD
               </Link>
             </>

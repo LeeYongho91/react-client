@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
@@ -14,12 +14,14 @@ function NavBar() {
   const [hdnActive, setHdnActive] = useState(false);
   const pathName = useLocation().pathname;
   const [browserWidthValue] = useState(768);
+  const side = useRef();
 
   const hiddenSectionClick = () => {
     setHdnActive(!hdnActive);
   };
 
   const sideMenuClick = () => {
+    console.log('test2');
     setActive(!isActive);
   };
 
@@ -27,13 +29,7 @@ function NavBar() {
     let bool = '';
     if (url === '/') {
       bool = true;
-    } else if (url === '/register') {
-      bool = false;
-    } else if (url === '/login') {
-      bool = false;
-    } else if (url === '/shop') {
-      bool = false;
-    } else if (url === '/cart') {
+    } else {
       bool = false;
     }
     return bool;
@@ -57,22 +53,36 @@ function NavBar() {
     [scrollPosition, isScroll],
   );
 
+  const handleClose = async e => {
+    // console.log('test');
+    const sideCildren = side.current.contains(e.target);
+    if (isActive && sideCildren === false) {
+      setActive(!isActive);
+    }
+  };
+
   useEffect(() => {
     setScroll(scrollActiveCheck(pathName));
     if (!isScroll) setScrollPosition(false);
     window.addEventListener('scroll', updateScroll);
+    window.addEventListener('click', handleClose);
     return () => {
       window.removeEventListener('scroll', updateScroll);
-      if (isActive === true) setActive(false);
+      window.addEventListener('click', handleClose);
     };
   }, [updateScroll, pathName]);
 
+  const closeSideMenu = () => {
+    setActive(false);
+  };
+
   return (
-    <header>
+    <header ref={side}>
       <NavSection
         scrollPosition={scrollPosition}
         isActive={isActive}
         hiddenSectionClick={hiddenSectionClick}
+        closeSideMenu={closeSideMenu}
       />
       <HideSection
         hdnActive={hdnActive}

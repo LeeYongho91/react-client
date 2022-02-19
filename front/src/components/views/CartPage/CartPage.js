@@ -30,7 +30,6 @@ function CartPage(props) {
 
   useEffect(async () => {
     const cartItems = [];
-    console.log('test');
     // 리덕스 User state안에 cart 안에 상품이 들어있는지 확인
     if (props.user.userData && props.user.userData.cart) {
       if (props.user.userData.cart.length > 0) {
@@ -88,7 +87,6 @@ function CartPage(props) {
         <CartItem
           products={props.user.cartDetail}
           removeItem={removeFromCart}
-          test={props.user.userData}
         />
 
         <div className="cart-prev-btn">
