@@ -27,7 +27,7 @@ class App {
   constructor(routes: Routes[]) {
     this.app = express();
 
-    this.port = config.get<string>('port') || 5000;
+    this.port = config.get<number>('port') || 5000;
     this.env = process.env.NODE_ENV || 'development';
 
     this.connectToDatabase();
