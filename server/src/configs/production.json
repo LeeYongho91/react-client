@@ -1,6 +1,5 @@
 {
     "env": "production",
-    "port" : 5000,
     "secretKey": "secretKey",
     "CLIENT_URL": "https://polar-wildwood-85222.herokuapp.com",
     "SERVER_URL": "https://polar-wildwood-85222.herokuapp.com"
