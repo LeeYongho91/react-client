@@ -16,6 +16,7 @@ import passport from 'passport';
 import passportConfig from '@/passports/index';
 import path from 'path';
 import dotenv from 'dotenv';
+import config from 'config';
 
 class App {
   public app: express.Application;
@@ -26,7 +27,7 @@ class App {
   constructor(routes: Routes[]) {
     this.app = express();
 
-    this.port = process.env.PORT || 5000;
+    this.port = config.get<string>('port') || 5000;
     this.env = process.env.NODE_ENV || 'development';
 
     this.connectToDatabase();

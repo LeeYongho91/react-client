@@ -12,6 +12,8 @@ lerna-debug.log*
 .nuxt
 dist
 
+.env
+
 node_modules
 .vscode
 

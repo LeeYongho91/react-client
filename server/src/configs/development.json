@@ -1,6 +1,6 @@
 {
     "env": "development",
-    "mongoURI":"mongodb+srv://test:1234qwer@cluster0.zpvzz.mongodb.net/react-project?retryWrites=true&w=majority",
+    "port" : 5000,
     "secretKey": "secretKey",
     "CLIENT_URL": "http://localhost:3000",
     "SERVER_URL": "http://localhost:5000"
