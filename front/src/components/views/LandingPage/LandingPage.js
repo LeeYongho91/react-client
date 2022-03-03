@@ -1,6 +1,12 @@
 import { useDispatch } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 import Intro from './Sections/Intro/Intro';
 import Welcome from './Sections/Welcome/Welcome';
 import Slick from './Sections/Slick/Slick';
@@ -15,6 +21,7 @@ function LandingPage() {
   const [Skip] = useState(0);
   const [Limit] = useState(10);
   const [ProductsImages, setProductsImage] = useState([]);
+  const [open, setOpen] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -45,6 +52,9 @@ function LandingPage() {
       console.log(error);
     }
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const body = {
@@ -73,6 +83,34 @@ function LandingPage() {
       <Intro Products={Products} />
       <Welcome />
       <Slick Products={Products} />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">알림메세지</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            이 온라인쇼핑몰은 서비스중인 사이트가 아닙니다.
+            <br />
+            <br /> 포트폴리오 목적용입니다.
+            <br />
+            <br />
+            <div style={{ color: 'black', fontSize: '18px' }}>
+              아이디: admin@google.com <br />
+              <br />
+              비밀번호: 1q2w3e!!
+            </div>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" variant="contained">
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

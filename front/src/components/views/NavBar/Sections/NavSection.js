@@ -75,9 +75,7 @@ function NavSection(props) {
               <a href="true" onClick={logout}>
                 <FontAwesomeIcon icon="sign-out-alt" /> LOGOUT
               </a>
-              <Link to="/history" onClick={closeSideMenu}>
-                <FontAwesomeIcon icon="list" /> HISTORY
-              </Link>
+
               <Link to="/upload" onClick={closeSideMenu}>
                 <FontAwesomeIcon icon="upload" /> UPLOAD
               </Link>
