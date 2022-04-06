@@ -91,5 +91,6 @@ function solution(n, f) {
   return answer;
 }
 console.log(solution(4, 16));
+console.log('test');
 
 export default App;
