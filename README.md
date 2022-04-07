@@ -1,4 +1,4 @@
-# react-server
+# react-client
 
 ## Project setup
 ```
