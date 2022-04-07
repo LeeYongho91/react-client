@@ -1,4 +1,4 @@
-# vue-server
+# react-server
 
 ## Project setup
 ```
